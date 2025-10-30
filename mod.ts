@@ -67,17 +67,5 @@ export type { ExpressLoggerOptions } from "./adapters/express.ts";
 // Utilities
 export { TerminalDetector } from "./utils/terminal.ts";
 
-// Convenience re-exports
-export {
-  bytes,
-  currency,
-  duration,
-  json,
-  number,
-  percentage,
-  relativeTime,
-  tableCell,
-  timestamp,
-  truncate,
-  wrap,
-} from "./utils/format-helper.ts";
+// Re-export everything from format-helper (which re-exports from formatter)
+export * from "./utils/format-helper.ts";

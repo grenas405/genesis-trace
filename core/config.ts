@@ -1,4 +1,6 @@
 // core/config.ts
+import { defaultTheme } from "../themes/default.ts";
+
 export type LogLevel =
   | "debug"
   | "info"
@@ -112,7 +114,7 @@ export const defaultConfig: StylerConfig = {
   enableHistory: true,
   maxHistorySize: 1000,
   outputs: [{ type: "console" }],
-  theme: null as any, // Will be set to defaultTheme
+  theme: defaultTheme,
   plugins: [],
 };
 
