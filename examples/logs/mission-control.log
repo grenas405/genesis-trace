@@ -1,0 +1,48 @@
+[2025-10-31 16:13:35] INFO     Mission control boot sequence initiated
+[2025-10-31 16:13:35] SUCCESS  Telemetry uplink established with Orbiter-7
+[2025-10-31 16:13:35] WARNING  Solar array output fluctuating (±4%)
+[2025-10-31 16:13:35] ERROR    Secondary cooling loop reports delayed telemetry packets
+[2025-10-31 16:13:35] DEBUG    Active plugins: file-logger
+[2025-10-31 16:13:35] INFO     Autonomous check complete {"stage":"T-10 min","subsystem":"Propulsion","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-9 min","subsystem":"Avionics","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-8 min","subsystem":"Guidance","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-7 min","subsystem":"Telemetry","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-6 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-5 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-4 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 16:13:36] INFO     Autonomous check complete {"stage":"T-3 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 16:13:37] INFO     Autonomous check complete {"stage":"T-2 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 16:13:37] INFO     Autonomous check complete {"stage":"T-1 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 16:13:37] INFO     Autonomous check complete {"stage":"T-0 min","subsystem":"Thermals","status":"GO"}
+[2025-10-31 17:09:43] INFO     Mission control boot sequence initiated
+[2025-10-31 17:09:43] SUCCESS  Telemetry uplink established with Orbiter-7
+[2025-10-31 17:09:43] WARNING  Solar array output fluctuating (±4%)
+[2025-10-31 17:09:43] ERROR    Secondary cooling loop reports delayed telemetry packets
+[2025-10-31 17:09:43] DEBUG    Active plugins: file-logger
+[2025-10-31 17:09:43] INFO     Autonomous check complete {"stage":"T-10 min","subsystem":"Propulsion","status":"Nominal"}
+[2025-10-31 17:09:43] INFO     Autonomous check complete {"stage":"T-9 min","subsystem":"Avionics","status":"Nominal"}
+[2025-10-31 17:09:43] INFO     Autonomous check complete {"stage":"T-8 min","subsystem":"Guidance","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-7 min","subsystem":"Telemetry","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-6 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-5 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-4 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-3 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-2 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:09:44] INFO     Autonomous check complete {"stage":"T-1 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:09:45] INFO     Autonomous check complete {"stage":"T-0 min","subsystem":"Thermals","status":"GO"}
+[2025-10-31 17:11:31] INFO     Mission control boot sequence initiated
+[2025-10-31 17:11:31] SUCCESS  Telemetry uplink established with Orbiter-7
+[2025-10-31 17:11:31] WARNING  Solar array output fluctuating (±4%)
+[2025-10-31 17:11:31] ERROR    Secondary cooling loop reports delayed telemetry packets
+[2025-10-31 17:11:31] DEBUG    Active plugins: file-logger
+[2025-10-31 17:11:31] INFO     Autonomous check complete {"stage":"T-10 min","subsystem":"Propulsion","status":"Nominal"}
+[2025-10-31 17:11:31] INFO     Autonomous check complete {"stage":"T-9 min","subsystem":"Avionics","status":"Nominal"}
+[2025-10-31 17:11:31] INFO     Autonomous check complete {"stage":"T-8 min","subsystem":"Guidance","status":"Nominal"}
+[2025-10-31 17:11:31] INFO     Autonomous check complete {"stage":"T-7 min","subsystem":"Telemetry","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-6 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-5 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-4 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-3 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-2 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-1 min","subsystem":"Thermals","status":"Nominal"}
+[2025-10-31 17:11:32] INFO     Autonomous check complete {"stage":"T-0 min","subsystem":"Thermals","status":"GO"}
