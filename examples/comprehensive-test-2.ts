@@ -6,7 +6,7 @@
  * Demonstrates all new features while maintaining backward compatibility
  */
 
-import { ConsoleStyler } from "../utils/consoleStyler.ts";
+import { ConsoleStyler } from "../core/console.ts";
 
 console.log("\n");
 console.log("╔════════════════════════════════════════════════════════════════╗");

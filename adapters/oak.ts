@@ -61,8 +61,8 @@ export function oakLogger(options: OakLoggerOptions = {}) {
       logger.error(`← Error ${ctx.request.method} ${path}`, {
         requestId,
         duration: `${duration.toFixed(2)}ms`,
-        error: error.message,
-        stack: error.stack,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
       });
       throw error;
     }

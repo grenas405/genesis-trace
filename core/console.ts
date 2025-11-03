@@ -1072,7 +1072,7 @@ export class ConsoleStyler {
     const countStr = `(${current}/${total})`;
     const messageStr = message ? ` ${colors.dim}${message}${colors.reset}` : "";
 
-    process.stdout.write(`\r${bar} ${percentStr} ${countStr}${messageStr}`);
+    Deno.stdout.writeSync(new TextEncoder().encode(`\r${bar} ${percentStr} ${countStr}${messageStr}`));
 
     if (current >= total) {
       console.log(""); // New line when complete
@@ -1092,7 +1092,7 @@ export class ConsoleStyler {
       start: () => {
         intervalId = setInterval(() => {
           const frame = frames[currentFrame];
-          process.stdout.write(`\r${spinnerColor}${frame}${colors.reset} ${message}`);
+          Deno.stdout.writeSync(new TextEncoder().encode(`\r${spinnerColor}${frame}${colors.reset} ${message}`));
           currentFrame = (currentFrame + 1) % frames.length;
         }, 80);
       },
@@ -1101,7 +1101,7 @@ export class ConsoleStyler {
           clearInterval(intervalId);
           intervalId = null;
         }
-        process.stdout.write("\r\x1b[K"); // Clear line
+        Deno.stdout.writeSync(new TextEncoder().encode("\r\x1b[K")); // Clear line
         if (finalMessage) {
           const successColor = this.supports256Color() ? colors256.brightGreen : colors.success;
           console.log(`${successColor}✓${colors.reset} ${finalMessage}`);

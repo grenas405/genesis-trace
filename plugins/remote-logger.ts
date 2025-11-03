@@ -84,7 +84,7 @@ export class RemoteLoggerPlugin implements Plugin {
     } catch (error) {
       // Failed to send logs, put them back in buffer
       this.buffer = [...logs, ...this.buffer];
-      console.error("Failed to send logs to remote server:", error.message);
+      console.error("Failed to send logs to remote server:", error instanceof Error ? error.message : String(error));
     }
   }
 }

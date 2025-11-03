@@ -9,6 +9,7 @@ export { Logger } from "./core/logger.ts";
 export { ConfigBuilder } from "./core/config.ts";
 export { ColorSystem } from "./core/colors.ts";
 export { Formatter } from "./core/formatter.ts";
+export { ConsoleStyler } from "./core/console.ts";
 
 // Types
 export type { LogEntry, LogLevel, LogOutput, Plugin, StylerConfig, Theme } from "./core/config.ts";
