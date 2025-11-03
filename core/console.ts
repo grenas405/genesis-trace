@@ -27,7 +27,7 @@ import {
   supports256Color,
   supportsColor,
   supportsTrueColor,
-} from "../core/colors.ts";
+} from "./colors.ts";
 
 // ================================================================================
 // TYPE DEFINITIONS
