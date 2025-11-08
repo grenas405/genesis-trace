@@ -13,6 +13,7 @@ export { ConsoleStyler } from "./core/console.ts";
 
 // Types
 export type { LogEntry, LogLevel, LogOutput, Plugin, StylerConfig, Theme } from "./core/config.ts";
+export type { ILogger } from "./interfaces/ILogger.ts";
 
 // Components
 export { TableRenderer } from "./components/tables.ts";
@@ -65,6 +66,8 @@ export type { HonoLoggerOptions } from "./adapters/hono.ts";
 
 export { expressLogger } from "./adapters/express.ts";
 export type { ExpressLoggerOptions } from "./adapters/express.ts";
+
+export { ConsoleStylerLogger, defaultLogger } from "./adapters/mod.ts";
 
 // Utilities
 export { TerminalDetector } from "./utils/terminal.ts";
