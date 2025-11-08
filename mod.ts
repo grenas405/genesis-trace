@@ -39,6 +39,7 @@ export {
   getTheme,
   minimalTheme,
   neonTheme,
+  redAlertTheme,
   themes,
 } from "./themes/mod.ts";
 
