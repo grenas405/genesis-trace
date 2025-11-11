@@ -1,5 +1,5 @@
 // adapters/oak.ts
-import { Context, Next } from "https://deno.land/x/oak@v12.6.1/mod.ts";
+import type { Context, Next } from "jsr:@oak/oak@^17";
 import { Logger } from "../core/logger.ts";
 
 export interface OakLoggerOptions {
@@ -8,7 +8,7 @@ export interface OakLoggerOptions {
   logBody?: boolean;
 }
 
-export function oakLogger(options: OakLoggerOptions = {}) {
+export function oakLogger(options: OakLoggerOptions = {}): (ctx: Context, next: Next) => Promise<void> {
   const logger = options.logger || new Logger();
   const skipPaths = options.skipPaths || [];
   const logBody = options.logBody || false;

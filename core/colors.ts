@@ -150,7 +150,87 @@ export function bgColor256(colorNumber: number): string {
  * console.log(`${colors256.deepBlue}Info${colors.reset}`);
  * ```
  */
-export const colors256 = {
+export const colors256: {
+  readonly maroon: string;
+  readonly darkRed: string;
+  readonly red: string;
+  readonly crimson: string;
+  readonly brightRed: string;
+  readonly lightRed: string;
+  readonly pink: string;
+  readonly darkGreen: string;
+  readonly forestGreen: string;
+  readonly green: string;
+  readonly limeGreen: string;
+  readonly brightGreen: string;
+  readonly springGreen: string;
+  readonly lightGreen: string;
+  readonly mint: string;
+  readonly navy: string;
+  readonly darkBlue: string;
+  readonly deepBlue: string;
+  readonly blue: string;
+  readonly royalBlue: string;
+  readonly dodgerBlue: string;
+  readonly brightBlue: string;
+  readonly skyBlue: string;
+  readonly lightBlue: string;
+  readonly aqua: string;
+  readonly darkPurple: string;
+  readonly purple: string;
+  readonly violet: string;
+  readonly orchid: string;
+  readonly brightPurple: string;
+  readonly lightPurple: string;
+  readonly magenta: string;
+  readonly brightMagenta: string;
+  readonly brown: string;
+  readonly darkOrange: string;
+  readonly orange: string;
+  readonly brightOrange: string;
+  readonly lightOrange: string;
+  readonly gold: string;
+  readonly yellow: string;
+  readonly lightYellow: string;
+  readonly teal: string;
+  readonly darkCyan: string;
+  readonly cyan: string;
+  readonly brightCyan: string;
+  readonly lightCyan: string;
+  readonly turquoise: string;
+  readonly gray1: string;
+  readonly gray2: string;
+  readonly gray3: string;
+  readonly gray4: string;
+  readonly gray5: string;
+  readonly gray6: string;
+  readonly gray7: string;
+  readonly gray8: string;
+  readonly gray9: string;
+  readonly gray10: string;
+  readonly gray11: string;
+  readonly gray12: string;
+  readonly gray13: string;
+  readonly gray14: string;
+  readonly gray15: string;
+  readonly gray16: string;
+  readonly gray17: string;
+  readonly gray18: string;
+  readonly gray19: string;
+  readonly gray20: string;
+  readonly gray21: string;
+  readonly gray22: string;
+  readonly gray23: string;
+  readonly gray24: string;
+  readonly successDark: string;
+  readonly successBright: string;
+  readonly errorDark: string;
+  readonly errorBright: string;
+  readonly warningDark: string;
+  readonly warningBright: string;
+  readonly infoDark: string;
+  readonly infoBright: string;
+} = {
   // Reds (various shades)
   maroon: color256(52),
   darkRed: color256(88),
@@ -546,7 +626,68 @@ export function stripAnsi(text: string): string {
 /**
  * Predefined color palettes for common use cases
  */
-export const palettes = {
+export const palettes: {
+  readonly solarized: {
+    readonly base03: string;
+    readonly base02: string;
+    readonly base01: string;
+    readonly base00: string;
+    readonly base0: string;
+    readonly base1: string;
+    readonly base2: string;
+    readonly base3: string;
+    readonly yellow: string;
+    readonly orange: string;
+    readonly red: string;
+    readonly magenta: string;
+    readonly violet: string;
+    readonly blue: string;
+    readonly cyan: string;
+    readonly green: string;
+  };
+  readonly nord: {
+    readonly nord0: string;
+    readonly nord1: string;
+    readonly nord2: string;
+    readonly nord3: string;
+    readonly nord4: string;
+    readonly nord5: string;
+    readonly nord6: string;
+    readonly nord7: string;
+    readonly nord8: string;
+    readonly nord9: string;
+    readonly nord10: string;
+    readonly nord11: string;
+    readonly nord12: string;
+    readonly nord13: string;
+    readonly nord14: string;
+    readonly nord15: string;
+  };
+  readonly dracula: {
+    readonly background: string;
+    readonly currentLine: string;
+    readonly foreground: string;
+    readonly comment: string;
+    readonly cyan: string;
+    readonly green: string;
+    readonly orange: string;
+    readonly pink: string;
+    readonly purple: string;
+    readonly red: string;
+    readonly yellow: string;
+  };
+  readonly monokai: {
+    readonly background: string;
+    readonly foreground: string;
+    readonly red: string;
+    readonly orange: string;
+    readonly yellow: string;
+    readonly green: string;
+    readonly cyan: string;
+    readonly blue: string;
+    readonly purple: string;
+  };
+} = {
   /**
    * Solarized color scheme (popular among developers)
    */

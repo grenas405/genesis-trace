@@ -1,5 +1,5 @@
 // adapters/hono.ts
-import { Context, Next } from "https://deno.land/x/hono@v3.11.7/mod.ts";
+import type { Context, Next } from "jsr:@hono/hono@^4";
 import { Logger } from "../core/logger.ts";
 
 export interface HonoLoggerOptions {
@@ -7,7 +7,7 @@ export interface HonoLoggerOptions {
   skipPaths?: string[];
 }
 
-export function honoLogger(options: HonoLoggerOptions = {}) {
+export function honoLogger(options: HonoLoggerOptions = {}): (c: Context, next: Next) => Promise<void> {
   const logger = options.logger || new Logger();
   const skipPaths = options.skipPaths || [];
 

@@ -7,7 +7,8 @@ export interface ExpressLoggerOptions {
   skipPaths?: string[];
 }
 
-export function expressLogger(options: ExpressLoggerOptions = {}) {
+// deno-lint-ignore no-explicit-any
+export function expressLogger(options: ExpressLoggerOptions = {}): (req: any, res: any, next: any) => void {
   const logger = options.logger || new Logger();
   const skipPaths = options.skipPaths || [];
 
