@@ -1,0 +1,26 @@
+{
+  "name": "@grenas405/console-styler",
+  "version": "1.0.0",
+  "exports": "./mod.ts",
+  "publish": {
+    "include": [
+      "mod.ts",
+      "core/**/*.ts",
+      "components/**/*.ts",
+      "adapters/**/*.ts",
+      "themes/**/*.ts",
+      "plugins/**/*.ts",
+      "interfaces/**/*.ts",
+      "utils/**/*.ts",
+      "README.md",
+      "LICENSE"
+    ],
+    "exclude": [
+      "examples/**",
+      "introspection/**",
+      "test.ts",
+      "**/*.test.ts",
+      "logs/**"
+    ]
+  }
+}
