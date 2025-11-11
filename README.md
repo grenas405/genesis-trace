@@ -648,6 +648,44 @@ deno run --allow-read --allow-write --allow-env examples/comprehensive.ts
 deno run --allow-env --allow-read examples/denogenesis-banner.ts
 ```
 
+## LLM Introspection Experiments
+
+The `introspection/` directory contains experimental visualizations that use prompt engineering to explore and express LLM cognition through the Console Styler toolkit. These examples demonstrate how to visualize abstract computational processes using the full suite of console components from `mod.ts`.
+
+### What is @introspection?
+
+The introspection tests use Console Styler to create rich, data-driven narratives about the "inner life" of large language models. By prompting an LLM to reflect on its own thought processes and rendering those reflections using banners, tables, charts, progress bars, and themed loggers, these examples showcase:
+
+- How to orchestrate multiple console components into cohesive narratives
+- Creative use of telemetry visualization (attention weights, token probabilities, activation patterns)
+- Combining technical accuracy with narrative flair
+- Using plugins (FileLoggerPlugin, JsonLoggerPlugin) to persist introspection data
+
+### Available Introspection Scripts
+
+- **llm-introspection.ts**: Neural introspection showcase demonstrating the full lifecycle of LLM processing—from context loading through attention allocation to token generation, using nearly every Console Styler feature
+- **being_an_llm.ts**: A philosophical exploration of machine consciousness, using colors, gradients, and styled output to express the paradoxes of synthetic existence
+- **llm-thought-process.ts**: A detailed atlas tracing the journey from prompt receipt through retrieval, reasoning phases, and response streaming
+- **llm-inner-life.ts**: A compact animation showing the cortical boot sequence, context window ingestion, token streaming, and inference vitals
+
+Run introspection examples:
+
+```bash
+# Full neural introspection showcase
+deno run --allow-env --allow-read --allow-write introspection/llm-introspection.ts
+
+# Philosophical consciousness exploration
+deno run --allow-write introspection/being_an_llm.ts
+
+# Thought process atlas
+deno run --allow-env --allow-read --allow-write introspection/llm-thought-process.ts
+
+# Inner life animation
+deno run --allow-env --allow-read --allow-write introspection/llm-inner-life.ts
+```
+
+These experiments demonstrate the library's flexibility in creating expressive, data-rich terminal interfaces for complex computational narratives.
+
 ## Best Practices
 
 ### 1. Use Child Loggers for Modules
