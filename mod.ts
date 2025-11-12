@@ -74,3 +74,30 @@ export { TerminalDetector } from "./utils/terminal.ts";
 
 // Re-export everything from format-helper (which re-exports from formatter)
 export * from "./utils/format-helper.ts";
+
+// HTTP context contract helpers
+export {
+  commitResponse,
+  createContext,
+  extractParams,
+  finalizeResponse,
+  snapshotContext,
+} from "./new/context.ts";
+export type {
+  Context,
+  ContextSnapshot,
+  ContextSnapshotIncludeOptions,
+  ContextSnapshotOptions,
+  ResponseState,
+} from "./new/context.ts";
+
+// HTTP building blocks
+export * as HttpResponse from "./new/response.ts";
+export * as HttpParsers from "./new/parsers.ts";
+export * as HttpValidation from "./new/validation.ts";
+export type {
+  HttpMethod,
+  Route as HttpRoute,
+  Router as HttpRouter,
+  ServerConfig as HttpServerConfig,
+} from "./new/types.ts";

@@ -234,3 +234,94 @@ export function commitResponse(
 
   ctx.response.committed = true;
 }
+
+/**
+ * Controls which optional pieces of data are included in a context snapshot.
+ * Headers and contextual state are excluded by default to avoid leaking
+ * sensitive data into log streams unless explicitly enabled.
+ */
+export interface ContextSnapshotIncludeOptions {
+  requestHeaders?: boolean;
+  responseHeaders?: boolean;
+  state?: boolean;
+}
+
+/**
+ * Additional metadata that can be attached to a context snapshot.
+ */
+export interface ContextSnapshotOptions {
+  requestId?: string;
+  durationMs?: number;
+  bytesSent?: number;
+  include?: ContextSnapshotIncludeOptions;
+}
+
+export interface ContextSnapshot {
+  request: {
+    id?: string;
+    method: string;
+    url: string;
+    path: string;
+    headers?: Record<string, string>;
+  };
+  response: {
+    status: number;
+    statusText?: string;
+    headers?: Record<string, string>;
+  };
+  params: Record<string, string>;
+  state?: Record<string, unknown>;
+  metrics?: {
+    durationMs?: number;
+    bytesSent?: number;
+  };
+}
+
+const defaultIncludeOptions: Required<ContextSnapshotIncludeOptions> = {
+  requestHeaders: false,
+  responseHeaders: false,
+  state: false,
+};
+
+/**
+ * Produce a serializable snapshot of the current Context. The snapshot can be
+ * safely used in structured logs or external telemetry systems.
+ */
+export function snapshotContext(
+  ctx: Context,
+  options: ContextSnapshotOptions = {},
+): ContextSnapshot {
+  const include = {
+    ...defaultIncludeOptions,
+    ...options.include,
+  };
+
+  return {
+    request: {
+      id: options.requestId,
+      method: ctx.request.method,
+      url: ctx.request.url,
+      path: ctx.url.pathname,
+      headers: include.requestHeaders ? headersToObject(ctx.request.headers) : undefined,
+    },
+    response: {
+      status: ctx.response.status,
+      statusText: ctx.response.statusText,
+      headers: include.responseHeaders ? headersToObject(ctx.response.headers) : undefined,
+    },
+    params: { ...ctx.params },
+    state: include.state ? { ...ctx.state } : undefined,
+    metrics: {
+      durationMs: options.durationMs,
+      bytesSent: options.bytesSent,
+    },
+  };
+}
+
+function headersToObject(headers: Headers): Record<string, string> {
+  const result: Record<string, string> = {};
+  headers.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
+}

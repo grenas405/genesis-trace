@@ -14,6 +14,8 @@ A comprehensive, professional terminal logging and formatting library for Deno a
 - **Theming**: Built-in themes (default, neon, dracula, minimal) and custom theme support
 - **Plugins**: Extensible plugin architecture for file logging, JSON output, remote logging, and more
 - **Framework Adapters**: Ready-to-use middleware for Oak, Hono, and Express
+- **Universal HTTP Contract**: `createContext` / `snapshotContext` helpers formalize request + response metadata for consistent logs
+- **HTTP Middleware Toolkit**: Zero-dependency body parsers, response helpers, and schema validation for production APIs
 - **Child Loggers**: Namespaced logging for modular applications
 - **TypeScript**: Full type safety and excellent IntelliSense support
 - **Production Ready**: Battle-tested for CLI tools and server applications
@@ -401,14 +403,15 @@ const choice = await InteractivePrompts.select(
 
 ```typescript
 import { Application } from "https://deno.land/x/oak/mod.ts";
-import { oakLogger } from "./mod.ts";
+import { Logger, oakLogger } from "./mod.ts";
 
 const app = new Application();
+const httpLogger = new Logger().child("http");
 
 app.use(oakLogger({
-  logLevel: "info",
-  logRequests: true,
-  logResponses: true
+  logger: httpLogger,
+  skipPaths: ["/health"],
+  httpMetadata: { responseHeaders: true },
 }));
 
 app.use((ctx) => {
@@ -422,13 +425,14 @@ await app.listen({ port: 8000 });
 
 ```typescript
 import { Hono } from "https://deno.land/x/hono/mod.ts";
-import { honoLogger } from "./mod.ts";
+import { Logger, honoLogger } from "./mod.ts";
 
 const app = new Hono();
+const httpLogger = new Logger().child("hono");
 
 app.use("*", honoLogger({
-  logLevel: "info",
-  colorize: true
+  logger: httpLogger,
+  httpMetadata: { requestHeaders: true },
 }));
 
 app.get("/", (c) => c.text("Hello World!"));
@@ -440,13 +444,14 @@ Deno.serve(app.fetch);
 
 ```typescript
 import express from "npm:express";
-import { expressLogger } from "./mod.ts";
+import { Logger, expressLogger } from "./mod.ts";
 
 const app = express();
+const httpLogger = new Logger().child("express");
 
 app.use(expressLogger({
-  logLevel: "info",
-  includeHeaders: false
+  logger: httpLogger,
+  httpMetadata: { responseHeaders: true },
 }));
 
 app.get("/", (req, res) => {
@@ -455,6 +460,115 @@ app.get("/", (req, res) => {
 
 app.listen(3000);
 ```
+
+## Universal HTTP Context Contract
+
+GenesisTrace ships a lightweight, framework-agnostic HTTP contract under `createContext`, `commitResponse`, `finalizeResponse`, and `snapshotContext`. These helpers wrap the standard `Request`/`Response` objects so every middleware stage can share the same view of the request lifecycle.
+
+```typescript
+import {
+  commitResponse,
+  createContext,
+  snapshotContext,
+} from "./mod.ts";
+
+const ctx = createContext(request, { id: "42" });
+ctx.state.userId = "user-99";
+
+commitResponse(ctx, { status: 201 });
+const httpMeta = snapshotContext(ctx, {
+  requestId: crypto.randomUUID(),
+  durationMs: 18.4,
+  include: {
+    requestHeaders: true,
+    responseHeaders: true,
+  },
+});
+
+logger.info("request complete", { http: httpMeta });
+```
+
+### Structured adapter metadata
+
+The built-in Oak, Hono, and Express adapters now attach this snapshot under the `http` metadata key on every completion log:
+
+```json
+{
+  "requestId": "c0c5f6b9",
+  "http": {
+    "request": {
+      "method": "GET",
+      "path": "/api/users",
+      "url": "https://api.example.com/api/users"
+    },
+    "response": {
+      "status": 200
+    },
+    "metrics": {
+      "durationMs": 12.7
+    }
+  }
+}
+```
+
+Headers and request state are excluded by default to avoid leaking secrets. Enable the pieces you need with the new `httpMetadata` option on every adapter:
+
+```typescript
+app.use(oakLogger({
+  httpMetadata: {
+    requestHeaders: true,
+    responseHeaders: true,
+    state: false,
+  },
+}));
+```
+
+The same options are available on `honoLogger` and `expressLogger`, ensuring every framework emits the exact same metadata contract for downstream processors or remote log pipelines.
+
+## HTTP Parsers & Validation
+
+GenesisTrace now publishes a tiny HTTP middleware toolkit under three namespaces:
+
+- `HttpResponse`: ergonomic helpers such as `json`, `status`, `payloadTooLarge`, and `validationError`
+- `HttpParsers`: zero-dependency body parsers (`json`, `urlencoded`, `multipart`, `text`, `bodyParser`)
+- `HttpValidation`: schema helpers (`requiredString`, `optionalNumber`, etc.) plus the `validator` middleware
+
+Everything is dependency-free and uses the same `createContext` contract, which means you can build a complete HTTP pipeline without pulling in additional frameworks.
+
+```typescript
+import {
+  HttpParsers,
+  HttpResponse,
+  HttpValidation,
+  createContext,
+  finalizeResponse,
+} from "./mod.ts";
+
+const schema = {
+  name: HttpValidation.requiredString({ minLength: 2 }),
+  email: HttpValidation.requiredEmail(),
+};
+
+const middlewares = [
+  HttpParsers.bodyParser({ jsonLimit: 1024 * 1024 }),
+  HttpValidation.validator(schema, { stripUnknown: true }),
+];
+
+export async function handler(request: Request): Promise<Response> {
+  const ctx = createContext(request);
+
+  for (const mw of middlewares) {
+    const result = await mw(ctx, async () => undefined);
+    if (result instanceof Response) return result;
+  }
+
+  return HttpResponse.json({
+    received: ctx.state.body,
+  }, { status: 201 });
+}
+```
+
+All helpers return standards-compliant `Response` objects, so the same code works in Deno.serve, Fresh handlers, or any adapter that understands the Fetch API.
 
 ## Advanced Usage
 

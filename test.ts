@@ -11,8 +11,12 @@ import {
   BoxRenderer,
   ChartRenderer,
   ColorSystem,
+  HttpParsers,
+  HttpResponse,
+  HttpValidation,
   ConfigBuilder,
   ConsoleStyler,
+  createContext,
   FileLoggerPlugin,
   Formatter,
   InteractivePrompts,
@@ -24,6 +28,7 @@ import {
   Spinner,
   TableRenderer,
   TerminalDetector,
+  snapshotContext,
 } from "./mod.ts";
 
 // ================================================================================
@@ -154,6 +159,98 @@ Deno.test("Logger - History retrieval", () => {
   const history = logger.getHistory();
   assertEquals(Array.isArray(history), true);
   assertEquals(history.length > 0, true);
+});
+
+// ================================================================================
+// HTTP CONTEXT CONTRACT TESTS
+// ================================================================================
+
+Deno.test("Context snapshot captures request/response details", () => {
+  const request = new Request("https://example.com/users/123?foo=bar", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+
+  const ctx = createContext(request, { id: "123" });
+  ctx.state.userId = "user-42";
+  ctx.response.status = 201;
+  ctx.response.headers.set("x-demo", "true");
+  ctx.response.committed = true;
+
+  const snapshot = snapshotContext(ctx, {
+    requestId: "req-1",
+    durationMs: 12.5,
+    include: {
+      requestHeaders: true,
+      responseHeaders: true,
+      state: true,
+    },
+  });
+
+  assertEquals(snapshot.request.method, "POST");
+  assertEquals(snapshot.request.path, "/users/123");
+  assertEquals(snapshot.request.headers?.["content-type"], "application/json");
+  assertEquals(snapshot.response.status, 201);
+  assertEquals(snapshot.response.headers?.["x-demo"], "true");
+  assertEquals(snapshot.params.id, "123");
+  assertEquals(snapshot.state?.userId, "user-42");
+  assertEquals(snapshot.metrics?.durationMs, 12.5);
+});
+
+Deno.test("HttpResponse helpers produce correct headers", async () => {
+  const response = HttpResponse.json({ ok: true }, { status: 201 });
+  assertEquals(response.status, 201);
+  assertEquals(response.headers.get("content-type"), "application/json");
+
+  const payload = await response.json();
+  assertEquals(payload.ok, true);
+
+  const error = HttpResponse.payloadTooLarge(1024);
+  assertEquals(error.status, 413);
+});
+
+Deno.test("HttpParsers.json populates ctx.state.body", async () => {
+  const body = { name: "Ada", role: "engineer" };
+  const request = new Request("https://example.com/api", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  const ctx = createContext(request);
+  const parser = HttpParsers.json();
+
+  await parser(ctx, async () => undefined);
+
+  assertEquals(ctx.state.body, body);
+});
+
+Deno.test("HttpValidation.validator enforces schema", async () => {
+  const schema = {
+    name: HttpValidation.requiredString({ minLength: 2 }),
+    age: HttpValidation.optionalNumber({ min: 0 }),
+  };
+
+  const validCtx = createContext(new Request("https://example.com/users", { method: "POST" }));
+  validCtx.state.body = { name: "Alice", age: 32 };
+
+  let nextCalled = false;
+  const middleware = HttpValidation.validator(schema);
+
+  await middleware(validCtx, async () => {
+    nextCalled = true;
+    return undefined;
+  });
+
+  assertEquals(nextCalled, true);
+
+  const invalidCtx = createContext(new Request("https://example.com/users", { method: "POST" }));
+  invalidCtx.state.body = { age: -1 };
+
+  const result = await middleware(invalidCtx, async () => undefined);
+  assertEquals(result?.status, 400);
 });
 
 // ================================================================================

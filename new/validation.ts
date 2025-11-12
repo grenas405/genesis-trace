@@ -217,7 +217,7 @@
  */
 
 import type { Context, Middleware } from "./types.ts";
-import { ConsoleStyler } from "../utils/console-styler/mod.ts";
+import { ConsoleStyler } from "../core/console.ts";
 import { json, badRequest } from "./response.ts";
 
 /**
