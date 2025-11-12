@@ -201,7 +201,7 @@ function showColorPalettes() {
     const colors = theme.colors;
     const symbols = theme.symbols;
 
-    console.log(ColorSystem.colorize(name.padEnd(12), ColorSystem.codes.bright), end: "");
+    process.stdout.write(ColorSystem.colorize(name.padEnd(12), ColorSystem.codes.bright));
 
     // Display color squares for each level
     const levels = ["debug", "info", "success", "warning", "error", "critical"];
