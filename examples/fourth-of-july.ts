@@ -3,7 +3,7 @@
 /**
  * Fourth of July Spectacular Demo
  *
- * A patriotic showcase celebrating Independence Day with Console Styler effects.
+ * A patriotic showcase celebrating Independence Day with GenesisTrace effects.
  * Features used:
  *   • Banner intro and themed logger output
  *   • Parade preparation progress bar with stage logging

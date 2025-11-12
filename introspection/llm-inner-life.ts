@@ -38,9 +38,9 @@ console.log("\n");
 BannerRenderer.render({
   title: "🧠 INSIDE THE LLM",
   subtitle: "A blink-sized tour through synthetic cognition",
-  description: "Console Styler Animation • context loading • attention pulsing • tokens streaming",
+  description: "GenesisTrace Animation • context loading • attention pulsing • tokens streaming",
   version: "session-42",
-  author: "Console Styler Lab",
+  author: "GenesisTrace Lab",
   width: 90,
   color: ColorSystem.codes.brightMagenta,
 });

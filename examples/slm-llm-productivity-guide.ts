@@ -4,7 +4,7 @@
  * SLM + LLM Productivity Guide
  *
  * Illustrates how teams can combine small language models (SLMs) and large language
- * models (LLMs) for successful, productive, and economical outcomes using Console Styler.
+ * models (LLMs) for successful, productive, and economical outcomes using GenesisTrace.
  *
  * Run with:
  *    deno run --allow-env examples/slm-llm-productivity-guide.ts
@@ -31,7 +31,7 @@ BannerRenderer.render({
   subtitle: "Successful • Productive • Economical",
   description: "Choose the right model tier, prove value, and control spend.",
   version: "field-guide",
-  author: "@console-styler",
+  author: "@genesis-trace",
   width: 100,
   color: ColorSystem.hexToRgb("#5DE0E6"),
 });

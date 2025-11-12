@@ -4,7 +4,7 @@
  * Infinite Inspirational Loop
  *
  * Streams a continuous sequence of quotes from foundational computer science
- * thinkers using the Console Styler presentation toolkit.
+ * thinkers using the GenesisTrace presentation toolkit.
  */
 
 import {
@@ -28,7 +28,7 @@ BannerRenderer.render({
   subtitle: "Channeling voices that shaped computing",
   description: "Alan Kay • John McCarthy • Claude Shannon",
   version: "v1.0",
-  author: "Console Styler Showcase",
+  author: "GenesisTrace Showcase",
   width: 94,
   style: "double",
   color: ColorSystem.codes.brightMagenta,

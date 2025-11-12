@@ -3,7 +3,7 @@
 /**
  * Orbital Mission Control Simulation
  *
- * A narrative-driven example that demonstrates how the Console Styler toolkit
+ * A narrative-driven example that demonstrates how the GenesisTrace toolkit
  * can orchestrate rich terminal dashboards for operations and SRE teams.
  * Features used:
  *   • Advanced logger configuration with theming and plugins
@@ -38,7 +38,7 @@ console.log("\n");
 BannerRenderer.render({
   title: "🚀 ORBITAL OPS: MISSION CONTROL",
   subtitle: "Live Launch Readiness Dashboard",
-  description: "Powered by Console Styler • Resilient tooling for space-grade SREs",
+  description: "Powered by GenesisTrace • Resilient tooling for space-grade SREs",
   version: "v0.9-beta",
   author: "Mission Systems Guild",
   width: 94,

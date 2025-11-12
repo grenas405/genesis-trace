@@ -1,4 +1,4 @@
-# Console Styler
+# GenesisTrace
 
 A comprehensive, professional terminal logging and formatting library for Deno applications. Zero external dependencies, pure Deno native APIs, with full TypeScript support.
 
@@ -24,10 +24,10 @@ A comprehensive, professional terminal logging and formatting library for Deno a
 
 ```typescript
 // Import from JSR (recommended)
-import { Logger } from "jsr:@grenas405/console-styler";
+import { Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 // Or import from deno.land/x
-import { Logger } from "https://deno.land/x/console_styler/mod.ts";
+import { Logger } from "https://deno.land/x/genesis_trace/mod.ts";
 
 // Or use with mod.ts directly
 import { Logger } from "./mod.ts";
@@ -650,11 +650,11 @@ deno run --allow-env --allow-read examples/denogenesis-banner.ts
 
 ## LLM Introspection Experiments
 
-The `introspection/` directory contains experimental visualizations that use prompt engineering to explore and express LLM cognition through the Console Styler toolkit. These examples demonstrate how to visualize abstract computational processes using the full suite of console components from `mod.ts`.
+The `introspection/` directory contains experimental visualizations that use prompt engineering to explore and express LLM cognition through the GenesisTrace toolkit. These examples demonstrate how to visualize abstract computational processes using the full suite of console components from `mod.ts`.
 
 ### What is @introspection?
 
-The introspection tests use Console Styler to create rich, data-driven narratives about the "inner life" of large language models. By prompting an LLM to reflect on its own thought processes and rendering those reflections using banners, tables, charts, progress bars, and themed loggers, these examples showcase:
+The introspection tests use GenesisTrace to create rich, data-driven narratives about the "inner life" of large language models. By prompting an LLM to reflect on its own thought processes and rendering those reflections using banners, tables, charts, progress bars, and themed loggers, these examples showcase:
 
 - How to orchestrate multiple console components into cohesive narratives
 - Creative use of telemetry visualization (attention weights, token probabilities, activation patterns)
@@ -663,7 +663,7 @@ The introspection tests use Console Styler to create rich, data-driven narrative
 
 ### Available Introspection Scripts
 
-- **llm-introspection.ts**: Neural introspection showcase demonstrating the full lifecycle of LLM processing—from context loading through attention allocation to token generation, using nearly every Console Styler feature
+- **llm-introspection.ts**: Neural introspection showcase demonstrating the full lifecycle of LLM processing—from context loading through attention allocation to token generation, using nearly every GenesisTrace feature
 - **being_an_llm.ts**: A philosophical exploration of machine consciousness, using colors, gradients, and styled output to express the paradoxes of synthetic existence
 - **llm-thought-process.ts**: A detailed atlas tracing the journey from prompt receipt through retrieval, reasoning phases, and response streaming
 - **llm-inner-life.ts**: A compact animation showing the cortical boot sequence, context window ingestion, token streaming, and inference vitals
@@ -750,7 +750,7 @@ try {
 
 ## Performance
 
-Console Styler is designed for performance:
+GenesisTrace is designed for performance:
 
 - Lazy evaluation of log formatting
 - Minimal overhead when logging is disabled
@@ -786,8 +786,8 @@ MIT License - see LICENSE file for details
 
 ## Support
 
-- Issues: [GitHub Issues](https://github.com/grenas405/console-styler/issues)
-- Discussions: [GitHub Discussions](https://github.com/grenas405/console-styler/discussions)
+- Issues: [GitHub Issues](https://github.com/grenas405/genesis-trace/issues)
+- Discussions: [GitHub Discussions](https://github.com/grenas405/genesis-trace/discussions)
 
 ## Changelog
 

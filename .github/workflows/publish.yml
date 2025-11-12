@@ -35,7 +35,7 @@ jobs:
 
       - name: Publish to JSR
         run: |
-          echo "Publishing @grenas405/console-styler to JSR..."
+          echo "Publishing @pedromdominguez/genesis-trace to JSR..."
           deno publish --allow-dirty
 
       - name: Create release notes
@@ -43,6 +43,6 @@ jobs:
         run: |
           TAG=${GITHUB_REF#refs/tags/}
           echo "## Release $TAG" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Published @grenas405/console-styler to JSR" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Published @pedromdominguez/genesis-trace to JSR" >> $GITHUB_STEP_SUMMARY
           echo "📦 Version: $TAG" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 View on JSR: https://jsr.io/@grenas405/console-styler" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 View on JSR: https://jsr.io/@pedromdominguez/genesis-trace" >> $GITHUB_STEP_SUMMARY

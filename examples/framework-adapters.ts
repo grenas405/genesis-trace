@@ -33,7 +33,7 @@ async function runOakDemo() {
 
   router.get("/", (ctx) => {
     ctx.response.type = "json";
-    ctx.response.body = { framework: "oak", message: "Console Styler adapter demo" };
+    ctx.response.body = { framework: "oak", message: "GenesisTrace adapter demo" };
   });
 
   router.get("/health", (ctx) => {
@@ -71,7 +71,7 @@ async function runHonoDemo() {
     skipPaths: ["/healthz"],
   }));
 
-  app.get("/", (c) => c.json({ framework: "hono", message: "Console Styler adapter demo" }));
+  app.get("/", (c) => c.json({ framework: "hono", message: "GenesisTrace adapter demo" }));
   app.get("/healthz", (c) => c.text("healthy"));
 
   const port = 4511;
@@ -102,7 +102,7 @@ async function runExpressDemo() {
   }));
 
   app.get("/", (_req: Request, res: Response) => {
-    res.json({ framework: "express", message: "Console Styler adapter demo" });
+    res.json({ framework: "express", message: "GenesisTrace adapter demo" });
   });
 
   app.get("/health", (_req: Request, res: Response) => {

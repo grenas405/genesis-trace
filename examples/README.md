@@ -1,6 +1,6 @@
-# Console Styler Examples
+# GenesisTrace Examples
 
-This directory contains comprehensive examples demonstrating various features and use cases of the Console Styler library.
+This directory contains comprehensive examples demonstrating various features and use cases of the GenesisTrace library.
 
 ## Quick Start Examples
 
@@ -277,4 +277,4 @@ Want to add your own example? Examples should:
 
 ## License
 
-All examples are provided under the same MIT license as Console Styler.
+All examples are provided under the same MIT license as GenesisTrace.

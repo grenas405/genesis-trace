@@ -3,7 +3,7 @@
 /**
  * Truecolor Showcase
  *
- * Demonstrates 16.7M color rendering with Console Styler using gradients,
+ * Demonstrates 16.7M color rendering with GenesisTrace using gradients,
  * pitch-style presentations, and quick proof-of-concept visuals.
  *
  * Run with: `deno run --allow-env examples/truecolor-showcase.ts`
@@ -69,11 +69,11 @@ console.log(hero);
 console.log(gradientText("Gradients • Presentations • Proofs of Concept\n", [49, 213, 220], [255, 247, 174]));
 
 BannerRenderer.render({
-  title: "Console Styler Truecolor Showcase",
+  title: "GenesisTrace Truecolor Showcase",
   subtitle: "Design palettes, product pitches, and data concepts",
   description: "16.7M colors • Adaptive gradients • Terminal-native storytelling",
   version: "demo",
-  author: "@grenas405",
+  author: "@pedromdominguez",
   width: 96,
   color: ColorSystem.hexToRgb("#FF7EB3"),
 });

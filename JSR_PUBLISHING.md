@@ -1,12 +1,12 @@
-# JSR Publishing Guide for @grenas405/console-styler
+# JSR Publishing Guide for @pedromdominguez/genesis-trace
 
-This document explains how to publish updates of the console-styler library to JSR (JavaScript Registry).
+This document explains how to publish updates of the genesis-trace library to JSR (JavaScript Registry).
 
 ## Prerequisites
 
 1. **JSR Account**: Create an account at https://jsr.io
 2. **GitHub Repository**: Ensure the repository is public and accessible
-3. **Permissions**: You need publish access to the `@grenas405` scope on JSR
+3. **Permissions**: You need publish access to the `@pedromdominguez` scope on JSR
 
 ## File Structure for JSR
 
@@ -18,14 +18,14 @@ Contains package metadata and configuration:
 
 ```json
 {
-  "name": "@grenas405/console-styler",
+  "name": "@pedromdominguez/genesis-trace",
   "version": "1.0.0",
   "description": "...",
   "author": "Pedro M. Dominguez",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grenas405/console-styler"
+    "url": "https://github.com/grenas405/genesis-trace"
   },
   "exports": "./mod.ts"
 }
@@ -37,7 +37,7 @@ Specifies what to include/exclude in the published package:
 
 ```json
 {
-  "name": "@grenas405/console-styler",
+  "name": "@pedromdominguez/genesis-trace",
   "version": "1.0.0",
   "exports": "./mod.ts",
   "publish": {
@@ -96,8 +96,8 @@ The GitHub Action (`.github/workflows/publish.yml`) will:
 If you need to publish manually:
 
 ```bash
-# 1. Ensure you're in the console-styler directory
-cd utils/console-styler
+# 1. Ensure you're in the genesis-trace directory
+cd utils/genesis-trace
 
 # 2. Update versions in deno.json and jsr.json
 
@@ -194,7 +194,7 @@ After publishing, verify the package:
 
 ### 1. Check JSR Website
 
-Visit: https://jsr.io/@grenas405/console-styler
+Visit: https://jsr.io/@pedromdominguez/genesis-trace
 
 Verify:
 - Version number is correct
@@ -208,7 +208,7 @@ Create a test file:
 
 ```typescript
 // test-import.ts
-import { ConsoleStyler, Logger } from "jsr:@grenas405/console-styler@1.0.1";
+import { ConsoleStyler, Logger } from "jsr:@pedromdominguez/genesis-trace@1.0.1";
 
 const logger = new Logger({ level: "info" });
 logger.info("Testing JSR import!");
@@ -227,7 +227,7 @@ deno run test-import.ts
 JSR packages are also available via deno.land/x cache:
 
 ```bash
-deno info jsr:@grenas405/console-styler
+deno info jsr:@pedromdominguez/genesis-trace
 ```
 
 ## Troubleshooting
@@ -274,7 +274,7 @@ deno check --all
 JSR caching may delay updates. Clear cache:
 
 ```bash
-deno cache --reload jsr:@grenas405/console-styler
+deno cache --reload jsr:@pedromdominguez/genesis-trace
 ```
 
 ## Best Practices
@@ -343,7 +343,7 @@ Once published, users can import the package in three ways:
 ### 1. Direct JSR Import
 
 ```typescript
-import { ConsoleStyler } from "jsr:@grenas405/console-styler@1.0.0";
+import { ConsoleStyler } from "jsr:@pedromdominguez/genesis-trace@1.0.0";
 ```
 
 ### 2. Import Map (Recommended)
@@ -353,7 +353,7 @@ In `deno.json`:
 ```json
 {
   "imports": {
-    "@console": "jsr:@grenas405/console-styler@^1.0.0"
+    "@console": "jsr:@pedromdominguez/genesis-trace@^1.0.0"
   }
 }
 ```
@@ -369,7 +369,7 @@ import { ConsoleStyler } from "@console";
 JSR packages can also be used in Node.js via npx:
 
 ```bash
-npx jsr install @grenas405/console-styler
+npx jsr install @pedromdominguez/genesis-trace
 ```
 
 ## Maintenance Schedule
@@ -412,12 +412,12 @@ deno publish --dry-run          # Test
 deno publish                    # Publish
 
 # Verify
-deno info jsr:@grenas405/console-styler
-deno run -E jsr:@grenas405/console-styler/examples/basic.ts
+deno info jsr:@pedromdominguez/genesis-trace
+deno run -E jsr:@pedromdominguez/genesis-trace/examples/basic.ts
 ```
 
 ---
 
 **Last Updated**: 2025-11-11
 **Current Version**: 1.0.0
-**Maintainer**: Pedro M. Dominguez (@grenas405)
+**Maintainer**: Pedro M. Dominguez (@pedromdominguez on JSR / @grenas405 on GitHub)

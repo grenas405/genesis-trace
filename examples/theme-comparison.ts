@@ -354,10 +354,10 @@ async function main() {
 
   BannerRenderer.render({
     title: "THEME COMPARISON",
-    subtitle: "Visual Guide to Console Styler Themes",
+    subtitle: "Visual Guide to GenesisTrace Themes",
     description: "Compare built-in themes and learn to create custom themes",
     version: "1.0",
-    author: "Console Styler",
+    author: "GenesisTrace",
     style: "double",
     color: ColorSystem.codes.brightMagenta,
   });

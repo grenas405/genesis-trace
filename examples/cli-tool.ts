@@ -101,7 +101,7 @@ class UserManagementCLI {
     BannerRenderer.render({
       title: "USER MANAGEMENT CLI",
       subtitle: "Interactive Command-Line Application",
-      description: "Powered by Console Styler • Demo Application",
+      description: "Powered by GenesisTrace • Demo Application",
       version: "1.0.0",
       author: "Demo Team",
       style: "double",
@@ -408,7 +408,7 @@ class UserManagementCLI {
         "Welcome to the User Management CLI!",
         "",
         "This is a demonstration of an interactive command-line application",
-        "built with Console Styler. Use the menu to manage users.",
+        "built with GenesisTrace. Use the menu to manage users.",
       ],
       {
         title: "Welcome",

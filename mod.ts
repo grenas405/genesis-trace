@@ -1,6 +1,6 @@
 // mod.ts
 // ================================================================================
-// 🎨 Console Styler - Professional Terminal Logging & Formatting
+// 🎨 GenesisTrace - Professional Terminal Logging & Formatting
 // A comprehensive, reusable logging library for Deno applications
 // ================================================================================
 

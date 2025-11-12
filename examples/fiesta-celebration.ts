@@ -4,7 +4,7 @@
  * Fiesta Celebration Demo
  *
  * A vibrant example celebrating Mexico's Independence Day with animated
- * sequences powered by Console Styler.
+ * sequences powered by GenesisTrace.
  * Features used:
  *   • Banner intro with themed logger output
  *   • Preparation progress bar and spinner choreography
@@ -39,7 +39,7 @@ console.log("\n");
 BannerRenderer.render({
   title: "🎉 FIESTA PATRIA CELEBRATION",
   subtitle: "Viva México • Animated flag and fireworks showcase",
-  description: "Console Styler orchestrates terminal festivities with color, rhythm, and sparks",
+  description: "GenesisTrace orchestrates terminal festivities with color, rhythm, and sparks",
   version: "grito-2024",
   author: "Observability Team",
   width: 96,

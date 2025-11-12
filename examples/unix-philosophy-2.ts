@@ -83,7 +83,7 @@ BannerRenderer.render({
   description:
     "Dark blue research briefing on composability, namespaces, and modern runtimes.",
   version: "midnight-draft",
-  author: "Console Styler Examples",
+  author: "GenesisTrace Examples",
   width: 92,
   color: palette.accent,
 });

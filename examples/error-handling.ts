@@ -4,7 +4,7 @@
  * Error Handling & Recovery Example
  *
  * Demonstrates robust error handling patterns, graceful degradation,
- * retry logic, and recovery strategies using Console Styler.
+ * retry logic, and recovery strategies using GenesisTrace.
  *
  * Features demonstrated:
  *   • Try-catch patterns with structured logging

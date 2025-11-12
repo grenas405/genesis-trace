@@ -3,7 +3,7 @@
 /**
  * Animated Reliability Lab
  *
- * A kinetic showcase that highlights the animation capabilities of Console Styler.
+ * A kinetic showcase that highlights the animation capabilities of GenesisTrace.
  * Features used:
  *   • Themed logger configuration with rich metadata
  *   • Sequential spinner playlists with live message updates
@@ -36,7 +36,7 @@ console.log("\n");
 
 BannerRenderer.render({
   title: "⚡ ANIMATED RELIABILITY LAB",
-  subtitle: "High-tempo terminal storytelling with Console Styler",
+  subtitle: "High-tempo terminal storytelling with GenesisTrace",
   description: "Orchestrating concurrent diagnostics, load pipelines, and visual pulses",
   version: "build-24.12",
   author: "Observability Team",

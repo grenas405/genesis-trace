@@ -5,7 +5,7 @@
  *
  * A rich, console-native depiction of how an LLM receives a prompt, inspects its
  * environment, retrieves knowledge, and streams tokens. Demonstrates a broad
- * cross-section of Console Styler capabilities powered via mod.ts exports.
+ * cross-section of GenesisTrace capabilities powered via mod.ts exports.
  */
 
 import {
@@ -38,8 +38,8 @@ try {
   BannerRenderer.render({
     title: "🧮  LLM THOUGHT PROCESS ATLAS",
     subtitle: "Tracing awareness → alignment → articulation",
-    description: "Console Styler showcase • instrumentation for synthetic cognition",
-    author: "console-styler",
+    description: "GenesisTrace showcase • instrumentation for synthetic cognition",
+    author: "genesis-trace",
     version: "2024.Q4",
     width: 96,
     color: ColorSystem.codes.brightCyan,

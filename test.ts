@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno test --allow-env --allow-read --allow-write
 // test.ts
 // ================================================================================
-// 🧪 Comprehensive Unit Tests for Console Styler Library
+// 🧪 Comprehensive Unit Tests for GenesisTrace Library
 // Tests all major components and functionality
 // ================================================================================
 

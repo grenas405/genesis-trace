@@ -3,7 +3,7 @@
 /**
  * Custom Plugin Development Example
  *
- * Demonstrates how to create custom plugins for Console Styler to extend
+ * Demonstrates how to create custom plugins for GenesisTrace to extend
  * functionality such as metrics collection, custom formatters, and integrations.
  *
  * Features demonstrated:

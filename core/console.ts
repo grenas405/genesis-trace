@@ -1,6 +1,6 @@
 // utils/consoleStyler.ts
 // ================================================================================
-// 🎨 DenoGenesis Console Styler - Enterprise Terminal Experience
+// 🎨 DenoGenesis GenesisTrace - Enterprise Terminal Experience
 // Professional logging, visual formatting, and development experience tools
 // Extended with advanced features for enterprise-grade applications
 //

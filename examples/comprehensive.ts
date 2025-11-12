@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-read --allow-write
 
 /**
- * Comprehensive Demo of Console Styler Library
+ * Comprehensive Demo of GenesisTrace Library
  *
  * This demonstrates all core features using only Deno native APIs
  * No external dependencies required!
@@ -398,7 +398,7 @@ console.log("\n");
 
 BoxRenderer.render(
   [
-    "Console Styler Library",
+    "GenesisTrace Library",
     "",
     "✅ Zero external dependencies",
     "✅ Deno native APIs only",

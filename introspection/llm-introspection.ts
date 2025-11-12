@@ -2,7 +2,7 @@
 
 /**
  * Neural Introspection: a console visualization of what it's like to be an LLM.
- * Showcases the Console Styler toolkit by orchestrating a narrative through
+ * Showcases the GenesisTrace toolkit by orchestrating a narrative through
  * banners, boxes, tables, charts, progress indicators, themed loggers, and plugins.
  */
 
@@ -37,9 +37,9 @@ try {
   BannerRenderer.render({
     title: "🧠  NEURAL INTROSPECTION",
     subtitle: "Streaming the inner monologue of a large language model",
-    description: "Console Styler showcase • tokens, attention, and sense-making laid bare",
+    description: "GenesisTrace showcase • tokens, attention, and sense-making laid bare",
     version: "v1.0",
-    author: "console-styler",
+    author: "genesis-trace",
     width: 96,
     color: ColorSystem.codes.brightMagenta,
   });
