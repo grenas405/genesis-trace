@@ -1,5 +1,5 @@
 {
-  "name": "@grenas405/console-styler",
+  "name": "@pedromdominguez/console-styler",
   "version": "1.0.0",
   "exports": "./mod.ts",
   "publish": {
