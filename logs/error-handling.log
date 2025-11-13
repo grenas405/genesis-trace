@@ -28,3 +28,27 @@
 [2025-11-11 16:53:20] ERROR    Item 18 failed {"errorType":"TimeoutError","message":"Request timeout"}
 [2025-11-11 16:53:21] ERROR    Item 19 failed {"errorType":"TimeoutError","message":"Request timeout"}
 [2025-11-11 16:53:22] ERROR    Item 20 failed {"errorType":"TimeoutError","message":"Request timeout"}
+[2025-11-12 21:59:08] DEBUG    Attempt 1/5 for fetchData
+[2025-11-12 21:59:09] WARNING  fetchData failed {"attempt":1,"maxAttempts":5,"error":"Connection refused","nextRetryIn":"500ms"}
+[2025-11-12 21:59:10] DEBUG    Attempt 2/5 for fetchData
+[2025-11-12 21:59:11] WARNING  fetchData failed {"attempt":2,"maxAttempts":5,"error":"Connection refused","nextRetryIn":"1.0s"}
+[2025-11-12 21:59:12] DEBUG    Attempt 3/5 for fetchData
+[2025-11-12 21:59:12] SUCCESS  fetchData succeeded after 3 attempts
+[2025-11-12 21:59:12] SUCCESS  Operation completed {"result":"Result from call 3"}
+[2025-11-12 21:59:15] ERROR    Call 1 failed {"error":"Request timeout","circuitState":"closed"}
+[2025-11-12 21:59:16] ERROR    Call 2 failed {"error":"Request timeout","circuitState":"closed"}
+[2025-11-12 21:59:18] ERROR    Circuit breaker opened for fetchData {"failures":3,"threshold":3}
+[2025-11-12 21:59:18] ERROR    Call 3 failed {"error":"Request timeout","circuitState":"open"}
+[2025-11-12 21:59:18] ERROR    Call 4 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:19] ERROR    Call 5 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:19] ERROR    Call 6 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:20] ERROR    Call 7 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:20] ERROR    Call 8 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:21] ERROR    Call 9 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:21] ERROR    Call 10 failed {"error":"Circuit breaker is open for fetchData","circuitState":"open"}
+[2025-11-12 21:59:23] INFO     Attempting primary data source...
+[2025-11-12 21:59:24] WARNING  Primary source failed, trying cache... {"error":"Request timeout"}
+[2025-11-12 21:59:24] SUCCESS  Cache hit
+[2025-11-12 21:59:32] ERROR    Item 8 failed {"errorType":"NetworkError","message":"Connection refused"}
+[2025-11-12 21:59:39] ERROR    Item 16 failed {"errorType":"NetworkError","message":"Connection refused"}
+[2025-11-12 21:59:41] ERROR    Item 19 failed {"errorType":"NetworkError","message":"Connection refused"}
