@@ -7,7 +7,7 @@
 // Core exports
 export { Logger } from "./core/logger.ts";
 export { ConfigBuilder } from "./core/config.ts";
-export { ColorSystem } from "./core/colors.ts";
+export { colors, ColorSystem, hexToRgb } from "./core/colors.ts";
 export { Formatter } from "./core/formatter.ts";
 export { ConsoleStyler } from "./core/console.ts";
 
