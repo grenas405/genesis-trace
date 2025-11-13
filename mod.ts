@@ -58,14 +58,15 @@ export { SlackLoggerPlugin } from "./plugins/slack-logger.ts";
 export type { SlackLoggerOptions } from "./plugins/slack-logger.ts";
 
 // Adapters
-export { oakLogger } from "./adapters/oak.ts";
-export type { OakLoggerOptions } from "./adapters/oak.ts";
+// Commented out - depend on removed "new" directory
+// export { oakLogger } from "./adapters/oak.ts";
+// export type { OakLoggerOptions } from "./adapters/oak.ts";
 
-export { honoLogger } from "./adapters/hono.ts";
-export type { HonoLoggerOptions } from "./adapters/hono.ts";
+// export { honoLogger } from "./adapters/hono.ts";
+// export type { HonoLoggerOptions } from "./adapters/hono.ts";
 
-export { expressLogger } from "./adapters/express.ts";
-export type { ExpressLoggerOptions } from "./adapters/express.ts";
+// export { expressLogger } from "./adapters/express.ts";
+// export type { ExpressLoggerOptions } from "./adapters/express.ts";
 
 export { ConsoleStylerLogger, defaultLogger } from "./adapters/mod.ts";
 
@@ -76,28 +77,30 @@ export { TerminalDetector } from "./utils/terminal.ts";
 export * from "./utils/format-helper.ts";
 
 // HTTP context contract helpers
-export {
-  commitResponse,
-  createContext,
-  extractParams,
-  finalizeResponse,
-  snapshotContext,
-} from "./new/context.ts";
-export type {
-  Context,
-  ContextSnapshot,
-  ContextSnapshotIncludeOptions,
-  ContextSnapshotOptions,
-  ResponseState,
-} from "./new/context.ts";
+// Commented out - directory removed
+// export {
+//   commitResponse,
+//   createContext,
+//   extractParams,
+//   finalizeResponse,
+//   snapshotContext,
+// } from "./new/context.ts";
+// export type {
+//   Context,
+//   ContextSnapshot,
+//   ContextSnapshotIncludeOptions,
+//   ContextSnapshotOptions,
+//   ResponseState,
+// } from "./new/context.ts";
 
 // HTTP building blocks
-export * as HttpResponse from "./new/response.ts";
-export * as HttpParsers from "./new/parsers.ts";
-export * as HttpValidation from "./new/validation.ts";
-export type {
-  HttpMethod,
-  Route as HttpRoute,
-  Router as HttpRouter,
-  ServerConfig as HttpServerConfig,
-} from "./new/types.ts";
+// Commented out - directory removed
+// export * as HttpResponse from "./new/response.ts";
+// export * as HttpParsers from "./new/parsers.ts";
+// export * as HttpValidation from "./new/validation.ts";
+// export type {
+//   HttpMethod,
+//   Route as HttpRoute,
+//   Router as HttpRouter,
+//   ServerConfig as HttpServerConfig,
+// } from "./new/types.ts";
