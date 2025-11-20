@@ -1,6 +1,6 @@
 {
   "name": "@pedromdominguez/genesis-trace",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "GenesisTrace: professional terminal logging and formatting for Deno with 256-color support, gradients, components, and framework adapters",
   "author": "Pedro M. Dominguez",
   "license": "MIT",
