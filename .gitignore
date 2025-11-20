@@ -1,0 +1,56 @@
+# Logs
+logs/
+*.log
+examples/logs/
+*.json.log
+
+# Coverage reports
+coverage/
+.coverage/
+cov_profile/
+lcov.info
+
+# Test output
+.test-results/
+test-results/
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+.tmp/
+temp/
+
+# npm (if you ever mix ecosystems)
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Build artifacts (if any)
+dist/
+build/
+out/
+
+# Environment files with secrets
+.env
+.env.local
+.env.*.local
