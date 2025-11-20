@@ -110,7 +110,6 @@ class DataPipeline {
     const progress = new ProgressBar({
       total: recordCount,
       width: 50,
-      label: "Extracting records",
       showValue: true,
       colorize: true,
     });
@@ -152,7 +151,6 @@ class DataPipeline {
     const progress = new ProgressBar({
       total: records.length,
       width: 50,
-      label: "Transforming records",
       showValue: true,
       colorize: true,
     });
@@ -233,7 +231,6 @@ class DataPipeline {
     const progress = new ProgressBar({
       total: records.length,
       width: 50,
-      label: "Loading records",
       showValue: true,
       colorize: true,
     });

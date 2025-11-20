@@ -158,9 +158,7 @@ export class ChartRenderer {
       const slice = slices[sliceIndex];
 
       console.log(
-        `${slice} ${Formatter.pad(item.label, 20)} ${
-          percentage.toFixed(1)
-        }% (${item.value})`,
+        `${slice} ${Formatter.pad(item.label, 20)} ${percentage.toFixed(1)}% (${item.value})`,
       );
     });
   }

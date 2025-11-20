@@ -104,10 +104,26 @@ console.log("\n");
 ConsoleStyler.logSection("ðŸš€ Productivity Pipeline", "brightGreen");
 
 const phases = [
-  { name: "Data Health & Taxonomy", tip: "Unify schemas & dedupe sources", color: [58, 123, 213] as [number, number, number] },
-  { name: "Prompt / Contract Design", tip: "Pair SLM controls with LLM creativity", color: [123, 213, 58] as [number, number, number] },
-  { name: "Evaluation Harness", tip: "Automate regression suites & red teaming", color: [255, 170, 51] as [number, number, number] },
-  { name: "Deployment & Feedback", tip: "Ship dashboards + human-in-loop hooks", color: [255, 95, 109] as [number, number, number] },
+  {
+    name: "Data Health & Taxonomy",
+    tip: "Unify schemas & dedupe sources",
+    color: [58, 123, 213] as [number, number, number],
+  },
+  {
+    name: "Prompt / Contract Design",
+    tip: "Pair SLM controls with LLM creativity",
+    color: [123, 213, 58] as [number, number, number],
+  },
+  {
+    name: "Evaluation Harness",
+    tip: "Automate regression suites & red teaming",
+    color: [255, 170, 51] as [number, number, number],
+  },
+  {
+    name: "Deployment & Feedback",
+    tip: "Ship dashboards + human-in-loop hooks",
+    color: [255, 95, 109] as [number, number, number],
+  },
 ];
 
 const pipelineBar = new ProgressBar({
@@ -212,4 +228,10 @@ ConsoleStyler.logRGB("Teach teams a graded response pattern.", 165, 177, 194, "â
   ritual: "SLM -> LLM -> Human escalation ladder",
 });
 
-console.log("\n" + ColorSystem.colorize("Guide complete. Share the dashboard recording with your AI guild.", ColorSystem.codes.bright));
+console.log(
+  "\n" +
+    ColorSystem.colorize(
+      "Guide complete. Share the dashboard recording with your AI guild.",
+      ColorSystem.codes.bright,
+    ),
+);

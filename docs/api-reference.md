@@ -3,6 +3,7 @@
 Complete API documentation for GenesisTrace.
 
 ## Table of Contents
+
 - [Core Classes](#core-classes)
 - [Visual Components](#visual-components)
 - [Interfaces](#interfaces)
@@ -47,26 +48,32 @@ class Logger {
 ```
 
 **Constructor Parameters:**
+
 - `config` (optional): Logger configuration (see `StylerConfig`)
 - `namespace` (optional): Namespace for child logger
 
 **Log Methods:**
 All log methods accept:
+
 - `message` (required): The log message string
 - `metadata` (optional): Structured data to attach to the log entry
 
 **Child Loggers:**
+
 - `child(namespace, overrides?)`: Create a namespaced child logger
   - `namespace`: String identifier (e.g., "api", "database")
   - `overrides`: Optional config overrides for this child
 
 **Plugin Management:**
+
 - `use(plugin)`: Register a plugin at runtime
 
 **Configuration:**
+
 - `configure(config)`: Update logger configuration after creation
 
 **History:**
+
 - `getHistory(filter?)`: Retrieve log history with optional filtering
   - `filter.level`: Filter by log level
   - `filter.since`: Filter by timestamp (Date)
@@ -74,6 +81,7 @@ All log methods accept:
 - `exportLogs(filepath)`: Export history to JSON file
 
 **Lifecycle:**
+
 - `shutdown()`: Gracefully shutdown logger and all plugins
 
 ---
@@ -102,6 +110,7 @@ class ConfigBuilder {
 ```
 
 **Methods:**
+
 - `colorMode(mode)`: Set color mode ("auto", "enabled", "disabled")
 - `emojiMode(mode)`: Set emoji mode ("auto", "enabled", "disabled")
 - `unicodeMode(mode)`: Set unicode mode ("auto", "enabled", "disabled")
@@ -118,6 +127,7 @@ class ConfigBuilder {
 - `build()`: Build and return the configuration
 
 **Example:**
+
 ```typescript
 const config = new ConfigBuilder()
   .theme(neonTheme)
@@ -202,7 +212,7 @@ class ColorSystem {
   static createGradient(
     start: [number, number, number],
     end: [number, number, number],
-    steps: number
+    steps: number,
   ): string[];
 
   // Terminal detection
@@ -211,6 +221,7 @@ class ColorSystem {
 ```
 
 **Color Methods:**
+
 - `rgb(r, g, b)`: Create 24-bit RGB foreground color (0-255 per channel)
 - `rgbBg(r, g, b)`: Create 24-bit RGB background color
 - `hexToRgb(hex)`: Convert hex color to RGB foreground (e.g., "#FF6B35")
@@ -219,6 +230,7 @@ class ColorSystem {
 - `bgColor256(code)`: Use 256-color palette for background
 
 **Gradient Methods:**
+
 - `createGradient(start, end, steps)`: Create color gradient
   - `start`: Starting RGB color [r, g, b]
   - `end`: Ending RGB color [r, g, b]
@@ -226,6 +238,7 @@ class ColorSystem {
   - Returns: Array of ANSI color codes
 
 **Detection:**
+
 - `detectColorSupport()`: Detect terminal color capabilities
   - Returns: "none", "basic" (16 colors), "256", or "truecolor"
 
@@ -247,6 +260,7 @@ class Formatter {
 ```
 
 **Methods:**
+
 - `bytes(bytes, decimals?)`: Format bytes with units (KB, MB, GB)
   - Example: `bytes(1234567)` → "1.18 MB"
 - `duration(ms)`: Format milliseconds as human-readable duration
@@ -275,12 +289,13 @@ class ConsoleStyler {
     path: string,
     status: number,
     duration: number,
-    size?: number
+    size?: number,
   ): void;
 }
 ```
 
 **Methods:**
+
 - `renderBanner(options)`: Render enterprise-grade startup banner
 - `logSection(title, colorName?, style?)`: Log section header
 - `logRequest(method, path, status, duration, size?)`: Log HTTP request
@@ -299,6 +314,7 @@ class TableRenderer {
 ```
 
 **Types:**
+
 ```typescript
 interface TableColumn {
   key: string;
@@ -326,6 +342,7 @@ class BoxRenderer {
 ```
 
 **Types:**
+
 ```typescript
 interface BoxOptions {
   style?: "single" | "double" | "rounded" | "bold";
@@ -350,6 +367,7 @@ class ProgressBar {
 ```
 
 **Types:**
+
 ```typescript
 interface ProgressBarOptions {
   total: number;
@@ -380,6 +398,7 @@ class Spinner {
 ```
 
 **Types:**
+
 ```typescript
 interface SpinnerOptions {
   message?: string;
@@ -398,6 +417,7 @@ class ChartRenderer {
 ```
 
 **Types:**
+
 ```typescript
 interface ChartData {
   label: string;
@@ -425,6 +445,7 @@ class BannerRenderer {
 ```
 
 **Types:**
+
 ```typescript
 interface BannerOptions {
   title: string;
@@ -448,6 +469,7 @@ class InteractivePrompts {
 ```
 
 **Methods:**
+
 - `input(prompt, defaultValue?)`: Text input prompt
 - `confirm(prompt, defaultValue?)`: Yes/no confirmation
 - `select(prompt, options)`: Selection menu
@@ -473,13 +495,14 @@ interface ILogger {
     path: string,
     status: number,
     duration: number,
-    size?: number
+    size?: number,
   ): void;
   logSection(title: string, colorName?: string, style?: string): void;
 }
 ```
 
 **Implementations:**
+
 - `ConsoleStylerLogger`: Production implementation
 - `defaultLogger`: Singleton instance
 
@@ -556,6 +579,7 @@ type LogLevel = "debug" | "info" | "success" | "warning" | "error" | "critical";
 ```
 
 **Hierarchy** (from lowest to highest priority):
+
 1. `debug` - Detailed debugging information
 2. `info` - General informational messages
 3. `success` - Successful operation completion
@@ -641,6 +665,7 @@ class TerminalDetector {
 ```
 
 **Methods:**
+
 - `detectColorSupport()`: Detect color capabilities
 - `supportsUnicode()`: Check if terminal supports Unicode
 - `supportsEmoji()`: Check if terminal supports emoji

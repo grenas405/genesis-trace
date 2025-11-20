@@ -111,7 +111,9 @@ async function retryWithBackoff<T>(
     }
   }
 
-  throw new Error(`${operationName} failed after ${options.maxAttempts} attempts: ${lastError?.message}`);
+  throw new Error(
+    `${operationName} failed after ${options.maxAttempts} attempts: ${lastError?.message}`,
+  );
 }
 
 // ============================================================================
@@ -234,7 +236,9 @@ class UnreliableService {
 // ============================================================================
 
 async function demonstrateRetryLogic(logger: Logger) {
-  console.log(ColorSystem.colorize("\n1. RETRY WITH EXPONENTIAL BACKOFF", ColorSystem.codes.bright));
+  console.log(
+    ColorSystem.colorize("\n1. RETRY WITH EXPONENTIAL BACKOFF", ColorSystem.codes.bright),
+  );
   console.log("");
 
   const service = new UnreliableService();
@@ -281,7 +285,6 @@ async function demonstrateCircuitBreaker(logger: Logger) {
   const progress = new ProgressBar({
     total: 10,
     width: 50,
-    label: "API calls",
     showValue: true,
   });
 
@@ -404,7 +407,6 @@ async function demonstrateErrorAggregation(logger: Logger) {
   const progress = new ProgressBar({
     total: 20,
     width: 50,
-    label: "Processing items",
     showValue: true,
   });
 

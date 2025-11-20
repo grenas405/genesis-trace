@@ -7,7 +7,7 @@
  * No external dependencies required!
  */
 
-import { Logger, ConfigBuilder } from "../mod.ts";
+import { ConfigBuilder, Logger } from "../mod.ts";
 import { TableRenderer } from "../components/tables.ts";
 import { BoxRenderer } from "../components/boxes.ts";
 import { ProgressBar, Spinner } from "../components/progress.ts";
@@ -15,7 +15,7 @@ import { BannerRenderer } from "../components/banners.ts";
 import { ChartRenderer } from "../components/charts.ts";
 import { ColorSystem } from "../core/colors.ts";
 import { Formatter } from "../core/formatter.ts";
-import { defaultTheme, neonTheme, draculaTheme } from "../themes/mod.ts";
+import { defaultTheme, draculaTheme, neonTheme } from "../themes/mod.ts";
 
 console.clear();
 console.log("\n");
@@ -350,14 +350,10 @@ console.log(
   `${ColorSystem.hexToRgb("#FF6B35")}Custom brand color from hex${ColorSystem.codes.reset}`,
 );
 console.log(
-  `${
-    ColorSystem.rgb(100, 200, 255)
-  }Custom color from RGB values${ColorSystem.codes.reset}`,
+  `${ColorSystem.rgb(100, 200, 255)}Custom color from RGB values${ColorSystem.codes.reset}`,
 );
 console.log(
-  `${
-    ColorSystem.hexToBgRgb("#1DA1F2")
-  }Text with custom background color${ColorSystem.codes.reset}`,
+  `${ColorSystem.hexToBgRgb("#1DA1F2")}Text with custom background color${ColorSystem.codes.reset}`,
 );
 
 console.log("\n");

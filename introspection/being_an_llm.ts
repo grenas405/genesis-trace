@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run --allow-write
 
 import { BoxRenderer, ColorSystem, ConfigBuilder, Logger, neonTheme } from "../mod.ts";
+import process from "node:process";
 
 const logger = new Logger(
   new ConfigBuilder()

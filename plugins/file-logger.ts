@@ -58,9 +58,7 @@ export class FileLoggerPlugin implements Plugin {
       );
       const level = entry.level.toUpperCase().padEnd(8);
       const message = entry.message;
-      const metadata = entry.metadata
-        ? ` ${JSON.stringify(entry.metadata)}`
-        : "";
+      const metadata = entry.metadata ? ` ${JSON.stringify(entry.metadata)}` : "";
       content = `[${timestamp}] ${level} ${message}${metadata}\n`;
     }
 

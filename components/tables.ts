@@ -75,9 +75,7 @@ export class TableRenderer {
       const label = labels[i];
       const values = processedData.map((row) => {
         const value = row[key];
-        const formatted = formatters[key]
-          ? formatters[key](value)
-          : String(value ?? "");
+        const formatted = formatters[key] ? formatters[key](value) : String(value ?? "");
         return ColorSystem.visibleLength(formatted);
       });
       return Math.min(
@@ -118,9 +116,7 @@ export class TableRenderer {
     const line = widths.map((w) => "─".repeat(w)).join("─┼─");
     const separator = `├─${line}─┤`;
     console.log(
-      colorize
-        ? ColorSystem.colorize(separator, ColorSystem.codes.dim)
-        : separator,
+      colorize ? ColorSystem.colorize(separator, ColorSystem.codes.dim) : separator,
     );
   }
 
@@ -129,15 +125,11 @@ export class TableRenderer {
     widths: number[],
     colorize: boolean,
   ): void {
-    const cells = labels.map((label, i) =>
-      Formatter.tableCell(label, widths[i], "center")
-    );
+    const cells = labels.map((label, i) => Formatter.tableCell(label, widths[i], "center"));
     const row = cells.join(" │ ");
     const fullRow = `│ ${row} │`;
     console.log(
-      colorize
-        ? ColorSystem.colorize(fullRow, ColorSystem.codes.bright)
-        : fullRow,
+      colorize ? ColorSystem.colorize(fullRow, ColorSystem.codes.bright) : fullRow,
     );
   }
 
@@ -151,9 +143,7 @@ export class TableRenderer {
   ): void {
     const cells = keys.map((key, i) => {
       const value = row[key];
-      const formatted = formatters[key]
-        ? formatters[key](value)
-        : String(value ?? "");
+      const formatted = formatters[key] ? formatters[key](value) : String(value ?? "");
       return Formatter.tableCell(formatted, widths[i]);
     });
 
@@ -185,12 +175,8 @@ export class TableRenderer {
       const label = Formatter.pad(item.label, labelWidth);
       const value = Formatter.pad(String(item.value), valueWidth);
 
-      const labelColored = colorize
-        ? ColorSystem.colorize(label, ColorSystem.codes.cyan)
-        : label;
-      const valueColored = colorize
-        ? ColorSystem.colorize(value, ColorSystem.codes.bright)
-        : value;
+      const labelColored = colorize ? ColorSystem.colorize(label, ColorSystem.codes.cyan) : label;
+      const valueColored = colorize ? ColorSystem.colorize(value, ColorSystem.codes.bright) : value;
 
       console.log(`│ ${labelColored} │ ${valueColored} │`);
     });

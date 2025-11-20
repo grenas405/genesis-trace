@@ -5,7 +5,9 @@ This directory contains comprehensive examples demonstrating various features an
 ## Quick Start Examples
 
 ### 🎯 [basic.ts](./basic.ts)
+
 **Quick introduction to core features**
+
 - Basic logging (debug, info, success, warning, error)
 - Tables and boxes
 - Progress bars and spinners
@@ -14,7 +16,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-read --allow-write --allow-env basic.ts`
 
 ### 📚 [comprehensive.ts](./comprehensive.ts)
+
 **Complete feature showcase**
+
 - All logging levels with metadata
 - Child loggers and namespaces
 - Custom configuration and themes
@@ -28,7 +32,9 @@ This directory contains comprehensive examples demonstrating various features an
 ## Real-World Application Examples
 
 ### 🚀 [mission-control.ts](./mission-control.ts)
+
 **Orbital mission control simulation**
+
 - Advanced logger configuration with plugins
 - Tables, charts, and formatted metrics
 - Progress indicators for launch sequences
@@ -38,7 +44,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read --allow-write mission-control.ts`
 
 ### 📊 [real-time-dashboard.ts](./real-time-dashboard.ts) ⭐ NEW
+
 **Live-updating metrics dashboard**
+
 - Real-time data updates every 2 seconds
 - Dynamic tables, charts, and progress bars
 - Color-coded status indicators
@@ -48,7 +56,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read real-time-dashboard.ts`
 
 ### 🎮 [cli-tool.ts](./cli-tool.ts) ⭐ NEW
+
 **Interactive CLI application (User Management System)**
+
 - Menu-driven interface
 - Interactive prompts (input, select, confirm)
 - CRUD operations with validation
@@ -58,7 +68,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read --allow-write cli-tool.ts`
 
 ### 🚨 [incident-response.ts](./incident-response.ts)
+
 **Error tracking and alerting system**
+
 - Real-time incident monitoring
 - Error aggregation and categorization
 - Alert notifications
@@ -70,7 +82,9 @@ This directory contains comprehensive examples demonstrating various features an
 ## Pipeline & Processing Examples
 
 ### 🔄 [data-pipeline.ts](./data-pipeline.ts) ⭐ NEW
+
 **ETL data processing pipeline**
+
 - Multi-stage pipeline (Extract, Transform, Load)
 - Progress tracking for each stage
 - Batch processing with retry logic
@@ -80,7 +94,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read --allow-write data-pipeline.ts`
 
 ### 🏗️ [build-pipeline.ts](./build-pipeline.ts) ⭐ NEW
+
 **CI/CD build system simulation**
+
 - Multi-stage build process
 - Job dependency management
 - Parallel execution simulation
@@ -92,7 +108,9 @@ This directory contains comprehensive examples demonstrating various features an
 ## Visual & Animation Examples
 
 ### ⚡ [animated-lab.ts](./animated-lab.ts)
+
 **Animation capabilities showcase**
+
 - Sequential spinner playlists
 - Multi-stage progress bars
 - Custom wave animations
@@ -102,7 +120,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read --allow-write animated-lab.ts`
 
 ### 🌈 [truecolor-showcase.ts](./truecolor-showcase.ts)
+
 **16.7M color rendering**
+
 - Gradient generation and rendering
 - Hex and RGB color usage
 - Heatmap visualization
@@ -112,7 +132,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env truecolor-showcase.ts`
 
 ### 🎨 [theme-comparison.ts](./theme-comparison.ts) ⭐ NEW
+
 **Visual theme comparison guide**
+
 - Side-by-side theme comparison
 - All built-in themes (default, neon, dracula, minimal)
 - Custom theme examples
@@ -122,7 +144,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env theme-comparison.ts`
 
 ### 🎉 [fiesta-celebration.ts](./fiesta-celebration.ts)
+
 **Festive animation demo**
+
 - Colorful celebrations and animations
 - Party-themed visual effects
 - Creative use of colors and symbols
@@ -130,7 +154,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env fiesta-celebration.ts`
 
 ### 🎆 [fourth-of-july.ts](./fourth-of-july.ts)
+
 **Holiday-themed showcase**
+
 - Patriotic color schemes
 - Firework animations
 - Themed banners and effects
@@ -140,7 +166,9 @@ This directory contains comprehensive examples demonstrating various features an
 ## Advanced Patterns & Techniques
 
 ### 🔌 [custom-plugin.ts](./custom-plugin.ts) ⭐ NEW
+
 **Plugin development guide**
+
 - Creating custom logger plugins
 - Plugin lifecycle hooks (onInit, onLog, onShutdown)
 - Metrics collection plugin
@@ -151,7 +179,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read --allow-write --allow-net custom-plugin.ts`
 
 ### 🛡️ [error-handling.ts](./error-handling.ts) ⭐ NEW
+
 **Error handling & recovery patterns**
+
 - Retry logic with exponential backoff
 - Circuit breaker pattern
 - Graceful degradation with fallbacks
@@ -161,7 +191,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read --allow-write error-handling.ts`
 
 ### 🌐 [framework-adapters.ts](./framework-adapters.ts)
+
 **Framework middleware integration**
+
 - Oak middleware example
 - Hono middleware example
 - Express middleware example
@@ -172,7 +204,9 @@ This directory contains comprehensive examples demonstrating various features an
 ## Specialized Examples
 
 ### 🚀 [denogenesis-banner.ts](./denogenesis-banner.ts)
+
 **ASCII art banner showcase**
+
 - Enterprise-grade ASCII banners
 - Application startup screens
 - DenoGenesis-style presentations
@@ -181,7 +215,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env --allow-read denogenesis-banner.ts`
 
 ### 💭 [great-minds-loop.ts](./great-minds-loop.ts)
+
 **Inspirational quotes with styling**
+
 - Animated quote display
 - Creative text formatting
 - Timed presentations
@@ -189,7 +225,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env great-minds-loop.ts`
 
 ### 🧠 [slm-llm-productivity-guide.ts](./slm-llm-productivity-guide.ts)
+
 **AI/LLM productivity tips**
+
 - Informative content presentation
 - Multi-section layouts
 - Educational formatting
@@ -197,7 +235,9 @@ This directory contains comprehensive examples demonstrating various features an
 **Run:** `deno run --allow-env slm-llm-productivity-guide.ts`
 
 ### 📜 [unix-philosophy-2.ts](./unix-philosophy-2.ts)
+
 **Unix philosophy presentation**
+
 - Technical philosophy showcase
 - Educational content display
 - Structured information layout
@@ -207,6 +247,7 @@ This directory contains comprehensive examples demonstrating various features an
 ## Example Categories
 
 ### By Use Case
+
 - **Learning the Basics**: basic.ts, comprehensive.ts
 - **CLI Applications**: cli-tool.ts, framework-adapters.ts
 - **Dashboards & Monitoring**: real-time-dashboard.ts, mission-control.ts
@@ -216,11 +257,13 @@ This directory contains comprehensive examples demonstrating various features an
 - **Customization**: theme-comparison.ts, custom-plugin.ts
 
 ### By Complexity
+
 - **Beginner**: basic.ts, theme-comparison.ts
 - **Intermediate**: cli-tool.ts, mission-control.ts, animated-lab.ts
 - **Advanced**: data-pipeline.ts, build-pipeline.ts, custom-plugin.ts, error-handling.ts
 
 ### By Feature Focus
+
 - **Logging**: comprehensive.ts, incident-response.ts
 - **Progress Indicators**: data-pipeline.ts, build-pipeline.ts
 - **Interactive Prompts**: cli-tool.ts
@@ -231,12 +274,14 @@ This directory contains comprehensive examples demonstrating various features an
 ## Running Examples
 
 All examples can be run directly with Deno. Most examples require these permissions:
+
 - `--allow-env` - Read environment variables (for color detection)
 - `--allow-read` - Read files (for some examples)
 - `--allow-write` - Write log files
 - `--allow-net` - Network access (for framework examples)
 
 ### Quick Run
+
 ```bash
 # Run any example
 deno run --allow-env --allow-read --allow-write examples/example-name.ts
@@ -269,6 +314,7 @@ deno run -A examples/example-name.ts
 ## Contributing Examples
 
 Want to add your own example? Examples should:
+
 - Demonstrate specific features or use cases
 - Include clear comments and documentation
 - Follow consistent styling and patterns

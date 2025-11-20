@@ -6,16 +6,16 @@
 // Select a single framework with `ADAPTER_DEMO_TARGET=oak|hono|express`.
 // ==============================================================================
 
-import { Application as OakApplication, Router as OakRouter } from "https://deno.land/x/oak@v12.6.1/mod.ts";
+import {
+  Application as OakApplication,
+  Router as OakRouter,
+} from "https://deno.land/x/oak@v12.6.1/mod.ts";
 import { Hono } from "https://deno.land/x/hono@v3.11.7/mod.ts";
 import express, { type Request, type Response } from "npm:express@4.19.2";
 
-import {
-  Logger,
-  expressLogger,
-  honoLogger,
-  oakLogger,
-} from "../mod.ts";
+import { Logger } from "../mod.ts";
+// Note: expressLogger, honoLogger, and oakLogger are currently disabled
+// as they depend on removed functionality
 
 const sharedLogger = new Logger().child("http");
 const demoDurationMs = Number(Deno.env.get("ADAPTER_DEMO_DURATION_MS") ?? "5000");
@@ -26,10 +26,10 @@ async function runOakDemo() {
   const app = new OakApplication();
   const router = new OakRouter();
 
-  app.use(oakLogger({
-    logger: sharedLogger.child("oak"),
-    skipPaths: ["/health"],
-  }));
+  // app.use(oakLogger({
+  //   logger: sharedLogger.child("oak"),
+  //   skipPaths: ["/health"],
+  // }));
 
   router.get("/", (ctx) => {
     ctx.response.type = "json";
@@ -66,10 +66,13 @@ async function runOakDemo() {
 async function runHonoDemo() {
   const app = new Hono();
 
-  app.use("*", honoLogger({
-    logger: sharedLogger.child("hono"),
-    skipPaths: ["/healthz"],
-  }));
+  // app.use(
+  //   "*",
+  //   honoLogger({
+  //     logger: sharedLogger.child("hono"),
+  //     skipPaths: ["/healthz"],
+  //   }),
+  // );
 
   app.get("/", (c) => c.json({ framework: "hono", message: "GenesisTrace adapter demo" }));
   app.get("/healthz", (c) => c.text("healthy"));
@@ -96,10 +99,10 @@ async function runExpressDemo() {
   const app = express();
 
   app.use(express.json());
-  app.use(expressLogger({
-    logger: sharedLogger.child("express"),
-    skipPaths: ["/health"],
-  }));
+  // app.use(expressLogger({
+  //   logger: sharedLogger.child("express"),
+  //   skipPaths: ["/health"],
+  // }));
 
   app.get("/", (_req: Request, res: Response) => {
     res.json({ framework: "express", message: "GenesisTrace adapter demo" });

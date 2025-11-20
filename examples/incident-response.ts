@@ -20,10 +20,10 @@ import {
   Formatter,
   JsonLoggerPlugin,
   Logger,
+  neonTheme,
   ProgressBar,
   Spinner,
   TableRenderer,
-  neonTheme,
 } from "../mod.ts";
 
 console.clear();
@@ -69,7 +69,10 @@ incidentLogger.critical("Gateway latency spiked above SLA", {
 const combatLogger = incidentLogger.child("combat-room");
 const commsLogger = incidentLogger.child("comms");
 
-combatLogger.error("Primary EU-West cluster unreachable", { region: "eu-west-1", cause: "unknown" });
+combatLogger.error("Primary EU-West cluster unreachable", {
+  region: "eu-west-1",
+  cause: "unknown",
+});
 commsLogger.info("Exec leadership notified", { channel: "#incident-bridge", bridge: "zoom" });
 incidentLogger.debug("JsonLogger plugin armed", { destination: "./logs/incident-war-room.json" });
 console.log("\n");
@@ -143,7 +146,9 @@ BoxRenderer.render(
     `• ${Formatter.percentage(0.27)} of payments auto-retried`,
     `• ${Formatter.number(9)} enterprise merchants opened tickets`,
     "",
-    `${ColorSystem.codes.brightRed}SLA breach imminent in ${Formatter.duration(8 * 60 * 1000)}${ColorSystem.codes.reset}`,
+    `${ColorSystem.codes.brightRed}SLA breach imminent in ${
+      Formatter.duration(8 * 60 * 1000)
+    }${ColorSystem.codes.reset}`,
   ],
   { style: "double", color: ColorSystem.codes.brightYellow, padding: 1, title: "Signal Boost" },
 );
@@ -161,9 +166,11 @@ const failureSeries = [0.02, 0.04, 0.05, 0.09, 0.12, 0.21, 0.33, 0.41, 0.32, 0.2
 console.log(`${ColorSystem.codes.brightBlue}P99 Latency Trend (ms):${ColorSystem.codes.reset}`);
 ChartRenderer.lineChart(latencySeries, { colorize: true });
 
-console.log(`${ColorSystem.codes.brightBlue}\nError Probability Sparkline:${ColorSystem.codes.reset} ${
-  ChartRenderer.sparkline(failureSeries.map((value) => value * 100))
-}`);
+console.log(
+  `${ColorSystem.codes.brightBlue}\nError Probability Sparkline:${ColorSystem.codes.reset} ${
+    ChartRenderer.sparkline(failureSeries.map((value) => value * 100))
+  }`,
+);
 console.log("\n");
 
 // =============================================================================
@@ -249,7 +256,10 @@ TableRenderer.renderKeyValue(
     { label: "Critical Signals", value: Formatter.number(criticalHistory.length) },
     { label: "Errors Logged", value: Formatter.number(errorHistory.length) },
     { label: "Captured Playbook", value: "bgp_route_leak.md" },
-    { label: "Incident State", value: `${ColorSystem.codes.brightGreen}Monitoring${ColorSystem.codes.reset}` },
+    {
+      label: "Incident State",
+      value: `${ColorSystem.codes.brightGreen}Monitoring${ColorSystem.codes.reset}`,
+    },
   ],
   { colorize: true },
 );

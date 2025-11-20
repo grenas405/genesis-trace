@@ -80,8 +80,7 @@ const bellLabsMidnight: Theme = {
 BannerRenderer.render({
   title: "UNIX PHILOSOPHY 2.0",
   subtitle: "Bell Labs Continuum • Plan 9 Reverie",
-  description:
-    "Dark blue research briefing on composability, namespaces, and modern runtimes.",
+  description: "Dark blue research briefing on composability, namespaces, and modern runtimes.",
   version: "midnight-draft",
   author: "GenesisTrace Examples",
   width: 92,

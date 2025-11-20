@@ -53,7 +53,10 @@ export class SlackLoggerPlugin implements Plugin {
         body: JSON.stringify(payload),
       });
     } catch (error) {
-      console.error("Failed to send log to Slack:", error instanceof Error ? error.message : String(error));
+      console.error(
+        "Failed to send log to Slack:",
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 

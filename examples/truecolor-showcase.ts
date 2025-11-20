@@ -9,13 +9,7 @@
  * Run with: `deno run --allow-env examples/truecolor-showcase.ts`
  */
 
-import {
-  BannerRenderer,
-  BoxRenderer,
-  ColorSystem,
-  ConsoleStyler,
-  Formatter,
-} from "../mod.ts";
+import { BannerRenderer, BoxRenderer, ColorSystem, ConsoleStyler, Formatter } from "../mod.ts";
 
 type RGB = [number, number, number];
 
@@ -66,7 +60,9 @@ console.log("\n");
 
 const hero = gradientText("🌈 TRUECOLOR EXPERIENCE LAB", [255, 94, 98], [49, 213, 220]);
 console.log(hero);
-console.log(gradientText("Gradients • Presentations • Proofs of Concept\n", [49, 213, 220], [255, 247, 174]));
+console.log(
+  gradientText("Gradients • Presentations • Proofs of Concept\n", [49, 213, 220], [255, 247, 174]),
+);
 
 BannerRenderer.render({
   title: "GenesisTrace Truecolor Showcase",
@@ -165,8 +161,15 @@ renderHeatmap(
 console.log("");
 
 ConsoleStyler.logSection("📡 Logistics Pulse", "brightBlue");
-ConsoleStyler.logRGB("Palette registry synced", 72, 219, 251, "✔", { gradientCount: palettes.length });
+ConsoleStyler.logRGB("Palette registry synced", 72, 219, 251, "✔", {
+  gradientCount: palettes.length,
+});
 ConsoleStyler.logRGB("Stage lighting recalibrated", 255, 94, 98, "★", { fixtures: 12 });
-ConsoleStyler.logRGB("Heatmap proof exported", 255, 159, 67, "⚙", { tiles: 18, format: "PNG + GIF" });
+ConsoleStyler.logRGB("Heatmap proof exported", 255, 159, 67, "⚙", {
+  tiles: 18,
+  format: "PNG + GIF",
+});
 
-console.log("\n" + gradientText("✓ Truecolor explorations complete", [58, 123, 213], [58, 213, 158]));
+console.log(
+  "\n" + gradientText("✓ Truecolor explorations complete", [58, 123, 213], [58, 213, 158]),
+);

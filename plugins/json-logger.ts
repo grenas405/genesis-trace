@@ -61,9 +61,7 @@ export class JsonLoggerPlugin implements Plugin {
       logs: this.logs,
     };
 
-    const content = this.options.pretty
-      ? JSON.stringify(data, null, 2)
-      : JSON.stringify(data);
+    const content = this.options.pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data);
 
     await Deno.writeTextFile(this.options.filepath, content);
   }

@@ -8,63 +8,27 @@ A comprehensive, production-grade terminal logging and UI library for Deno. **Ze
 
 ## Quick Reference
 
-| Task | Code |
-|------|------|
-| **Basic logging** | `logger.info("message", { data })` |
-| **Child logger** | `logger.child("namespace")` |
-| **Configure logger** | `new ConfigBuilder().theme(neonTheme).logLevel("info").build()` |
-| **Progress bar** | `new ProgressBar({ total: 100 }).update(50)` |
-| **Spinner** | `new Spinner({ message: "Loading..." }).start()` |
-| **Table** | `TableRenderer.render(data)` |
-| **Box** | `BoxRenderer.render("Message", { style: "double" })` |
-| **Colors** | `ColorSystem.rgb(255, 107, 53)` or `ColorSystem.hexToRgb("#FF6B35")` |
-| **Theme** | `new ConfigBuilder().theme(neonTheme).build()` |
-| **Plugin** | `.plugin(new FileLoggerPlugin({ filepath: "./logs/app.log" }))` |
-| **Shutdown** | `await logger.shutdown()` |
+| Task                 | Code                                                                 |
+| -------------------- | -------------------------------------------------------------------- |
+| **Basic logging**    | `logger.info("message", { data })`                                   |
+| **Child logger**     | `logger.child("namespace")`                                          |
+| **Configure logger** | `new ConfigBuilder().theme(neonTheme).logLevel("info").build()`      |
+| **Progress bar**     | `new ProgressBar({ total: 100 }).update(50)`                         |
+| **Spinner**          | `new Spinner({ message: "Loading..." }).start()`                     |
+| **Table**            | `TableRenderer.render(data)`                                         |
+| **Box**              | `BoxRenderer.render("Message", { style: "double" })`                 |
+| **Colors**           | `ColorSystem.rgb(255, 107, 53)` or `ColorSystem.hexToRgb("#FF6B35")` |
+| **Theme**            | `new ConfigBuilder().theme(neonTheme).build()`                       |
+| **Plugin**           | `.plugin(new FileLoggerPlugin({ filepath: "./logs/app.log" }))`      |
+| **Shutdown**         | `await logger.shutdown()`                                            |
 
 **📚 Detailed Documentation:**
+
 - [Color System](./docs/color-system.md) - RGB colors, gradients, terminal detection
 - [Theme System](./docs/themes.md) - Built-in themes, custom themes, theme registry
 - [Plugins](./docs/plugins.md) - Plugin architecture, built-in plugins, custom plugins
 - [Visual Components](./docs/visual-components.md) - Tables, boxes, progress bars, charts, prompts
 - [API Reference](./docs/api-reference.md) - Complete API documentation
-
-## Migration from v1.0.0
-
-**HTTP framework features have been moved to a separate library.**
-
-If you were using `HttpResponse`, `HttpValidation`, `HttpParsers`, or context helpers (`createContext`, `snapshotContext`, etc.), these are no longer part of GenesisTrace.
-
-### Migration Steps
-
-```typescript
-// ❌ Before (v1.0.0)
-import {
-  Logger,
-  HttpResponse,
-  HttpParsers,
-  HttpValidation,
-  createContext,
-} from "jsr:@pedromdominguez/genesis-trace";
-
-// ✅ After (v1.0.1+)
-// Logging stays in GenesisTrace
-import { Logger } from "jsr:@pedromdominguez/genesis-trace";
-
-// HTTP framework moved to separate package (if available)
-// import { HttpResponse, HttpParsers, HttpValidation } from "jsr:@pedromdominguez/deno-http-framework";
-```
-
-### What Changed
-
-- ✅ **Logging, themes, colors, visual components** - All still here, improved!
-- ✅ **Plugins, formatters, utilities** - No changes
-- ❌ **HTTP context, parsers, validation** - Moved to separate library
-- ❌ **Framework adapters (Oak, Hono, Express)** - Being updated for new architecture
-
-### Impact
-
-If you only use **logging and visual components**, no changes needed. Your code will work as-is.
 
 ## Table of Contents
 
@@ -82,6 +46,7 @@ If you only use **logging and visual components**, no changes needed. Your code 
 - [Contributing](#contributing)
 
 **📚 Extended Documentation:**
+
 - [Color System Documentation](./docs/color-system.md)
 - [Theme System Documentation](./docs/themes.md)
 - [Plugin Architecture Documentation](./docs/plugins.md)
@@ -96,22 +61,25 @@ Traditional Deno/Node.js projects need multiple packages for comprehensive termi
 
 ```typescript
 // Traditional approach (10+ dependencies)
-import pino from "pino";                    // Logging
-import chalk from "chalk";                   // Colors
-import ora from "ora";                       // Spinners
-import inquirer from "inquirer";            // Prompts
-import boxen from "boxen";                   // Boxes
-import gradient from "gradient-string";      // Gradients
+import pino from "pino"; // Logging
+import chalk from "chalk"; // Colors
+import ora from "ora"; // Spinners
+import inquirer from "inquirer"; // Prompts
+import boxen from "boxen"; // Boxes
+import gradient from "gradient-string"; // Gradients
 // ... plus their transitive dependencies = 50+ packages
 
 // GenesisTrace approach (0 dependencies)
 import {
-  Logger,                                   // Structured logging
-  Spinner, ProgressBar,                     // Progress indicators
-  InteractivePrompts,                       // User input
-  BoxRenderer, TableRenderer,               // UI components
-  ColorSystem,                              // 24-bit color
-  ConfigBuilder, neonTheme                  // Configuration
+  BoxRenderer,
+  ColorSystem, // 24-bit color
+  ConfigBuilder,
+  InteractivePrompts, // User input
+  Logger, // Structured logging
+  neonTheme, // Configuration
+  ProgressBar, // Progress indicators
+  Spinner,
+  TableRenderer, // UI components
 } from "jsr:@pedromdominguez/genesis-trace";
 ```
 
@@ -182,6 +150,7 @@ GenesisTrace enables you to build:
 GenesisTrace is organized into six core modules:
 
 ### 1. Core Logging (`core/`)
+
 - **Logger**: Main logging class with structured logging, child loggers, and history
 - **ConfigBuilder**: Fluent configuration builder for all logger settings
 - **ColorSystem**: Advanced color system with RGB, gradients, and terminal detection
@@ -189,6 +158,7 @@ GenesisTrace is organized into six core modules:
 - **ConsoleStyler**: High-level console output with sections and request logging
 
 ### 2. Visual Components (`components/`)
+
 - **TableRenderer**: Render data as ASCII tables with custom columns and formatting
 - **BoxRenderer**: Create styled message boxes with multiple border styles
 - **ProgressBar**: Visual progress tracking with percentage and labels
@@ -198,12 +168,14 @@ GenesisTrace is organized into six core modules:
 - **InteractivePrompts**: User input, confirmations, and selections
 
 ### 3. Theme System (`themes/`)
+
 - **5 Built-in Themes**: default, neon, dracula, minimal, red-alert
 - **Theme Interface**: Complete color palette, symbols, and box drawing characters
 - **Theme Registry**: Dynamic theme loading via `getTheme(name)`
 - **Custom Themes**: Easy to create and register your own themes
 
 ### 4. Plugin Architecture (`plugins/`)
+
 - **FileLoggerPlugin**: Write logs to file system
 - **JsonLoggerPlugin**: Output structured JSON logs
 - **RemoteLoggerPlugin**: Send logs to remote HTTP endpoints
@@ -211,11 +183,13 @@ GenesisTrace is organized into six core modules:
 - **Plugin Interface**: Lifecycle hooks (onInit, onLog, onShutdown)
 
 ### 5. Abstractions (`interfaces/`)
+
 - **ILogger**: Logging abstraction interface for dependency injection
 - **ConsoleStylerLogger**: ILogger implementation wrapping ConsoleStyler
 - **defaultLogger**: Singleton logger for quick use
 
 ### 6. Utilities (`utils/`)
+
 - **TerminalDetector**: Detect terminal capabilities and color support
 - **Format Helpers**: Re-exports of Formatter utilities for convenience
 - **ANSI**: Low-level ANSI escape code definitions
@@ -223,6 +197,7 @@ GenesisTrace is organized into six core modules:
 ## Features Overview
 
 ### Logging Features
+
 - ✅ **6 Log Levels**: debug, info, success, warning, error, critical
 - ✅ **Structured Metadata**: Attach arbitrary data to log entries
 - ✅ **Child Loggers**: Namespaced loggers with inheritance
@@ -231,6 +206,7 @@ GenesisTrace is organized into six core modules:
 - ✅ **Plugin System**: Extensible with custom destinations
 
 ### Visual Components
+
 - ✅ **Tables**: ASCII tables with custom columns, widths, and alignment
 - ✅ **Boxes**: Styled message boxes (single, double, rounded, bold borders)
 - ✅ **Progress Bars**: Configurable width, colors, and labels
@@ -240,6 +216,7 @@ GenesisTrace is organized into six core modules:
 - ✅ **Interactive Prompts**: Input, confirm, select
 
 ### Color System
+
 - ✅ **16 Colors**: Basic ANSI (universal compatibility)
 - ✅ **256 Colors**: Extended palette (modern terminals)
 - ✅ **16.7M Colors**: 24-bit RGB true color (latest terminals)
@@ -249,6 +226,7 @@ GenesisTrace is organized into six core modules:
 - ✅ **Semantic Colors**: Business-context color names
 
 ### Configuration
+
 - ✅ **Fluent Builder**: ConfigBuilder with chainable methods
 - ✅ **Mode Detection**: Auto, enabled, or disabled for colors/emoji/unicode
 - ✅ **Timestamp Formats**: Customizable date/time formatting
@@ -294,11 +272,11 @@ import { ConfigBuilder, Logger, neonTheme } from "jsr:@pedromdominguez/genesis-t
 
 const config = new ConfigBuilder()
   .theme(neonTheme)
-  .logLevel("info")                    // Filter out debug logs
+  .logLevel("info") // Filter out debug logs
   .timestampFormat("YYYY-MM-DD HH:mm:ss")
   .enableHistory(true)
   .maxHistorySize(500)
-  .colorMode("auto")                   // Auto-detect terminal capabilities
+  .colorMode("auto") // Auto-detect terminal capabilities
   .build();
 
 const logger = new Logger(config);
@@ -362,13 +340,13 @@ authLogger.info("User authenticated");
 Access and filter log history:
 
 ```typescript
-import { Logger, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
   new ConfigBuilder()
     .enableHistory(true)
     .maxHistorySize(1000)
-    .build()
+    .build(),
 );
 
 logger.info("Log message 1");
@@ -385,7 +363,7 @@ console.log(`Total errors: ${errors.length}`);
 
 // Filter by time range
 const recent = logger.getHistory({
-  since: new Date(Date.now() - 3600000) // Last hour
+  since: new Date(Date.now() - 3600000), // Last hour
 });
 
 // Export to file
@@ -404,23 +382,24 @@ import { ConfigBuilder, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 // Production: only info and above
 const prodLogger = new Logger(
-  new ConfigBuilder().logLevel("info").build()
+  new ConfigBuilder().logLevel("info").build(),
 );
 
 // Development: everything including debug
 const devLogger = new Logger(
-  new ConfigBuilder().logLevel("debug").build()
+  new ConfigBuilder().logLevel("debug").build(),
 );
 
 // Environment-based configuration
 const logger = new Logger(
   new ConfigBuilder()
     .logLevel(Deno.env.get("ENV") === "production" ? "info" : "debug")
-    .build()
+    .build(),
 );
 ```
 
 **Log Level Hierarchy** (from lowest to highest priority):
+
 1. `debug` - Detailed debugging information
 2. `info` - General informational messages
 3. `success` - Successful operation completion
@@ -437,7 +416,7 @@ GenesisTrace provides a sophisticated color system with 16-color, 256-color, and
 ### Quick Examples
 
 ```typescript
-import { ColorSystem, Logger, ConfigBuilder, neonTheme } from "jsr:@pedromdominguez/genesis-trace";
+import { ColorSystem, ConfigBuilder, Logger, neonTheme } from "jsr:@pedromdominguez/genesis-trace";
 
 // Use semantic colors
 const { codes } = ColorSystem;
@@ -456,7 +435,7 @@ const gradient = ColorSystem.createGradient([255, 0, 0], [0, 0, 255], 50);
 
 // Use themes
 const logger = new Logger(
-  new ConfigBuilder().theme(neonTheme).build()
+  new ConfigBuilder().theme(neonTheme).build(),
 );
 ```
 
@@ -471,6 +450,7 @@ const logger = new Logger(
 - **Custom Themes**: Easy to create and register
 
 **📚 Learn More:**
+
 - [Complete Color System Documentation](./docs/color-system.md)
 - [Theme System Documentation](./docs/themes.md)
 
@@ -531,10 +511,10 @@ BoxRenderer.render(
   ],
   {
     title: "System Information",
-    style: "double",  // single, double, rounded, bold
+    style: "double", // single, double, rounded, bold
     padding: 2,
     align: "left",
-  }
+  },
 );
 
 // Predefined message types with semantic colors
@@ -545,6 +525,7 @@ BoxRenderer.message("Error: Connection failed", "error");
 ```
 
 **Box Styles:**
+
 - `single`: Single-line border (default)
 - `double`: Double-line border
 - `rounded`: Rounded corners
@@ -569,7 +550,7 @@ const progress = new ProgressBar({
 
 for (let i = 0; i <= 100; i += 10) {
   progress.update(i);
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 200));
 }
 
 progress.complete("All files processed!");
@@ -584,16 +565,16 @@ import { Spinner } from "jsr:@pedromdominguez/genesis-trace";
 
 const spinner = new Spinner({
   message: "Loading data...",
-  style: "dots",  // dots, line, star, arrow, box, circle, etc.
+  style: "dots", // dots, line, star, arrow, box, circle, etc.
 });
 
 spinner.start();
 
 // Simulate async work
-await new Promise(resolve => setTimeout(resolve, 2000));
+await new Promise((resolve) => setTimeout(resolve, 2000));
 spinner.update("Processing data...");
 
-await new Promise(resolve => setTimeout(resolve, 1000));
+await new Promise((resolve) => setTimeout(resolve, 1000));
 
 // Success or failure
 spinner.succeed("Data loaded successfully!");
@@ -603,6 +584,7 @@ spinner.succeed("Data loaded successfully!");
 ```
 
 **Spinner Styles:**
+
 - `dots`: ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 - `line`: - \\ | /
 - `star`: ✶ ✸ ✹ ✺ ✹ ✷
@@ -627,8 +609,8 @@ const salesData = [
 ];
 
 ChartRenderer.barChart(salesData, {
-  width: 60,           // Max bar width
-  showValues: true,    // Show values at end of bars
+  width: 60, // Max bar width
+  showValues: true, // Show values at end of bars
   color: ColorSystem.codes.cyan,
   title: "Monthly Sales ($k)",
 });
@@ -646,7 +628,7 @@ BannerRenderer.render({
   subtitle: "Professional CLI Tool v2.0",
   version: "2.0.0",
   author: "Your Name",
-  style: "double",  // single, double, bold
+  style: "double", // single, double, bold
 });
 
 // Output:
@@ -671,7 +653,7 @@ ConsoleStyler.renderBanner({
   title: "DenoGenesis",
   version: "1.0.0",
   buildDate: "2024-01-15",
-  environment: "production",  // development, staging, testing, production
+  environment: "production", // development, staging, testing, production
   port: 8000,
   author: "Your Name",
   repository: "https://github.com/yourusername/yourapp",
@@ -680,8 +662,8 @@ ConsoleStyler.renderBanner({
   database: "PostgreSQL",
   ai: {
     enabled: true,
-    models: ["GPT-4", "Claude-3"]
-  }
+    models: ["GPT-4", "Claude-3"],
+  },
 });
 ```
 
@@ -695,14 +677,14 @@ import { InteractivePrompts } from "jsr:@pedromdominguez/genesis-trace";
 // Text input
 const name = await InteractivePrompts.input(
   "What is your name?",
-  "Anonymous"  // Default value
+  "Anonymous", // Default value
 );
 console.log(`Hello, ${name}!`);
 
 // Yes/no confirmation
 const confirmed = await InteractivePrompts.confirm(
   "Do you want to continue?",
-  true  // Default value
+  true, // Default value
 );
 
 if (confirmed) {
@@ -714,7 +696,7 @@ if (confirmed) {
 // Selection menu
 const choice = await InteractivePrompts.select(
   "Choose your deployment environment:",
-  ["Development", "Staging", "Production"]
+  ["Development", "Staging", "Production"],
 );
 console.log(`Deploying to: ${choice}`);
 ```
@@ -727,46 +709,46 @@ GenesisTrace includes a powerful theme system with 5 built-in professional theme
 
 ```typescript
 import {
-  Logger,
   ConfigBuilder,
-  neonTheme,
-  draculaTheme,
-  minimalTheme,
-  redAlertTheme,
   defaultTheme,
+  draculaTheme,
+  Logger,
+  minimalTheme,
+  neonTheme,
+  redAlertTheme,
 } from "jsr:@pedromdominguez/genesis-trace";
 
 // Use neon theme (high-contrast, vibrant)
 const neonLogger = new Logger(
-  new ConfigBuilder().theme(neonTheme).build()
+  new ConfigBuilder().theme(neonTheme).build(),
 );
 
 // Use dracula theme (popular dark theme)
 const draculaLogger = new Logger(
-  new ConfigBuilder().theme(draculaTheme).build()
+  new ConfigBuilder().theme(draculaTheme).build(),
 );
 
 // Use minimal theme (clean, minimal colors)
 const minimalLogger = new Logger(
-  new ConfigBuilder().theme(minimalTheme).build()
+  new ConfigBuilder().theme(minimalTheme).build(),
 );
 
 // Use red-alert theme (high-visibility red theme)
 const alertLogger = new Logger(
-  new ConfigBuilder().theme(redAlertTheme).build()
+  new ConfigBuilder().theme(redAlertTheme).build(),
 );
 ```
 
 ### Load Theme by Name
 
 ```typescript
-import { getTheme, Logger, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, getTheme, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 // Load from theme registry
 const theme = getTheme("neon");
 if (theme) {
   const logger = new Logger(
-    new ConfigBuilder().theme(theme).build()
+    new ConfigBuilder().theme(theme).build(),
   );
 }
 
@@ -785,30 +767,30 @@ interface Theme {
 
   // Color palette for log levels and UI
   colors: {
-    primary: string;      // Primary brand color
-    secondary: string;    // Secondary color
-    success: string;      // Success state (green)
-    warning: string;      // Warning state (yellow)
-    error: string;        // Error state (red)
-    info: string;         // Info state (cyan/blue)
-    debug: string;        // Debug state (gray)
-    critical: string;     // Critical state (bright red)
-    muted: string;        // Muted/dim text
-    accent: string;       // Accent/highlight color
+    primary: string; // Primary brand color
+    secondary: string; // Secondary color
+    success: string; // Success state (green)
+    warning: string; // Warning state (yellow)
+    error: string; // Error state (red)
+    info: string; // Info state (cyan/blue)
+    debug: string; // Debug state (gray)
+    critical: string; // Critical state (bright red)
+    muted: string; // Muted/dim text
+    accent: string; // Accent/highlight color
   };
 
   // Symbols for log levels and UI
   symbols: {
-    success: string;      // ✓ or ✔
-    error: string;        // ✗ or ✖
-    warning: string;      // ⚠ or !
-    info: string;         // ℹ or i
-    debug: string;        // 🔍 or •
-    critical: string;     // 🚨 or !!
-    bullet: string;       // • or -
-    arrow: string;        // → or >
-    check: string;        // ✓
-    cross: string;        // ✗
+    success: string; // ✓ or ✔
+    error: string; // ✗ or ✖
+    warning: string; // ⚠ or !
+    info: string; // ℹ or i
+    debug: string; // 🔍 or •
+    critical: string; // 🚨 or !!
+    bullet: string; // • or -
+    arrow: string; // → or >
+    check: string; // ✓
+    cross: string; // ✗
   };
 
   // Box drawing characters for tables and boxes
@@ -831,22 +813,22 @@ interface Theme {
 ### Creating Custom Themes
 
 ```typescript
-import { Theme, Logger, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, Logger, Theme } from "jsr:@pedromdominguez/genesis-trace";
 
 const myCustomTheme: Theme = {
   name: "my-custom-theme",
 
   colors: {
-    primary: "\x1b[38;2;255;107;53m",     // Orange (RGB)
-    secondary: "\x1b[38;2;100;200;255m",  // Sky blue
-    success: "\x1b[32m",                   // Green
-    warning: "\x1b[33m",                   // Yellow
-    error: "\x1b[31m",                     // Red
-    info: "\x1b[36m",                      // Cyan
-    debug: "\x1b[90m",                     // Gray
-    critical: "\x1b[91m",                  // Bright red
-    muted: "\x1b[2m",                      // Dim
-    accent: "\x1b[35m",                    // Magenta
+    primary: "\x1b[38;2;255;107;53m", // Orange (RGB)
+    secondary: "\x1b[38;2;100;200;255m", // Sky blue
+    success: "\x1b[32m", // Green
+    warning: "\x1b[33m", // Yellow
+    error: "\x1b[31m", // Red
+    info: "\x1b[36m", // Cyan
+    debug: "\x1b[90m", // Gray
+    critical: "\x1b[91m", // Bright red
+    muted: "\x1b[2m", // Dim
+    accent: "\x1b[35m", // Magenta
   },
 
   symbols: {
@@ -879,29 +861,34 @@ const myCustomTheme: Theme = {
 
 // Use custom theme
 const logger = new Logger(
-  new ConfigBuilder().theme(myCustomTheme).build()
+  new ConfigBuilder().theme(myCustomTheme).build(),
 );
 ```
 
 ### Built-in Theme Descriptions
 
 **default** - Balanced, professional colors for general use
+
 - Blue info, green success, yellow warning, red error
 - Standard Unicode symbols and box drawing
 
 **neon** - High-contrast, vibrant cyberpunk aesthetic
+
 - Electric cyan, bright magenta, neon green
 - Perfect for dark terminals and visibility
 
 **dracula** - Popular dark theme with purple accents
+
 - Based on the Dracula color scheme
 - Purple, pink, and cyan color palette
 
 **minimal** - Clean, understated design
+
 - Minimal use of color, focus on content
 - Simple ASCII symbols, clean lines
 
 **red-alert** - High-visibility red theme
+
 - Designed for critical systems and alerts
 - Red-focused palette for urgency
 
@@ -913,8 +900,8 @@ Extend GenesisTrace with a powerful plugin system that provides lifecycle hooks 
 
 ```typescript
 interface Plugin {
-  name: string;                          // Plugin identifier
-  version: string;                        // Plugin version
+  name: string; // Plugin identifier
+  version: string; // Plugin version
   onInit?(config: StylerConfig): void | Promise<void>;
   onLog?(entry: LogEntry): void | Promise<void>;
   onShutdown?(): void | Promise<void>;
@@ -923,6 +910,7 @@ interface Plugin {
 ```
 
 **Lifecycle Hooks:**
+
 - `onInit`: Called when logger is created, receives configuration
 - `onLog`: Called for every log entry that passes level filter
 - `onShutdown`: Called when `logger.shutdown()` is invoked
@@ -935,15 +923,17 @@ interface Plugin {
 Write logs to the file system:
 
 ```typescript
-import { Logger, FileLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, FileLoggerPlugin, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const config = new ConfigBuilder()
-  .plugin(new FileLoggerPlugin({
-    filepath: "./logs/app.log",
-    format: "text",              // "text" or "json"
-    append: true,                // Append to existing file
-    minLevel: "info",            // Only log info and above
-  }))
+  .plugin(
+    new FileLoggerPlugin({
+      filepath: "./logs/app.log",
+      format: "text", // "text" or "json"
+      append: true, // Append to existing file
+      minLevel: "info", // Only log info and above
+    }),
+  )
   .build();
 
 const logger = new Logger(config);
@@ -961,14 +951,16 @@ await logger.shutdown();
 Output structured JSON logs:
 
 ```typescript
-import { Logger, JsonLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, JsonLoggerPlugin, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const config = new ConfigBuilder()
-  .plugin(new JsonLoggerPlugin({
-    filepath: "./logs/app.json",
-    pretty: false,               // Compact JSON (one entry per line)
-    includeMetadata: true,       // Include all metadata fields
-  }))
+  .plugin(
+    new JsonLoggerPlugin({
+      filepath: "./logs/app.json",
+      pretty: false, // Compact JSON (one entry per line)
+      includeMetadata: true, // Include all metadata fields
+    }),
+  )
   .build();
 
 const logger = new Logger(config);
@@ -976,7 +968,7 @@ const logger = new Logger(config);
 logger.info("User action", {
   userId: "123",
   action: "login",
-  ip: "192.168.1.1"
+  ip: "192.168.1.1",
 });
 
 // JSON output:
@@ -988,20 +980,22 @@ logger.info("User action", {
 Send logs to remote HTTP endpoints:
 
 ```typescript
-import { Logger, RemoteLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, Logger, RemoteLoggerPlugin } from "jsr:@pedromdominguez/genesis-trace";
 
 const config = new ConfigBuilder()
-  .plugin(new RemoteLoggerPlugin({
-    endpoint: "https://logs.example.com/api/logs",
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer YOUR_TOKEN",
-      "Content-Type": "application/json",
-    },
-    batchSize: 10,               // Send logs in batches
-    flushInterval: 5000,         // Flush every 5 seconds
-    minLevel: "warning",         // Only send warnings and above
-  }))
+  .plugin(
+    new RemoteLoggerPlugin({
+      endpoint: "https://logs.example.com/api/logs",
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer YOUR_TOKEN",
+        "Content-Type": "application/json",
+      },
+      batchSize: 10, // Send logs in batches
+      flushInterval: 5000, // Flush every 5 seconds
+      minLevel: "warning", // Only send warnings and above
+    }),
+  )
   .build();
 
 const logger = new Logger(config);
@@ -1019,17 +1013,19 @@ await logger.shutdown();
 Send critical alerts to Slack:
 
 ```typescript
-import { Logger, SlackLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, Logger, SlackLoggerPlugin } from "jsr:@pedromdominguez/genesis-trace";
 
 const config = new ConfigBuilder()
-  .plugin(new SlackLoggerPlugin({
-    webhookUrl: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
-    channel: "#alerts",
-    username: "Production Logger",
-    iconEmoji: ":rotating_light:",
-    minLevel: "error",           // Only send errors and critical
-    includeMetadata: true,       // Include metadata in Slack message
-  }))
+  .plugin(
+    new SlackLoggerPlugin({
+      webhookUrl: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
+      channel: "#alerts",
+      username: "Production Logger",
+      iconEmoji: ":rotating_light:",
+      minLevel: "error", // Only send errors and critical
+      includeMetadata: true, // Include metadata in Slack message
+    }),
+  )
   .build();
 
 const logger = new Logger(config);
@@ -1038,20 +1034,26 @@ const logger = new Logger(config);
 logger.error("Payment processing failed", {
   orderId: "12345",
   amount: "$299.99",
-  error: "Gateway timeout"
+  error: "Gateway timeout",
 });
 
 // This also goes to Slack (critical level)
 logger.critical("Database connection lost", {
   database: "production-db",
-  retries: 5
+  retries: 5,
 });
 ```
 
 ### Creating Custom Plugins
 
 ```typescript
-import { Plugin, LogEntry, StylerConfig, Logger, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import {
+  ConfigBuilder,
+  LogEntry,
+  Logger,
+  Plugin,
+  StylerConfig,
+} from "jsr:@pedromdominguez/genesis-trace";
 
 class DiscordLoggerPlugin implements Plugin {
   name = "discord-logger";
@@ -1073,11 +1075,13 @@ class DiscordLoggerPlugin implements Plugin {
     // Send log to Discord webhook
     const message = {
       content: `**[${entry.level.toUpperCase()}]** ${entry.message}`,
-      embeds: entry.metadata ? [{
-        title: "Metadata",
-        description: JSON.stringify(entry.metadata, null, 2),
-        color: this.getLevelColor(entry.level),
-      }] : [],
+      embeds: entry.metadata
+        ? [{
+          title: "Metadata",
+          description: JSON.stringify(entry.metadata, null, 2),
+          color: this.getLevelColor(entry.level),
+        }]
+        : [],
     };
 
     try {
@@ -1097,11 +1101,11 @@ class DiscordLoggerPlugin implements Plugin {
 
   private getLevelColor(level: string): number {
     const colors: Record<string, number> = {
-      debug: 0x808080,    // Gray
-      info: 0x00BFFF,     // Blue
-      success: 0x00FF00,  // Green
-      warning: 0xFFFF00,  // Yellow
-      error: 0xFF0000,    // Red
+      debug: 0x808080, // Gray
+      info: 0x00BFFF, // Blue
+      success: 0x00FF00, // Green
+      warning: 0xFFFF00, // Yellow
+      error: 0xFF0000, // Red
       critical: 0xFF00FF, // Magenta
     };
     return colors[level] || 0xFFFFFF;
@@ -1111,11 +1115,13 @@ class DiscordLoggerPlugin implements Plugin {
 // Use the custom plugin
 const logger = new Logger(
   new ConfigBuilder()
-    .plugin(new DiscordLoggerPlugin({
-      webhookUrl: "https://discord.com/api/webhooks/...",
-      minLevel: "error"
-    }))
-    .build()
+    .plugin(
+      new DiscordLoggerPlugin({
+        webhookUrl: "https://discord.com/api/webhooks/...",
+        minLevel: "error",
+      }),
+    )
+    .build(),
 );
 
 logger.error("Critical error occurred", { service: "api" });
@@ -1126,7 +1132,7 @@ logger.error("Critical error occurred", { service: "api" });
 ### Environment-Based Configuration
 
 ```typescript
-import { Logger, ConfigBuilder, getTheme } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, getTheme, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const env = Deno.env.get("ENV") || "development";
 
@@ -1145,7 +1151,7 @@ const logger = new Logger(config);
 For testable, decoupled code:
 
 ```typescript
-import { ILogger, ConsoleStylerLogger } from "jsr:@pedromdominguez/genesis-trace";
+import { ConsoleStylerLogger, ILogger } from "jsr:@pedromdominguez/genesis-trace";
 
 // Business logic depends on ILogger abstraction
 class UserService {
@@ -1196,6 +1202,7 @@ const testService = new UserService(mockLogger);
 ```
 
 **ILogger Interface Methods:**
+
 - `logInfo(message, metadata?)` - Log informational messages
 - `logSuccess(message, metadata?)` - Log success messages
 - `logWarning(message, metadata?)` - Log warnings
@@ -1210,16 +1217,23 @@ const testService = new UserService(mockLogger);
 Properly close logger and plugins:
 
 ```typescript
-import { Logger, FileLoggerPlugin, RemoteLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import {
+  ConfigBuilder,
+  FileLoggerPlugin,
+  Logger,
+  RemoteLoggerPlugin,
+} from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
   new ConfigBuilder()
     .plugin(new FileLoggerPlugin({ filepath: "./logs/app.log" }))
-    .plugin(new RemoteLoggerPlugin({
-      endpoint: "https://logs.example.com/api/logs",
-      batchSize: 10,
-    }))
-    .build()
+    .plugin(
+      new RemoteLoggerPlugin({
+        endpoint: "https://logs.example.com/api/logs",
+        batchSize: 10,
+      }),
+    )
+    .build(),
 );
 
 // Use logger throughout app
@@ -1229,7 +1243,7 @@ logger.info("Processing request");
 // On shutdown (SIGINT, SIGTERM, or process exit)
 Deno.addSignalListener("SIGINT", async () => {
   logger.info("Shutting down...");
-  await logger.shutdown();  // Flushes all plugins
+  await logger.shutdown(); // Flushes all plugins
   Deno.exit(0);
 });
 
@@ -1246,7 +1260,7 @@ try {
 Add plugins at runtime:
 
 ```typescript
-import { Logger, FileLoggerPlugin } from "jsr:@pedromdominguez/genesis-trace";
+import { FileLoggerPlugin, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger();
 
@@ -1368,7 +1382,7 @@ class ColorSystem {
   static createGradient(
     start: [number, number, number],
     end: [number, number, number],
-    steps: number
+    steps: number,
   ): string[];
 
   // Terminal detection
@@ -1443,9 +1457,9 @@ interface LogEntry {
 
 interface Theme {
   name: string;
-  colors: { /* ... */ };
-  symbols: { /* ... */ };
-  boxDrawing: { /* ... */ };
+  colors: {/* ... */};
+  symbols: {/* ... */};
+  boxDrawing: {/* ... */};
 }
 
 interface Plugin {
@@ -1504,7 +1518,7 @@ const config = new ConfigBuilder()
 logger.info("User action", {
   userId: "123",
   action: "login",
-  ip: "192.168.1.1"
+  ip: "192.168.1.1",
 });
 
 // Avoid - string interpolation
@@ -1545,17 +1559,17 @@ try {
 ```typescript
 // Development: vibrant colors for visibility
 const devLogger = new Logger(
-  new ConfigBuilder().theme(neonTheme).build()
+  new ConfigBuilder().theme(neonTheme).build(),
 );
 
 // Production: minimal, clean output
 const prodLogger = new Logger(
-  new ConfigBuilder().theme(minimalTheme).build()
+  new ConfigBuilder().theme(minimalTheme).build(),
 );
 
 // Alerts: high-visibility red theme
 const alertLogger = new Logger(
-  new ConfigBuilder().theme(redAlertTheme).build()
+  new ConfigBuilder().theme(redAlertTheme).build(),
 );
 ```
 
@@ -1604,31 +1618,31 @@ GenesisTrace is optimized for production use with minimal overhead:
 
 Typical performance on modern hardware (Apple M1, Linux):
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| Logger creation | < 1ms | One-time cost |
-| Log entry (disabled level) | < 0.1ms | Nearly free |
-| Log entry (enabled) | 1-5ms | Depends on metadata size |
-| Table rendering (100 rows) | 10-20ms | One-time render |
-| Progress bar update | < 1ms | Visual update |
-| Spinner frame | < 0.5ms | Animation frame |
-| History export (1000 entries) | 50-100ms | File I/O bound |
+| Operation                     | Time     | Notes                    |
+| ----------------------------- | -------- | ------------------------ |
+| Logger creation               | < 1ms    | One-time cost            |
+| Log entry (disabled level)    | < 0.1ms  | Nearly free              |
+| Log entry (enabled)           | 1-5ms    | Depends on metadata size |
+| Table rendering (100 rows)    | 10-20ms  | One-time render          |
+| Progress bar update           | < 1ms    | Visual update            |
+| Spinner frame                 | < 0.5ms  | Animation frame          |
+| History export (1000 entries) | 50-100ms | File I/O bound           |
 
 ### Optimization Tips
 
 1. **Disable History in Production**: Save memory when not needed
    ```typescript
-   new ConfigBuilder().enableHistory(false).build()
+   new ConfigBuilder().enableHistory(false).build();
    ```
 
 2. **Set Appropriate Log Levels**: Filter early to avoid processing
    ```typescript
-   new ConfigBuilder().logLevel("info").build()  // Skip debug logs
+   new ConfigBuilder().logLevel("info").build(); // Skip debug logs
    ```
 
 3. **Batch Plugin Operations**: Use plugins with batching (RemoteLoggerPlugin)
    ```typescript
-   new RemoteLoggerPlugin({ batchSize: 100, flushInterval: 10000 })
+   new RemoteLoggerPlugin({ batchSize: 100, flushInterval: 10000 });
    ```
 
 4. **Minimize Metadata**: Only include necessary data
@@ -1646,17 +1660,17 @@ Typical performance on modern hardware (Apple M1, Linux):
 
 ```typescript
 import {
-  Logger,
-  ConfigBuilder,
-  neonTheme,
-  Spinner,
-  ProgressBar,
-  InteractivePrompts,
   BoxRenderer,
+  ConfigBuilder,
+  InteractivePrompts,
+  Logger,
+  neonTheme,
+  ProgressBar,
+  Spinner,
 } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
-  new ConfigBuilder().theme(neonTheme).build()
+  new ConfigBuilder().theme(neonTheme).build(),
 );
 
 // Banner
@@ -1667,7 +1681,7 @@ logger.info("=".repeat(60));
 // Interactive prompt
 const confirmed = await InteractivePrompts.confirm(
   "Start processing?",
-  true
+  true,
 );
 
 if (!confirmed) {
@@ -1678,7 +1692,7 @@ if (!confirmed) {
 // Spinner for loading
 const spinner = new Spinner({ message: "Loading data..." });
 spinner.start();
-await new Promise(resolve => setTimeout(resolve, 2000));
+await new Promise((resolve) => setTimeout(resolve, 2000));
 spinner.succeed("Data loaded!");
 
 // Progress bar for processing
@@ -1690,7 +1704,7 @@ const progress = new ProgressBar({
 
 for (let i = 0; i <= 100; i += 10) {
   progress.update(i);
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 200));
 }
 
 progress.complete("Processing complete!");
@@ -1703,7 +1717,7 @@ BoxRenderer.render(
     "✓ 5 errors corrected",
     "✓ Results saved to output.json",
   ],
-  { title: "Summary", style: "double" }
+  { title: "Summary", style: "double" },
 );
 
 logger.success("All operations completed successfully!");
@@ -1713,12 +1727,12 @@ logger.success("All operations completed successfully!");
 
 ```typescript
 import {
-  Logger,
   ConfigBuilder,
   FileLoggerPlugin,
+  Logger,
+  minimalTheme,
   RemoteLoggerPlugin,
   SlackLoggerPlugin,
-  minimalTheme,
 } from "jsr:@pedromdominguez/genesis-trace";
 
 // Production logger with multiple plugins
@@ -1726,26 +1740,34 @@ const logger = new Logger(
   new ConfigBuilder()
     .theme(minimalTheme)
     .logLevel("info")
-    .plugin(new FileLoggerPlugin({
-      filepath: "./logs/app.log",
-      format: "text",
-      minLevel: "info",
-    }))
-    .plugin(new FileLoggerPlugin({
-      filepath: "./logs/errors.log",
-      format: "text",
-      minLevel: "error",
-    }))
-    .plugin(new RemoteLoggerPlugin({
-      endpoint: "https://logs.example.com/api/logs",
-      batchSize: 50,
-      flushInterval: 10000,
-    }))
-    .plugin(new SlackLoggerPlugin({
-      webhookUrl: Deno.env.get("SLACK_WEBHOOK_URL")!,
-      minLevel: "critical",
-    }))
-    .build()
+    .plugin(
+      new FileLoggerPlugin({
+        filepath: "./logs/app.log",
+        format: "text",
+        minLevel: "info",
+      }),
+    )
+    .plugin(
+      new FileLoggerPlugin({
+        filepath: "./logs/errors.log",
+        format: "text",
+        minLevel: "error",
+      }),
+    )
+    .plugin(
+      new RemoteLoggerPlugin({
+        endpoint: "https://logs.example.com/api/logs",
+        batchSize: 50,
+        flushInterval: 10000,
+      }),
+    )
+    .plugin(
+      new SlackLoggerPlugin({
+        webhookUrl: Deno.env.get("SLACK_WEBHOOK_URL")!,
+        minLevel: "critical",
+      }),
+    )
+    .build(),
 );
 
 // Graceful shutdown

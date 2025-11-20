@@ -23,8 +23,8 @@ import {
   type LogEntry,
   Logger,
   type Plugin,
-  TableRenderer,
   type StylerConfig,
+  TableRenderer,
 } from "../mod.ts";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -42,6 +42,8 @@ interface MetricsSummary {
 }
 
 class MetricsCollectorPlugin implements Plugin {
+  name = "metrics-collector";
+  version = "1.0.0";
   private metrics: Map<string, number> = new Map();
   private startTime = 0;
   private logTimestamps: number[] = [];
@@ -129,7 +131,10 @@ class MetricsCollectorPlugin implements Plugin {
 
   async onShutdown(): Promise<void> {
     console.log(
-      ColorSystem.colorize("\n📊 Metrics collector plugin shutting down...", ColorSystem.codes.yellow),
+      ColorSystem.colorize(
+        "\n📊 Metrics collector plugin shutting down...",
+        ColorSystem.codes.yellow,
+      ),
     );
     this.displaySummary();
   }
@@ -140,6 +145,8 @@ class MetricsCollectorPlugin implements Plugin {
 // ============================================================================
 
 class FilteredLoggerPlugin implements Plugin {
+  name = "filtered-logger";
+  version = "1.0.0";
   private allowedLevels: Set<string>;
   private logCount = 0;
 
@@ -192,6 +199,8 @@ interface AlertConfig {
 }
 
 class AlertPlugin implements Plugin {
+  name = "alert-plugin";
+  version = "1.0.0";
   private config: AlertConfig;
   private alertCount = 0;
   private alerts: Array<{ timestamp: Date; level: string; message: string }> = [];
@@ -276,6 +285,8 @@ class AlertPlugin implements Plugin {
 // ============================================================================
 
 class PerformanceTrackerPlugin implements Plugin {
+  name = "performance-tracker";
+  version = "1.0.0";
   private operationTimes: Map<string, number[]> = new Map();
 
   onInit(_config: StylerConfig): void {

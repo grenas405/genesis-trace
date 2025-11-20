@@ -16,16 +16,16 @@
 import {
   BannerRenderer,
   BoxRenderer,
+  ColorSystem,
   ConfigBuilder,
   ConsoleStyler,
+  Formatter,
   InteractivePrompts,
   Logger,
   neonTheme,
   ProgressBar,
   Spinner,
   TableRenderer,
-  ColorSystem,
-  Formatter,
 } from "../mod.ts";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -41,9 +41,27 @@ interface User {
 
 class UserDatabase {
   private users: User[] = [
-    { id: 1, name: "Alice Johnson", email: "alice@example.com", role: "admin", created: new Date("2024-01-15") },
-    { id: 2, name: "Bob Smith", email: "bob@example.com", role: "user", created: new Date("2024-02-20") },
-    { id: 3, name: "Charlie Brown", email: "charlie@example.com", role: "user", created: new Date("2024-03-10") },
+    {
+      id: 1,
+      name: "Alice Johnson",
+      email: "alice@example.com",
+      role: "admin",
+      created: new Date("2024-01-15"),
+    },
+    {
+      id: 2,
+      name: "Bob Smith",
+      email: "bob@example.com",
+      role: "user",
+      created: new Date("2024-02-20"),
+    },
+    {
+      id: 3,
+      name: "Charlie Brown",
+      email: "charlie@example.com",
+      role: "user",
+      created: new Date("2024-03-10"),
+    },
   ];
   private nextId = 4;
 
@@ -119,13 +137,13 @@ class UserManagementCLI {
     return await InteractivePrompts.select(
       "What would you like to do?",
       [
-        "List all users",
-        "Add new user",
-        "Update user",
-        "Delete user",
-        "Search users",
-        "View statistics",
-        "Exit application",
+        { label: "List all users", value: "List all users" },
+        { label: "Add new user", value: "Add new user" },
+        { label: "Update user", value: "Update user" },
+        { label: "Delete user", value: "Delete user" },
+        { label: "Search users", value: "Search users" },
+        { label: "View statistics", value: "View statistics" },
+        { label: "Exit application", value: "Exit application" },
       ],
     );
   }
@@ -191,7 +209,11 @@ class UserManagementCLI {
 
     const role = await InteractivePrompts.select(
       "Select role:",
-      ["user", "moderator", "admin"],
+      [
+        { label: "user", value: "user" },
+        { label: "moderator", value: "moderator" },
+        { label: "admin", value: "admin" },
+      ],
     );
 
     const confirm = await InteractivePrompts.confirm(
@@ -235,7 +257,10 @@ class UserManagementCLI {
     }
 
     console.log("");
-    const userChoices = users.map((u) => `${u.id} - ${u.name} (${u.email})`);
+    const userChoices = users.map((u) => ({
+      label: `${u.id} - ${u.name} (${u.email})`,
+      value: `${u.id} - ${u.name} (${u.email})`,
+    }));
     const selection = await InteractivePrompts.select("Select user to update:", userChoices);
 
     const userId = parseInt(selection.split(" - ")[0]);
@@ -249,7 +274,12 @@ class UserManagementCLI {
     console.log("");
     const field = await InteractivePrompts.select(
       "What would you like to update?",
-      ["Name", "Email", "Role", "Cancel"],
+      [
+        { label: "Name", value: "Name" },
+        { label: "Email", value: "Email" },
+        { label: "Role", value: "Role" },
+        { label: "Cancel", value: "Cancel" },
+      ],
     );
 
     if (field === "Cancel") {
@@ -258,7 +288,11 @@ class UserManagementCLI {
 
     let newValue: string;
     if (field === "Role") {
-      newValue = await InteractivePrompts.select("Select new role:", ["user", "moderator", "admin"]);
+      newValue = await InteractivePrompts.select("Select new role:", [
+        { label: "user", value: "user" },
+        { label: "moderator", value: "moderator" },
+        { label: "admin", value: "admin" },
+      ]);
     } else {
       newValue = await InteractivePrompts.input(`Enter new ${field.toLowerCase()}:`, "");
       if (!newValue) {
@@ -290,7 +324,10 @@ class UserManagementCLI {
     }
 
     console.log("");
-    const userChoices = users.map((u) => `${u.id} - ${u.name} (${u.email})`);
+    const userChoices = users.map((u) => ({
+      label: `${u.id} - ${u.name} (${u.email})`,
+      value: `${u.id} - ${u.name} (${u.email})`,
+    }));
     const selection = await InteractivePrompts.select("Select user to delete:", userChoices);
 
     const userId = parseInt(selection.split(" - ")[0]);
@@ -385,9 +422,15 @@ class UserManagementCLI {
     BoxRenderer.render(
       [
         `Total Users: ${ColorSystem.colorize(String(users.length), ColorSystem.codes.brightCyan)}`,
-        `Admins: ${ColorSystem.colorize(String(roleCount.admin || 0), ColorSystem.codes.brightMagenta)}`,
-        `Moderators: ${ColorSystem.colorize(String(roleCount.moderator || 0), ColorSystem.codes.brightYellow)}`,
-        `Regular Users: ${ColorSystem.colorize(String(roleCount.user || 0), ColorSystem.codes.brightGreen)}`,
+        `Admins: ${
+          ColorSystem.colorize(String(roleCount.admin || 0), ColorSystem.codes.brightMagenta)
+        }`,
+        `Moderators: ${
+          ColorSystem.colorize(String(roleCount.moderator || 0), ColorSystem.codes.brightYellow)
+        }`,
+        `Regular Users: ${
+          ColorSystem.colorize(String(roleCount.user || 0), ColorSystem.codes.brightGreen)
+        }`,
         "",
         `Database Size: ${Formatter.bytes(JSON.stringify(users).length)}`,
       ],

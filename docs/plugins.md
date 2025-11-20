@@ -3,6 +3,7 @@
 Extend GenesisTrace with a powerful plugin system that provides lifecycle hooks for custom logging destinations, transformations, and integrations.
 
 ## Table of Contents
+
 - [Plugin Interface](#plugin-interface)
 - [Built-in Plugins](#built-in-plugins)
 - [Creating Custom Plugins](#creating-custom-plugins)
@@ -12,8 +13,8 @@ Extend GenesisTrace with a powerful plugin system that provides lifecycle hooks 
 
 ```typescript
 interface Plugin {
-  name: string;                          // Plugin identifier
-  version: string;                        // Plugin version
+  name: string; // Plugin identifier
+  version: string; // Plugin version
   onInit?(config: StylerConfig): void | Promise<void>;
   onLog?(entry: LogEntry): void | Promise<void>;
   onShutdown?(): void | Promise<void>;
@@ -24,23 +25,27 @@ interface Plugin {
 ### Lifecycle Hooks
 
 **`onInit(config)`**
+
 - Called when the logger is created
 - Receives the complete logger configuration
 - Use for initialization tasks (opening files, establishing connections)
 - Can be async
 
 **`onLog(entry)`**
+
 - Called for every log entry that passes the level filter
 - Receives the complete `LogEntry` object
 - Use for processing, filtering, or sending logs
 - Can be async (but consider performance)
 
 **`onShutdown()`**
+
 - Called when `logger.shutdown()` is invoked
 - Use for cleanup (closing files, flushing buffers, closing connections)
 - Should be async to ensure proper cleanup
 
 **`extendMethods()`** (Optional)
+
 - Returns custom methods to add to the logger instance
 - Use sparingly - prefer composition over extension
 
@@ -48,11 +53,11 @@ interface Plugin {
 
 ```typescript
 interface LogEntry {
-  timestamp: Date;              // When the log occurred
-  level: LogLevel;              // debug | info | success | warning | error | critical
-  message: string;              // The log message
-  metadata?: Record<string, any>;  // Optional structured data
-  namespace?: string;           // Namespace from child loggers
+  timestamp: Date; // When the log occurred
+  level: LogLevel; // debug | info | success | warning | error | critical
+  message: string; // The log message
+  metadata?: Record<string, any>; // Optional structured data
+  namespace?: string; // Namespace from child loggers
 }
 ```
 
@@ -63,19 +68,21 @@ interface LogEntry {
 Write logs to the file system with rotation and formatting options.
 
 ```typescript
-import { Logger, FileLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, FileLoggerPlugin, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
   new ConfigBuilder()
-    .plugin(new FileLoggerPlugin({
-      filepath: "./logs/app.log",
-      format: "text",              // "text" or "json"
-      append: true,                // Append vs overwrite
-      minLevel: "info",            // Only log info and above
-      maxFileSize: 10 * 1024 * 1024,  // 10MB max (optional)
-      rotate: true,                // Enable rotation (optional)
-    }))
-    .build()
+    .plugin(
+      new FileLoggerPlugin({
+        filepath: "./logs/app.log",
+        format: "text", // "text" or "json"
+        append: true, // Append vs overwrite
+        minLevel: "info", // Only log info and above
+        maxFileSize: 10 * 1024 * 1024, // 10MB max (optional)
+        rotate: true, // Enable rotation (optional)
+      }),
+    )
+    .build(),
 );
 
 logger.info("Application started");
@@ -86,6 +93,7 @@ await logger.shutdown();
 ```
 
 **Options:**
+
 - `filepath` (required): Path to log file
 - `format`: "text" (human-readable) or "json" (structured)
 - `append`: Append to existing file (default: true)
@@ -94,12 +102,14 @@ await logger.shutdown();
 - `rotate`: Enable log rotation (optional)
 
 **Text Format Example:**
+
 ```
 2024-01-15 10:30:00 [INFO] Application started
 2024-01-15 10:30:15 [ERROR] Something went wrong {"error":"details"}
 ```
 
 **JSON Format Example:**
+
 ```json
 {"timestamp":"2024-01-15T10:30:00.000Z","level":"info","message":"Application started"}
 {"timestamp":"2024-01-15T10:30:15.000Z","level":"error","message":"Something went wrong","metadata":{"error":"details"}}
@@ -110,38 +120,48 @@ await logger.shutdown();
 Output structured JSON logs optimized for log aggregation services.
 
 ```typescript
-import { Logger, JsonLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, JsonLoggerPlugin, Logger } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
   new ConfigBuilder()
-    .plugin(new JsonLoggerPlugin({
-      filepath: "./logs/app.json",
-      pretty: false,               // Compact JSON (one entry per line)
-      includeMetadata: true,       // Include all metadata fields
-      minLevel: "info",            // Only log info and above
-    }))
-    .build()
+    .plugin(
+      new JsonLoggerPlugin({
+        filepath: "./logs/app.json",
+        pretty: false, // Compact JSON (one entry per line)
+        includeMetadata: true, // Include all metadata fields
+        minLevel: "info", // Only log info and above
+      }),
+    )
+    .build(),
 );
 
 logger.info("User action", {
   userId: "123",
   action: "login",
-  ip: "192.168.1.1"
+  ip: "192.168.1.1",
 });
 ```
 
 **Options:**
+
 - `filepath` (required): Path to JSON log file
 - `pretty`: Pretty-print JSON (default: false)
 - `includeMetadata`: Include metadata in output (default: true)
 - `minLevel`: Minimum log level to write (default: "debug")
 
 **Output (pretty: false):**
+
 ```json
-{"timestamp":"2024-01-15T10:30:00.000Z","level":"info","message":"User action","metadata":{"userId":"123","action":"login","ip":"192.168.1.1"}}
+{
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "level": "info",
+  "message": "User action",
+  "metadata": { "userId": "123", "action": "login", "ip": "192.168.1.1" }
+}
 ```
 
 **Output (pretty: true):**
+
 ```json
 {
   "timestamp": "2024-01-15T10:30:00.000Z",
@@ -160,24 +180,26 @@ logger.info("User action", {
 Send logs to remote HTTP endpoints with batching and retry logic.
 
 ```typescript
-import { Logger, RemoteLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, Logger, RemoteLoggerPlugin } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
   new ConfigBuilder()
-    .plugin(new RemoteLoggerPlugin({
-      endpoint: "https://logs.example.com/api/logs",
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer YOUR_TOKEN",
-        "Content-Type": "application/json",
-      },
-      batchSize: 10,               // Send logs in batches of 10
-      flushInterval: 5000,         // Flush every 5 seconds
-      minLevel: "warning",         // Only send warnings and above
-      retries: 3,                  // Retry failed requests 3 times
-      timeout: 30000,              // 30 second timeout
-    }))
-    .build()
+    .plugin(
+      new RemoteLoggerPlugin({
+        endpoint: "https://logs.example.com/api/logs",
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer YOUR_TOKEN",
+          "Content-Type": "application/json",
+        },
+        batchSize: 10, // Send logs in batches of 10
+        flushInterval: 5000, // Flush every 5 seconds
+        minLevel: "warning", // Only send warnings and above
+        retries: 3, // Retry failed requests 3 times
+        timeout: 30000, // 30 second timeout
+      }),
+    )
+    .build(),
 );
 
 // Logs are buffered and sent in batches
@@ -189,6 +211,7 @@ await logger.shutdown();
 ```
 
 **Options:**
+
 - `endpoint` (required): HTTP endpoint URL
 - `method`: HTTP method (default: "POST")
 - `headers`: Custom HTTP headers (optional)
@@ -199,6 +222,7 @@ await logger.shutdown();
 - `timeout`: Request timeout in milliseconds (default: 30000)
 
 **Behavior:**
+
 - Logs are buffered in memory until batch size is reached or flush interval expires
 - Failed requests are retried with exponential backoff
 - `shutdown()` flushes all remaining logs before closing
@@ -208,37 +232,40 @@ await logger.shutdown();
 Send critical alerts to Slack channels via webhooks.
 
 ```typescript
-import { Logger, SlackLoggerPlugin, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+import { ConfigBuilder, Logger, SlackLoggerPlugin } from "jsr:@pedromdominguez/genesis-trace";
 
 const logger = new Logger(
   new ConfigBuilder()
-    .plugin(new SlackLoggerPlugin({
-      webhookUrl: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
-      channel: "#alerts",
-      username: "Production Logger",
-      iconEmoji: ":rotating_light:",
-      minLevel: "error",           // Only send errors and critical
-      includeMetadata: true,       // Include metadata in Slack message
-      mentionOnCritical: "@channel",  // Mention @channel for critical logs
-    }))
-    .build()
+    .plugin(
+      new SlackLoggerPlugin({
+        webhookUrl: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
+        channel: "#alerts",
+        username: "Production Logger",
+        iconEmoji: ":rotating_light:",
+        minLevel: "error", // Only send errors and critical
+        includeMetadata: true, // Include metadata in Slack message
+        mentionOnCritical: "@channel", // Mention @channel for critical logs
+      }),
+    )
+    .build(),
 );
 
 // This goes to Slack
 logger.error("Payment processing failed", {
   orderId: "12345",
   amount: "$299.99",
-  error: "Gateway timeout"
+  error: "Gateway timeout",
 });
 
 // This goes to Slack with @channel mention
 logger.critical("Database connection lost", {
   database: "production-db",
-  retries: 5
+  retries: 5,
 });
 ```
 
 **Options:**
+
 - `webhookUrl` (required): Slack webhook URL
 - `channel`: Slack channel (optional, webhook default used otherwise)
 - `username`: Bot username (default: "GenesisTrace")
@@ -248,6 +275,7 @@ logger.critical("Database connection lost", {
 - `mentionOnCritical`: Mention pattern for critical logs (optional)
 
 **Slack Message Format:**
+
 ```
 :red_circle: ERROR - Payment processing failed
 
@@ -263,7 +291,7 @@ Timestamp: 2024-01-15 10:30:00
 ### Basic Plugin Example
 
 ```typescript
-import { Plugin, LogEntry, StylerConfig } from "jsr:@pedromdominguez/genesis-trace";
+import { LogEntry, Plugin, StylerConfig } from "jsr:@pedromdominguez/genesis-trace";
 
 class ConsoleLoggerPlugin implements Plugin {
   name = "console-logger";
@@ -288,8 +316,14 @@ class ConsoleLoggerPlugin implements Plugin {
 
 ### Advanced Plugin: Discord Logger
 
-```typescript
-import { Plugin, LogEntry, StylerConfig, Logger, ConfigBuilder } from "jsr:@pedromdominguez/genesis-trace";
+````typescript
+import {
+  ConfigBuilder,
+  LogEntry,
+  Logger,
+  Plugin,
+  StylerConfig,
+} from "jsr:@pedromdominguez/genesis-trace";
 
 interface DiscordPluginOptions {
   webhookUrl: string;
@@ -329,12 +363,14 @@ class DiscordLoggerPlugin implements Plugin {
       username: this.username,
       avatar_url: this.avatarUrl,
       content: `**[${entry.level.toUpperCase()}]** ${entry.message}`,
-      embeds: entry.metadata ? [{
-        title: "Metadata",
-        description: "```json\n" + JSON.stringify(entry.metadata, null, 2) + "\n```",
-        color: this.getLevelColor(entry.level),
-        timestamp: entry.timestamp.toISOString(),
-      }] : [],
+      embeds: entry.metadata
+        ? [{
+          title: "Metadata",
+          description: "```json\n" + JSON.stringify(entry.metadata, null, 2) + "\n```",
+          color: this.getLevelColor(entry.level),
+          timestamp: entry.timestamp.toISOString(),
+        }]
+        : [],
     };
 
     try {
@@ -365,11 +401,11 @@ class DiscordLoggerPlugin implements Plugin {
 
   private getLevelColor(level: string): number {
     const colors: Record<string, number> = {
-      debug: 0x808080,    // Gray
-      info: 0x00BFFF,     // Blue
-      success: 0x00FF00,  // Green
-      warning: 0xFFFF00,  // Yellow
-      error: 0xFF0000,    // Red
+      debug: 0x808080, // Gray
+      info: 0x00BFFF, // Blue
+      success: 0x00FF00, // Green
+      warning: 0xFFFF00, // Yellow
+      error: 0xFF0000, // Red
       critical: 0xFF00FF, // Magenta
     };
     return colors[level] || 0xFFFFFF;
@@ -379,21 +415,23 @@ class DiscordLoggerPlugin implements Plugin {
 // Usage
 const logger = new Logger(
   new ConfigBuilder()
-    .plugin(new DiscordLoggerPlugin({
-      webhookUrl: "https://discord.com/api/webhooks/...",
-      minLevel: "error",
-      username: "Production Bot",
-    }))
-    .build()
+    .plugin(
+      new DiscordLoggerPlugin({
+        webhookUrl: "https://discord.com/api/webhooks/...",
+        minLevel: "error",
+        username: "Production Bot",
+      }),
+    )
+    .build(),
 );
 
 logger.error("Critical error occurred", { service: "api" });
-```
+````
 
 ### Batching Plugin Example
 
 ```typescript
-import { Plugin, LogEntry, StylerConfig } from "jsr:@pedromdominguez/genesis-trace";
+import { LogEntry, Plugin, StylerConfig } from "jsr:@pedromdominguez/genesis-trace";
 
 class BatchLoggerPlugin implements Plugin {
   name = "batch-logger";
@@ -458,7 +496,7 @@ class BatchLoggerPlugin implements Plugin {
 ### Plugin with Extended Methods
 
 ```typescript
-import { Plugin, LogEntry, StylerConfig, Logger } from "jsr:@pedromdominguez/genesis-trace";
+import { LogEntry, Logger, Plugin, StylerConfig } from "jsr:@pedromdominguez/genesis-trace";
 
 class MetricsPlugin implements Plugin {
   name = "metrics";
@@ -502,7 +540,7 @@ class MetricsPlugin implements Plugin {
 const logger = new Logger(
   new ConfigBuilder()
     .plugin(new MetricsPlugin())
-    .build()
+    .build(),
 ) as Logger & { getMetrics: () => Record<string, number>; resetMetrics: () => void };
 
 logger.info("Test message");
@@ -629,7 +667,7 @@ const logger = new Logger(
     .plugin(new FileLoggerPlugin({ filepath: "./logs/errors.log", minLevel: "error" }))
     .plugin(new RemoteLoggerPlugin({ endpoint: "https://logs.example.com" }))
     .plugin(new SlackLoggerPlugin({ webhookUrl: "...", minLevel: "critical" }))
-    .build()
+    .build(),
 );
 ```
 
@@ -652,7 +690,7 @@ class AuditPlugin implements Plugin {
           user: entry.metadata.userId,
           details: entry.metadata,
         }) + "\n",
-        { append: true }
+        { append: true },
       );
     }
   }

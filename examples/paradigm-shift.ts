@@ -11,14 +11,7 @@
  *   • Inspirational message about paradigm shifts
  */
 
-import {
-  BannerRenderer,
-  ColorSystem,
-  ConfigBuilder,
-  Logger,
-  neonTheme,
-  Spinner,
-} from "../mod.ts";
+import { BannerRenderer, ColorSystem, ConfigBuilder, Logger, neonTheme, Spinner } from "../mod.ts";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const encoder = new TextEncoder();

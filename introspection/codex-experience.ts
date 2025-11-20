@@ -8,10 +8,10 @@ import {
   ConsoleStyler,
   Formatter,
   Logger,
+  neonTheme,
   ProgressBar,
   Spinner,
   TableRenderer,
-  neonTheme,
 } from "../mod.ts";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

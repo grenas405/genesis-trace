@@ -4,7 +4,7 @@
  * Stream model output through your professional ConsoleStyler logger.
  */
 
-import { ConsoleStylerLogger } from "./adapters/ConsoleStylerLogger.ts";
+import { ConsoleStylerLogger } from "../adapters/ConsoleStylerLogger.ts";
 
 const logger = new ConsoleStylerLogger();
 

@@ -1072,7 +1072,9 @@ export class ConsoleStyler {
     const countStr = `(${current}/${total})`;
     const messageStr = message ? ` ${colors.dim}${message}${colors.reset}` : "";
 
-    Deno.stdout.writeSync(new TextEncoder().encode(`\r${bar} ${percentStr} ${countStr}${messageStr}`));
+    Deno.stdout.writeSync(
+      new TextEncoder().encode(`\r${bar} ${percentStr} ${countStr}${messageStr}`),
+    );
 
     if (current >= total) {
       console.log(""); // New line when complete
@@ -1092,7 +1094,9 @@ export class ConsoleStyler {
       start: () => {
         intervalId = setInterval(() => {
           const frame = frames[currentFrame];
-          Deno.stdout.writeSync(new TextEncoder().encode(`\r${spinnerColor}${frame}${colors.reset} ${message}`));
+          Deno.stdout.writeSync(
+            new TextEncoder().encode(`\r${spinnerColor}${frame}${colors.reset} ${message}`),
+          );
           currentFrame = (currentFrame + 1) % frames.length;
         }, 80);
       },

@@ -158,14 +158,18 @@ class Dashboard {
 
     // Quick stats in a single line
     const stats = [
-      `Requests/min: ${ColorSystem.colorize(Formatter.number(m.requests), ColorSystem.codes.brightCyan)}`,
+      `Requests/min: ${
+        ColorSystem.colorize(Formatter.number(m.requests), ColorSystem.codes.brightCyan)
+      }`,
       `Errors: ${
         ColorSystem.colorize(
           String(m.errors),
           m.errors > 5 ? ColorSystem.codes.red : ColorSystem.codes.green,
         )
       }`,
-      `Active Users: ${ColorSystem.colorize(Formatter.number(m.activeUsers), ColorSystem.codes.brightMagenta)}`,
+      `Active Users: ${
+        ColorSystem.colorize(Formatter.number(m.activeUsers), ColorSystem.codes.brightMagenta)
+      }`,
       `Avg Response: ${
         ColorSystem.colorize(
           `${m.responseTime.toFixed(0)}ms`,

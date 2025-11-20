@@ -21,9 +21,9 @@ import {
   ChartRenderer,
   ColorSystem,
   ConfigBuilder,
+  draculaTheme,
   Formatter,
   Logger,
-  draculaTheme,
   ProgressBar,
   Spinner,
   TableRenderer,
@@ -211,9 +211,7 @@ class BuildPipeline {
       console.log("");
     }
 
-    const stageResults = this.results.filter((r) =>
-      jobs.some((j) => j.name === r.job)
-    );
+    const stageResults = this.results.filter((r) => jobs.some((j) => j.name === r.job));
     const failed = stageResults.filter((r) => r.status === "failed").length;
     const skipped = stageResults.filter((r) => r.status === "skipped").length;
     const success = stageResults.filter((r) => r.status === "success").length;

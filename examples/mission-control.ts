@@ -16,16 +16,16 @@ import {
   BannerRenderer,
   BoxRenderer,
   ChartRenderer,
+  ColorSystem,
   ConfigBuilder,
+  draculaTheme,
   FileLoggerPlugin,
   Formatter,
   Logger,
+  neonTheme,
   ProgressBar,
   Spinner,
   TableRenderer,
-  ColorSystem,
-  draculaTheme,
-  neonTheme,
 } from "../mod.ts";
 
 console.clear();

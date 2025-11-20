@@ -168,7 +168,7 @@ export class RemoteLogger {
       } catch (error) {
         console.warn(
           `[RemoteLogger] Attempt ${attemptCount}/${maxRetries} failed for ${destination.name}:`,
-          error.message,
+          error instanceof Error ? error.message : String(error),
         );
 
         if (attemptCount < maxRetries) {

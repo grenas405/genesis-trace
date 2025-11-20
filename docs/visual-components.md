@@ -3,6 +3,7 @@
 GenesisTrace provides rich terminal UI components for building beautiful CLI applications.
 
 ## Table of Contents
+
 - [Tables](#tables)
 - [Boxes](#boxes)
 - [Progress Indicators](#progress-indicators)
@@ -31,6 +32,7 @@ TableRenderer.render(users);
 ```
 
 Output:
+
 ```
 ┌────┬─────────┬──────────────────────┬───────────┐
 │ id │ name    │ email                │ role      │
@@ -57,6 +59,7 @@ TableRenderer.render(users, [
 ```
 
 **Column Options:**
+
 - `key`: Property name in data objects
 - `label`: Column header text
 - `width`: Column width in characters (optional)
@@ -79,6 +82,7 @@ TableRenderer.renderKeyValue([
 ```
 
 Output:
+
 ```
 ┌───────────────┬──────────────────┐
 │ Version       │ 1.0.0            │
@@ -92,7 +96,7 @@ Output:
 ### Advanced Example
 
 ```typescript
-import { TableRenderer, Formatter } from "jsr:@pedromdominguez/genesis-trace";
+import { Formatter, TableRenderer } from "jsr:@pedromdominguez/genesis-trace";
 
 const data = [
   { name: "app.ts", size: 12457, modified: new Date() },
@@ -106,13 +110,13 @@ TableRenderer.render(data, [
     label: "Size",
     width: 10,
     align: "right",
-    format: (val) => Formatter.bytes(val)
+    format: (val) => Formatter.bytes(val),
   },
   {
     key: "modified",
     label: "Modified",
     width: 20,
-    format: (val) => Formatter.relativeTime(val)
+    format: (val) => Formatter.relativeTime(val),
   },
 ]);
 ```
@@ -130,6 +134,7 @@ BoxRenderer.render("Operation completed successfully!");
 ```
 
 Output:
+
 ```
 ┌─────────────────────────────────────┐
 │ Operation completed successfully!   │
@@ -155,11 +160,12 @@ BoxRenderer.render(
     style: "double",
     padding: 2,
     align: "left",
-  }
+  },
 );
 ```
 
 Output:
+
 ```
 ╔═══════════════════════════════════╗
 ║     System Information            ║
@@ -180,9 +186,11 @@ Output:
 Available border styles:
 
 **Single Line (default)**
+
 ```typescript
 BoxRenderer.render("Message", { style: "single" });
 ```
+
 ```
 ┌──────────┐
 │ Message  │
@@ -190,9 +198,11 @@ BoxRenderer.render("Message", { style: "single" });
 ```
 
 **Double Line**
+
 ```typescript
 BoxRenderer.render("Message", { style: "double" });
 ```
+
 ```
 ╔══════════╗
 ║ Message  ║
@@ -200,9 +210,11 @@ BoxRenderer.render("Message", { style: "double" });
 ```
 
 **Rounded Corners**
+
 ```typescript
 BoxRenderer.render("Message", { style: "rounded" });
 ```
+
 ```
 ╭──────────╮
 │ Message  │
@@ -210,9 +222,11 @@ BoxRenderer.render("Message", { style: "rounded" });
 ```
 
 **Bold**
+
 ```typescript
 BoxRenderer.render("Message", { style: "bold" });
 ```
+
 ```
 ┏━━━━━━━━━━┓
 ┃ Message  ┃
@@ -253,23 +267,26 @@ const progress = new ProgressBar({
 
 for (let i = 0; i <= 100; i += 10) {
   progress.update(i);
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 200));
 }
 
 progress.complete("All files processed!");
 ```
 
 Output during processing:
+
 ```
 Processing files: [████████████████░░░░░░░░] 60% (60/100)
 ```
 
 Output when complete:
+
 ```
 Processing files: [████████████████████████] 100% (100/100) ✓ All files processed!
 ```
 
 **Options:**
+
 - `total`: Total number of units (required)
 - `width`: Width of the progress bar in characters (default: 40)
 - `label`: Label text (optional)
@@ -293,10 +310,10 @@ const spinner = new Spinner({
 spinner.start();
 
 // Simulate async work
-await new Promise(resolve => setTimeout(resolve, 2000));
+await new Promise((resolve) => setTimeout(resolve, 2000));
 spinner.update("Processing data...");
 
-await new Promise(resolve => setTimeout(resolve, 1000));
+await new Promise((resolve) => setTimeout(resolve, 1000));
 
 // Success
 spinner.succeed("Data loaded successfully!");
@@ -323,6 +340,7 @@ spinner.succeed("Data loaded successfully!");
 - `pulse`: ⣾ ⣽ ⣻ ⢿ ⡿ ⣟ ⣯ ⣷
 
 **Methods:**
+
 - `start()`: Start the spinner animation
 - `update(message)`: Update the spinner message
 - `succeed(message?)`: Stop with success symbol
@@ -334,17 +352,17 @@ spinner.succeed("Data loaded successfully!");
 ### Multiple Progress Indicators
 
 ```typescript
-import { Spinner, ProgressBar } from "jsr:@pedromdominguez/genesis-trace";
+import { ProgressBar, Spinner } from "jsr:@pedromdominguez/genesis-trace";
 
 const spinner = new Spinner({ message: "Initializing..." });
 spinner.start();
-await new Promise(r => setTimeout(r, 1000));
+await new Promise((r) => setTimeout(r, 1000));
 spinner.succeed("Initialization complete");
 
 const progress = new ProgressBar({ total: 100, label: "Processing" });
 for (let i = 0; i <= 100; i += 10) {
   progress.update(i);
-  await new Promise(r => setTimeout(r, 100));
+  await new Promise((r) => setTimeout(r, 100));
 }
 progress.complete("Done!");
 ```
@@ -376,6 +394,7 @@ ChartRenderer.barChart(salesData, {
 ```
 
 Output:
+
 ```
 Monthly Sales ($k)
 Jan ████████████        120
@@ -387,6 +406,7 @@ Jun █████████████████████████�
 ```
 
 **Options:**
+
 - `width`: Maximum bar width in characters (default: 50)
 - `showValues`: Show values at end of bars (default: true)
 - `color`: ANSI color code for bars (default: cyan)
@@ -412,7 +432,7 @@ ChartRenderer.barChart(
       ColorSystem.codes.yellow,
       ColorSystem.codes.red,
     ],
-  }
+  },
 );
 ```
 
@@ -435,6 +455,7 @@ BannerRenderer.render({
 ```
 
 Output:
+
 ```
 ╔════════════════════════════════════╗
 ║                                    ║
@@ -447,6 +468,7 @@ Output:
 ```
 
 **Options:**
+
 - `title`: Main title text (required)
 - `subtitle`: Subtitle text (optional)
 - `version`: Version string (optional)
@@ -473,12 +495,13 @@ ConsoleStyler.renderBanner({
   database: "PostgreSQL",
   ai: {
     enabled: true,
-    models: ["GPT-4", "Claude-3"]
-  }
+    models: ["GPT-4", "Claude-3"],
+  },
 });
 ```
 
 Output:
+
 ```
 ╔════════════════════════════════════════════════════════════════╗
 ║                                                                ║
@@ -507,12 +530,13 @@ import { InteractivePrompts } from "jsr:@pedromdominguez/genesis-trace";
 
 const name = await InteractivePrompts.input(
   "What is your name?",
-  "Anonymous"  // Default value
+  "Anonymous", // Default value
 );
 console.log(`Hello, ${name}!`);
 ```
 
 Output:
+
 ```
 What is your name? [Anonymous]: _
 ```
@@ -524,7 +548,7 @@ import { InteractivePrompts } from "jsr:@pedromdominguez/genesis-trace";
 
 const confirmed = await InteractivePrompts.confirm(
   "Do you want to continue?",
-  true  // Default value
+  true, // Default value
 );
 
 if (confirmed) {
@@ -535,6 +559,7 @@ if (confirmed) {
 ```
 
 Output:
+
 ```
 Do you want to continue? [Y/n]: _
 ```
@@ -546,12 +571,13 @@ import { InteractivePrompts } from "jsr:@pedromdominguez/genesis-trace";
 
 const choice = await InteractivePrompts.select(
   "Choose your deployment environment:",
-  ["Development", "Staging", "Production"]
+  ["Development", "Staging", "Production"],
 );
 console.log(`Deploying to: ${choice}`);
 ```
 
 Output:
+
 ```
 Choose your deployment environment:
   1) Development
@@ -563,20 +589,20 @@ Enter number (1-3): _
 ### Complex Interactive Flow
 
 ```typescript
-import { InteractivePrompts, Spinner, BoxRenderer } from "jsr:@pedromdominguez/genesis-trace";
+import { BoxRenderer, InteractivePrompts, Spinner } from "jsr:@pedromdominguez/genesis-trace";
 
 // Get user input
 const projectName = await InteractivePrompts.input("Project name:", "my-app");
 const projectType = await InteractivePrompts.select(
   "Project type:",
-  ["Web API", "CLI Tool", "Library"]
+  ["Web API", "CLI Tool", "Library"],
 );
 const useTypeScript = await InteractivePrompts.confirm("Use TypeScript?", true);
 
 // Show spinner
 const spinner = new Spinner({ message: "Creating project..." });
 spinner.start();
-await new Promise(r => setTimeout(r, 2000));
+await new Promise((r) => setTimeout(r, 2000));
 spinner.succeed("Project created!");
 
 // Show summary
@@ -588,7 +614,7 @@ BoxRenderer.render(
     `Type: ${projectType}`,
     `TypeScript: ${useTypeScript ? "Yes" : "No"}`,
   ],
-  { style: "double", title: "Summary" }
+  { style: "double", title: "Summary" },
 );
 ```
 
@@ -620,7 +646,7 @@ Use tables for lists and structured information:
 TableRenderer.render(users);
 
 // Avoid - Hard to read
-users.forEach(u => console.log(`${u.id} ${u.name} ${u.email}`));
+users.forEach((u) => console.log(`${u.id} ${u.name} ${u.email}`));
 ```
 
 ### 3. Boxes for Important Messages

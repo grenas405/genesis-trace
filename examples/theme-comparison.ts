@@ -80,6 +80,8 @@ function showCustomThemeExample() {
   const cyberpunkTheme: Theme = {
     name: "cyberpunk",
     colors: {
+      primary: ColorSystem.hexToRgb("#00F0FF"),
+      secondary: ColorSystem.hexToRgb("#7928CA"),
       debug: ColorSystem.hexToRgb("#7928CA"),
       info: ColorSystem.hexToRgb("#00DFD8"),
       success: ColorSystem.hexToRgb("#39FF14"),
@@ -96,6 +98,23 @@ function showCustomThemeExample() {
       warning: "⚠",
       error: "✗",
       critical: "☢",
+      bullet: "•",
+      arrow: "→",
+      check: "✓",
+      cross: "✗",
+    },
+    boxDrawing: {
+      topLeft: "┌",
+      topRight: "┐",
+      bottomLeft: "└",
+      bottomRight: "┘",
+      horizontal: "─",
+      vertical: "│",
+      cross: "┼",
+      teeLeft: "├",
+      teeRight: "┤",
+      teeTop: "┬",
+      teeBottom: "┴",
     },
   };
 
@@ -114,6 +133,8 @@ function showCustomThemeExample() {
   const oceanTheme: Theme = {
     name: "ocean",
     colors: {
+      primary: ColorSystem.hexToRgb("#0077BE"),
+      secondary: ColorSystem.hexToRgb("#00CED1"),
       debug: ColorSystem.hexToRgb("#89CFF0"),
       info: ColorSystem.hexToRgb("#0077BE"),
       success: ColorSystem.hexToRgb("#00CED1"),
@@ -130,6 +151,23 @@ function showCustomThemeExample() {
       warning: "⚠",
       error: "✗",
       critical: "⚡",
+      bullet: "•",
+      arrow: "→",
+      check: "✓",
+      cross: "✗",
+    },
+    boxDrawing: {
+      topLeft: "┌",
+      topRight: "┐",
+      bottomLeft: "└",
+      bottomRight: "┘",
+      horizontal: "─",
+      vertical: "│",
+      cross: "┼",
+      teeLeft: "├",
+      teeRight: "┤",
+      teeTop: "┬",
+      teeBottom: "┴",
     },
   };
 
@@ -148,6 +186,8 @@ function showCustomThemeExample() {
   const sunsetTheme: Theme = {
     name: "sunset",
     colors: {
+      primary: ColorSystem.hexToRgb("#FF7F50"),
+      secondary: ColorSystem.hexToRgb("#FF8C94"),
       debug: ColorSystem.hexToRgb("#FFB347"),
       info: ColorSystem.hexToRgb("#FF7F50"),
       success: ColorSystem.hexToRgb("#98D8C8"),
@@ -164,6 +204,23 @@ function showCustomThemeExample() {
       warning: "▲",
       error: "●",
       critical: "◆",
+      bullet: "•",
+      arrow: "→",
+      check: "✓",
+      cross: "✗",
+    },
+    boxDrawing: {
+      topLeft: "┌",
+      topRight: "┐",
+      bottomLeft: "└",
+      bottomRight: "┘",
+      horizontal: "─",
+      vertical: "│",
+      cross: "┼",
+      teeLeft: "├",
+      teeRight: "┤",
+      teeTop: "┬",
+      teeBottom: "┴",
     },
   };
 
@@ -218,7 +275,7 @@ function showColorPalettes() {
 }
 
 // Comparison table
-function showComparisonTable() {
+async function showComparisonTable() {
   console.log(
     ColorSystem.colorize(
       `\n${"═".repeat(70)}\n  THEME CHARACTERISTICS\n${"═".repeat(70)}`,

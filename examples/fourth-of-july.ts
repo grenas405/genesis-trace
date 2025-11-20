@@ -163,9 +163,7 @@ const starRows = [
 ];
 
 for (let i = 0; i < 13; i++) {
-  const stripeColor = i % 2 === 0
-    ? ColorSystem.codes.brightRed
-    : ColorSystem.codes.brightWhite;
+  const stripeColor = i % 2 === 0 ? ColorSystem.codes.brightRed : ColorSystem.codes.brightWhite;
   const fullStripe = ColorSystem.colorize(stripePattern, stripeColor);
   if (i < 7) {
     const stars = ColorSystem.colorize(
@@ -239,7 +237,9 @@ for (let volley = 0; volley < 3; volley++) {
   await sleep(160);
 }
 Deno.stdout.writeSync(encoder.encode("\x1B[?25h\x1B7\r\x1B[J\x1B8"));
-console.log(ColorSystem.colorize("Sky ablaze above the reflecting pool!", ColorSystem.codes.brightWhite));
+console.log(
+  ColorSystem.colorize("Sky ablaze above the reflecting pool!", ColorSystem.codes.brightWhite),
+);
 console.log("\n");
 
 // =============================================================================
