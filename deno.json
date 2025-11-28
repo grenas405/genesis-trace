@@ -11,7 +11,7 @@
   "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read --allow-write --allow-env",
-    "example": "deno run --allow-read --allow-write --allow-env examples/basic.ts"
+    "example": "deno run --allow-read --allow-write --allow-env examples/core/basic.ts"
   },
   "lint": {
     "rules": {

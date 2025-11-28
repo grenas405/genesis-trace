@@ -29,6 +29,10 @@ A comprehensive, production-grade terminal logging and UI library for Deno. **Ze
 - [Plugins](./docs/plugins.md) - Plugin architecture, built-in plugins, custom plugins
 - [Visual Components](./docs/visual-components.md) - Tables, boxes, progress bars, charts, prompts
 - [API Reference](./docs/api-reference.md) - Complete API documentation
+- **[Psychological Guardrails](./docs/psychological-guardrails.md)** - Cognitive safety for accelerated learning
+- **[Guardrails Quick Start](./docs/PSYCHOLOGICAL-GUARDRAILS-QUICKSTART.md)** - Get started in 5 minutes
+- **[POS Extension](./pos/README.md)** - Unix-compliant Point of Sale system with mouse support
+- **[Inventory Extension](./inventory/README.md)** - Multi-location inventory management with reorder automation
 
 ## Table of Contents
 
@@ -144,6 +148,10 @@ GenesisTrace enables you to build:
 - **Admin Dashboards**: Terminal-based dashboards with real-time charts and tables
 - **Testing Tools**: Test runners with formatted output and detailed reports
 - **Build Systems**: Custom build tools with progress tracking and structured output
+- **Point of Sale Systems**: Mouse-driven TUI applications ([see POS extension](./pos/README.md))
+- **Inventory Management**: Multi-location stock tracking and reorder automation ([see Inventory extension](./inventory/README.md))
+- **Educational Platforms**: Accelerated learning with cognitive safety guardrails ([see Psychological Guardrails](./docs/psychological-guardrails.md))
+- **Training Systems**: Adaptive pacing and cognitive load monitoring for optimal learning
 
 ## Core Architecture
 
@@ -1794,18 +1802,20 @@ Check out the `examples/` directory for complete working examples:
 - **cli-tool.ts**: Interactive CLI application
 - **data-pipeline.ts**: ETL processing with progress
 - **build-pipeline.ts**: Build system with logging
+- **panaderia-mexican-pos.ts**: POS cockpit for Panadería Mexican (Familia Vargas)
+- **santiago-paspaaquero-animation-lab.ts**: Real-time civic animation lab for Santiago Paspaáquero, Durango
 
 Run examples:
 
 ```bash
 # Basic example
-deno run --allow-read --allow-write --allow-env examples/basic.ts
+deno run --allow-read --allow-write --allow-env examples/core/basic.ts
 
 # Comprehensive demo
-deno run --allow-read --allow-write --allow-env examples/comprehensive.ts
+deno run --allow-read --allow-write --allow-env examples/core/comprehensive.ts
 
 # CLI tool
-deno run --allow-read --allow-write --allow-env examples/cli-tool.ts
+deno run --allow-read --allow-write --allow-env examples/core/cli-tool.ts
 ```
 
 ### Introspection Experiments

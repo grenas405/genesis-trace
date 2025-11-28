@@ -5,11 +5,13 @@ import { Formatter } from "./formatter.ts";
 
 export class Logger {
   private history: LogEntry[] = [];
+  private namespace?: string;
 
   constructor(
     private config: StylerConfig = defaultConfig,
-    private namespace?: string,
+    namespace?: string,
   ) {
+    this.namespace = namespace ?? config.namespace;
     // Initialize plugins
     this.config.plugins.forEach((plugin) => {
       plugin.onInit?.(this.config);

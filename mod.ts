@@ -33,6 +33,33 @@ export type { ChartData, ChartOptions } from "./components/charts.ts";
 
 export { InteractivePrompts } from "./components/interactive.ts";
 
+// Renderers
+export {
+  BufferedRenderer,
+  FixedUpdateRenderer,
+  LineRenderer,
+  SinglePassRenderer,
+} from "./components/renderer.ts";
+
+// Animation
+export {
+  AnimationLoop,
+  Easing,
+  FadeAnimation,
+  LoadingBarAnimation,
+  MatrixRainAnimation,
+  ParticleSystem,
+  PulseAnimation,
+  RainbowAnimation,
+  WaveAnimation,
+} from "./components/animation.ts";
+export type {
+  AnimationCallback,
+  AnimationEffectOptions,
+  AnimationLoopOptions,
+  Particle,
+} from "./components/animation.ts";
+
 // Themes
 export {
   defaultTheme,
@@ -56,6 +83,22 @@ export type { RemoteLoggerOptions } from "./plugins/remote-logger.ts";
 
 export { SlackLoggerPlugin } from "./plugins/slack-logger.ts";
 export type { SlackLoggerOptions } from "./plugins/slack-logger.ts";
+
+// Psychological Guardrails
+export { CognitiveGuardrailsPlugin } from "./plugins/cognitive-guardrails.ts";
+export type {
+  CognitiveGuardrailsOptions,
+  CognitiveMetrics,
+  GuardrailWarning,
+} from "./plugins/cognitive-guardrails.ts";
+
+export { AdaptivePacingController } from "./plugins/adaptive-pacing.ts";
+export type {
+  LearningProfile,
+  PacingAdjustment,
+  PacingOptions,
+  PacingState,
+} from "./plugins/adaptive-pacing.ts";
 
 // Adapters
 // Commented out - depend on removed "new" directory

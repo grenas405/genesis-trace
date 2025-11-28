@@ -80,6 +80,7 @@ export interface StylerConfig {
   colorMode: "auto" | "enabled" | "disabled";
   emojiMode: "auto" | "enabled" | "disabled";
   unicodeMode: "auto" | "enabled" | "disabled";
+  namespace?: string;
 
   // Formatting
   timestampFormat: string;
@@ -106,6 +107,7 @@ export const defaultConfig: StylerConfig = {
   colorMode: "auto",
   emojiMode: "auto",
   unicodeMode: "auto",
+  namespace: undefined,
   timestampFormat: "HH:mm:ss",
   dateFormat: "YYYY-MM-DD",
   indentSize: 2,
@@ -120,6 +122,10 @@ export const defaultConfig: StylerConfig = {
 
 export class ConfigBuilder {
   private config: Partial<StylerConfig> = {};
+  namespace(namespace: string): this {
+    this.config.namespace = namespace;
+    return this;
+  }
 
   colorMode(mode: "auto" | "enabled" | "disabled"): this {
     this.config.colorMode = mode;

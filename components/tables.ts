@@ -3,12 +3,28 @@ import { ColorSystem } from "../core/colors.ts";
 import { Formatter } from "../core/formatter.ts";
 import { Theme } from "../core/config.ts";
 
+type ColumnFormatter = (
+  value: any,
+  row?: Record<string, any>,
+  rowIndex?: number,
+) => string;
+
 export interface TableColumn {
   key: string;
   label: string;
   width?: number;
   align?: "left" | "center" | "right";
-  formatter?: (value: any) => string;
+  formatter?: ColumnFormatter;
+  /** @deprecated Use `formatter` to avoid confusion with `format` helpers elsewhere */
+  format?: ColumnFormatter;
+}
+
+interface ResolvedColumn {
+  key: string;
+  label: string;
+  width?: number;
+  align: "left" | "center" | "right";
+  formatter?: ColumnFormatter;
 }
 
 export interface TableOptions {
@@ -56,41 +72,36 @@ export class TableRenderer {
     }
 
     // Determine columns
-    const keys = columns?.map((c) => c.key) || Object.keys(processedData[0]);
-    const labels = columns?.map((c) => c.label) || keys;
-    const formatters = columns?.reduce((acc, col) => {
-      if (col.formatter) acc[col.key] = col.formatter;
-      return acc;
-    }, {} as Record<string, (value: any) => string>) || {};
-
     // Add index column if needed
     if (showIndex) {
-      keys.unshift("#");
-      labels.unshift("#");
       processedData = processedData.map((row, i) => ({ "#": i + 1, ...row }));
     }
 
-    // Calculate column widths
-    const columnWidths = keys.map((key, i) => {
-      const label = labels[i];
-      const values = processedData.map((row) => {
-        const value = row[key];
-        const formatted = formatters[key] ? formatters[key](value) : String(value ?? "");
-        return ColorSystem.visibleLength(formatted);
-      });
-      return Math.min(
-        Math.max(label.length, ...values),
-        Math.floor(maxWidth / keys.length),
-      );
-    });
+    const resolvedColumns = this.resolveColumns(
+      processedData,
+      columns,
+      showIndex,
+    );
+    const formattedRows = this.formatRows(processedData, resolvedColumns);
+    const columnWidths = this.calculateColumnWidths(
+      resolvedColumns,
+      formattedRows,
+      maxWidth,
+    );
 
     // Draw table
     this.drawTopBorder(columnWidths, colorize);
-    this.drawHeaderRow(labels, columnWidths, colorize);
+    this.drawHeaderRow(resolvedColumns, columnWidths, colorize);
     this.drawSeparator(columnWidths, colorize);
 
-    processedData.forEach((row, index) => {
-      this.drawDataRow(row, keys, columnWidths, formatters, index, colorize);
+    formattedRows.forEach((rowValues, index) => {
+      this.drawDataRow(
+        rowValues,
+        resolvedColumns,
+        columnWidths,
+        index,
+        colorize,
+      );
     });
 
     this.drawBottomBorder(columnWidths, colorize);
@@ -121,11 +132,13 @@ export class TableRenderer {
   }
 
   private static drawHeaderRow(
-    labels: string[],
+    columns: ResolvedColumn[],
     widths: number[],
     colorize: boolean,
   ): void {
-    const cells = labels.map((label, i) => Formatter.tableCell(label, widths[i], "center"));
+    const cells = columns.map((column, i) =>
+      Formatter.tableCell(column.label, widths[i], "center")
+    );
     const row = cells.join(" │ ");
     const fullRow = `│ ${row} │`;
     console.log(
@@ -134,18 +147,15 @@ export class TableRenderer {
   }
 
   private static drawDataRow(
-    row: Record<string, any>,
-    keys: string[],
+    rowValues: string[],
+    columns: ResolvedColumn[],
     widths: number[],
-    formatters: Record<string, (value: any) => string>,
     index: number,
     colorize: boolean,
   ): void {
-    const cells = keys.map((key, i) => {
-      const value = row[key];
-      const formatted = formatters[key] ? formatters[key](value) : String(value ?? "");
-      return Formatter.tableCell(formatted, widths[i]);
-    });
+    const cells = rowValues.map((value, i) =>
+      Formatter.tableCell(value, widths[i], columns[i].align)
+    );
 
     const rowStr = cells.join(" │ ");
     const fullRow = `│ ${rowStr} │`;
@@ -182,5 +192,75 @@ export class TableRenderer {
     });
 
     this.drawBottomBorder([labelWidth, valueWidth], colorize);
+  }
+
+  private static resolveColumns(
+    data: Record<string, any>[],
+    columns: TableColumn[] | undefined,
+    showIndex: boolean,
+  ): ResolvedColumn[] {
+    if (!columns || columns.length === 0) {
+      const keys = Object.keys(data[0]);
+      return keys.map((key) => {
+        const sampleValue = data[0]?.[key];
+        const align: "left" | "center" | "right" =
+          key === "#" || typeof sampleValue === "number" ? "right" : "left";
+        return {
+          key,
+          label: key,
+          align,
+        };
+      });
+    }
+
+    const hasExplicitIndex = columns.some((column) => column.key === "#");
+    const mapped = columns.map<ResolvedColumn>((column) => ({
+      key: column.key,
+      label: column.label ?? column.key,
+      width: column.width,
+      align: column.align ?? "left",
+      formatter: column.formatter ?? column.format,
+    }));
+
+    if (showIndex && !hasExplicitIndex) {
+      return [{ key: "#", label: "#", align: "right" }, ...mapped];
+    }
+
+    return mapped;
+  }
+
+  private static formatRows(
+    data: Record<string, any>[],
+    columns: ResolvedColumn[],
+  ): string[][] {
+    return data.map((row, rowIndex) =>
+      columns.map((column) => {
+        const rawValue = row[column.key];
+        if (column.formatter) {
+          return column.formatter(rawValue, row, rowIndex);
+        }
+        return String(rawValue ?? "");
+      })
+    );
+  }
+
+  private static calculateColumnWidths(
+    columns: ResolvedColumn[],
+    rows: string[][],
+    maxWidth: number,
+  ): number[] {
+    const columnCount = Math.max(columns.length, 1);
+    const maxAutoWidth = Math.max(3, Math.floor(maxWidth / columnCount));
+
+    return columns.map((column, columnIndex) => {
+      if (column.width) return column.width;
+
+      const labelWidth = ColorSystem.visibleLength(column.label);
+      const valueWidths = rows.map((row) =>
+        ColorSystem.visibleLength(row[columnIndex] ?? "")
+      );
+      const contentWidth = Math.max(labelWidth, ...valueWidths, 3);
+      return Math.min(contentWidth, maxAutoWidth);
+    });
   }
 }
