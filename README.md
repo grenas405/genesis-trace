@@ -1804,6 +1804,7 @@ Check out the `examples/` directory for complete working examples:
 - **build-pipeline.ts**: Build system with logging
 - **panaderia-mexican-pos.ts**: POS cockpit for Panadería Mexican (Familia Vargas)
 - **santiago-paspaaquero-animation-lab.ts**: Real-time civic animation lab for Santiago Paspaáquero, Durango
+- **faith/light-of-christ-description.ts**: Catechetical walk-through telling the “Light of Christ” story with banners, tables, and progress bars
 
 Run examples:
 
