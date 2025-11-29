@@ -349,6 +349,56 @@ const guardrails = new CognitiveGuardrailsPlugin({
 });
 ```
 
+## Grounding Exercise Infographic
+
+When cognitive guardrails issue repeated warnings or force a break, use grounding exercises before resuming instruction. The infographic below combines detection cues, facilitation language, and UI hooks you can render through the break overlay.
+
+```text
+╔════════════════════════════════════════════════════════════════════════╗
+║        G R O U N D I N G   E X E R C I S E S   R E S P O N S E          ║
+╠════════════════════════════════════════════════════════════════════════╣
+║ SIGNALS (metrics)                                                      ║
+║ - overloadRisk >= 70      - fatigueScore >= 60                         ║
+║ - engagementScore < 0.25  - forced break or panic language             ║
+║ - animation duration beyond limit or rapid warning escalation          ║
+╠════════════════════════════════════════════════════════════════════════╣
+║ FLOW                                                                   ║
+║ DETECT -> ACKNOWLEDGE -> GUIDE -> REINTEGRATE                          ║
+║ ┌──────────────┐ ┌──────────────────────┐ ┌──────────────────────────┐ ║
+║ │ Guardrails   │ │ Explain how pausing  │ │ Lead 1-2 exercises with │ ║
+║ │ warning hook │ │ protects cognition   │ │ timers + sensory cues   │ ║
+║ └──────────────┘ └──────────────────────┘ └──────────────────────────┘ ║
+║                           ↓                                            ║
+║ Prompt reflection, reset pacing, resume content intentionally          ║
+╚════════════════════════════════════════════════════════════════════════╝
+```
+
+```text
+╔══════════════════════╦══════════════════════╦══════════════════════════╗
+║ 5-4-3-2-1 Senses     ║ Box Breathing 4x4    ║ Micro-Movement Reset     ║
+╠══════════════════════╬══════════════════════╬══════════════════════════╣
+║ Use: racing thoughts ║ Use: elevated pulse  ║ Use: restlessness, eye   ║
+║ or dissociation.     ║ or shallow breathing.║ strain, screen fatigue.  ║
+║ UI: mute colors,     ║ UI: pulsating frame  ║ UI: warm gradient plus   ║
+║ show large counter.  ║ with looping breath  ║ subtle metronome dots.   ║
+║ Script: "Name 5 see, ║ bar.                 ║ Script: "Press feet, roll║
+║ 4 touch, 3 hear, 2   ║ Script: "Inhale 4,   ║ shoulders, stretch neck, ║
+║ smell, 1 taste."     ║ hold 4, exhale 4,    ║ shake hands."            ║
+║ Timing: 60 s tracker ║ hold 4."             ║ Timing: 45 s pulses.     ║
+║ Re-entry: ask "What  ║ Timing: 4 cycles     ║ Re-entry: highlight body ║
+║ felt real right now?"║ (about 64 s).        ║ check + ask "What changed║
+║                      ║ Re-entry: show heart ║ in your body?"           ║
+║                      ║ rate dial + readiness║                          ║
+║                      ║ prompt.              ║                          ║
+╚══════════════════════╩══════════════════════╩══════════════════════════╝
+```
+
+Implementation cues:
+
+- Trigger the overlay from `onWarning` when overload or fatigue crosses the listed thresholds, and switch to `onBreakRequired` if a forced pause is active.
+- Surface pacing data next to the infographic so users know the system is intentionally slowing content.
+- Track completion timestamps for each exercise inside `guardrails.onMetricsUpdate` to prove the intervention happened before resuming the session.
+
 ## Research Foundation
 
 These guardrails are based on established cognitive science:

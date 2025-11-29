@@ -70,6 +70,13 @@ interface ResolvedTableTheme {
   };
 }
 
+interface BorderCharacters {
+  left: string;
+  right: string;
+  join: string;
+  horizontal: string;
+}
+
 export class TableRenderer {
   /**
    * Render table
@@ -166,11 +173,16 @@ export class TableRenderer {
       minWidth,
       sanitizedPadding,
     );
+    const constrainedColumnWidths = this.fitColumnsToWidth(
+      columnWidths,
+      resolvedMaxWidth,
+      sanitizedPadding,
+    );
 
     const lines: string[] = [];
     lines.push(
       this.drawBorder(
-        columnWidths,
+        constrainedColumnWidths,
         resolvedTheme,
         "top",
         colorize,
@@ -180,7 +192,7 @@ export class TableRenderer {
     lines.push(
       this.drawHeaderRow(
         resolvedColumns,
-        columnWidths,
+        constrainedColumnWidths,
         colorize,
         resolvedTheme,
         sanitizedPadding,
@@ -190,7 +202,7 @@ export class TableRenderer {
 
     lines.push(
       this.drawBorder(
-        columnWidths,
+        constrainedColumnWidths,
         resolvedTheme,
         "header",
         colorize,
@@ -206,7 +218,7 @@ export class TableRenderer {
       const rowLines = this.drawDataRow(
         rowValues,
         resolvedColumns,
-        columnWidths,
+        constrainedColumnWidths,
         index,
         colorize,
         resolvedTheme,
@@ -219,7 +231,7 @@ export class TableRenderer {
       if (rowSeparators && index < rowsToRender.length - 1) {
         lines.push(
           this.drawBorder(
-            columnWidths,
+            constrainedColumnWidths,
             resolvedTheme,
             "row",
             colorize,
@@ -232,7 +244,7 @@ export class TableRenderer {
       const message = `${truncateIndicator} ${truncatedRows} more row${truncatedRows === 1 ? "" : "s"} ${truncateIndicator}`;
       const overflowRow = this.buildOverflowRow(
         message,
-        columnWidths,
+        constrainedColumnWidths,
         colorize,
         resolvedTheme,
       );
@@ -241,7 +253,7 @@ export class TableRenderer {
 
     lines.push(
       this.drawBorder(
-        columnWidths,
+        constrainedColumnWidths,
         resolvedTheme,
         "bottom",
         colorize,
@@ -251,7 +263,7 @@ export class TableRenderer {
     return {
       lines,
       metrics: {
-        columnWidths,
+        columnWidths: constrainedColumnWidths,
         rowCount: processedData.length,
         displayedRows: rowsToRender.length,
         truncatedRows,
@@ -429,6 +441,75 @@ export class TableRenderer {
     });
   }
 
+  private static fitColumnsToWidth(
+    widths: number[],
+    maxWidth: number,
+    padding: number,
+  ): number[] {
+    if (widths.length === 0) return widths;
+
+    const adjusted = [...widths];
+    const minColumnWidth = Math.max(3, padding * 2 + 1);
+    const minTableWidth = this.calculateTableWidth(adjusted.map(() => minColumnWidth));
+    const targetWidth = Math.max(minTableWidth, maxWidth);
+    let currentWidth = this.calculateTableWidth(adjusted);
+
+    if (currentWidth <= targetWidth) {
+      return adjusted;
+    }
+
+    while (currentWidth > targetWidth) {
+      const shrinkable = adjusted
+        .map((width, index) => ({
+          index,
+          extra: width - minColumnWidth,
+        }))
+        .filter((column) => column.extra > 0);
+
+      if (shrinkable.length === 0) {
+        break;
+      }
+
+      const remaining = currentWidth - targetWidth;
+      const totalExtra = shrinkable.reduce((sum, column) => sum + column.extra, 0);
+      let reducedThisPass = 0;
+
+      shrinkable.forEach((column) => {
+        if (currentWidth <= targetWidth) return;
+        const proportionalShare = Math.max(
+          1,
+          Math.round((column.extra / totalExtra) * remaining),
+        );
+        const reduction = Math.min(
+          column.extra,
+          proportionalShare,
+          currentWidth - targetWidth,
+        );
+
+        if (reduction <= 0) {
+          return;
+        }
+
+        adjusted[column.index] -= reduction;
+        currentWidth -= reduction;
+        reducedThisPass += reduction;
+      });
+
+      if (reducedThisPass === 0) {
+        break;
+      }
+    }
+
+    return adjusted;
+  }
+
+  private static calculateTableWidth(widths: number[]): number {
+    if (widths.length === 0) return 0;
+    const separatorWidth = Math.max(0, widths.length - 1) * 3 + 4;
+    const contentWidth = widths.reduce((sum, width) => sum + Math.max(0, width), 0);
+    return contentWidth + separatorWidth;
+  }
+
   private static resolveTheme(theme?: Theme): ResolvedTableTheme {
     const appliedTheme = theme ?? defaultTheme;
     return {
@@ -451,46 +532,13 @@ export class TableRenderer {
     type: "top" | "header" | "row" | "bottom",
     colorize: boolean,
   ): string {
-    const { border } = theme;
-
-    const left = (() => {
-      switch (type) {
-        case "top":
-          return border.topLeft;
-        case "bottom":
-          return border.bottomLeft;
-        default:
-          return border.teeLeft;
-      }
-    })();
-
-    const right = (() => {
-      switch (type) {
-        case "top":
-          return border.topRight;
-        case "bottom":
-          return border.bottomRight;
-        default:
-          return border.teeRight;
-      }
-    })();
-
-    const join = (() => {
-      switch (type) {
-        case "top":
-          return border.teeTop;
-        case "bottom":
-          return border.teeBottom;
-        default:
-          return border.cross;
-      }
-    })();
+    const characters = this.getBorderCharacters(theme.border, type);
 
     const line = widths
-      .map((w) => border.horizontal.repeat(w))
-      .join(`${border.horizontal}${join}${border.horizontal}`);
+      .map((w) => characters.horizontal.repeat(Math.max(0, w)))
+      .join(`${characters.horizontal}${characters.join}${characters.horizontal}`);
 
-    const composed = `${left}${border.horizontal}${line}${border.horizontal}${right}`;
+    const composed = `${characters.left}${characters.horizontal}${line}${characters.horizontal}${characters.right}`;
     const color =
       type === "header"
         ? theme.colors.headerSeparator
@@ -501,14 +549,77 @@ export class TableRenderer {
     return this.applyColor(composed, color, colorize);
   }
 
+  private static getBorderCharacters(
+    border: Theme["boxDrawing"],
+    type: "top" | "header" | "row" | "bottom",
+  ): BorderCharacters {
+    switch (type) {
+      case "top":
+        return {
+          left: border.topLeft,
+          right: border.topRight,
+          join: border.teeTop,
+          horizontal: border.horizontal,
+        };
+      case "bottom":
+        return {
+          left: border.bottomLeft,
+          right: border.bottomRight,
+          join: border.teeBottom,
+          horizontal: border.horizontal,
+        };
+      case "header":
+        return this.resolveHeaderBorderCharacters(border);
+      default:
+        return {
+          left: border.teeLeft,
+          right: border.teeRight,
+          join: border.cross,
+          horizontal: border.horizontal,
+        };
+    }
+  }
+
+  private static resolveHeaderBorderCharacters(
+    border: Theme["boxDrawing"],
+  ): BorderCharacters {
+    const singleLineVariants = new Set(["─", "━", "┄", "┈"]);
+    const asciiVariants = new Set(["-", "_"]);
+
+    if (singleLineVariants.has(border.horizontal)) {
+      return {
+        left: "╞",
+        right: "╡",
+        join: "╪",
+        horizontal: "═",
+      };
+    }
+
+    if (asciiVariants.has(border.horizontal)) {
+      return {
+        left: "+",
+        right: "+",
+        join: "+",
+        horizontal: "=",
+      };
+    }
+
+    return {
+      left: border.teeLeft,
+      right: border.teeRight,
+      join: border.cross,
+      horizontal: border.horizontal,
+    };
+  }
+
   private static buildOverflowRow(
     message: string,
     widths: number[],
     colorize: boolean,
     theme: ResolvedTableTheme,
   ): string[] {
-    const fullWidth = widths.reduce((sum, width) => sum + width, 0) + (widths.length - 1) * 3 + 4;
-    const innerWidth = fullWidth - 4;
+    const fullWidth = this.calculateTableWidth(widths);
+    const innerWidth = Math.max(0, fullWidth - 4);
     const truncated = Formatter.truncate(message, innerWidth);
     const padded = Formatter.pad(truncated, innerWidth, "center");
     const row = `${theme.border.vertical} ${padded} ${theme.border.vertical}`;

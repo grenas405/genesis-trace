@@ -22,7 +22,7 @@ export class ChartRenderer {
    */
   static barChart(data: ChartData[], options: ChartOptions = {}): void {
     const {
-      width = 50,
+      width,
       showValues = true,
       showLabels = true,
       colorize = true,
@@ -34,30 +34,62 @@ export class ChartRenderer {
       return;
     }
 
+    const resolvedWidth = this.resolveAvailableWidth(width);
     const maxValue = Math.max(...data.map((d) => d.value));
-    const maxLabelLength = Math.max(...data.map((d) => d.label.length));
+    const labelLengths = showLabels
+      ? data.map((d) => ColorSystem.visibleLength(d.label))
+      : [];
+    const maxLabelLength = labelLengths.length > 0 ? Math.max(...labelLengths) : 0;
+    const valueColumnWidth = showValues
+      ? Math.max(...data.map((d) => ColorSystem.visibleLength(String(d.value))))
+      : 0;
+    const minBarWidth = 1;
+    const reservedForValues = showValues ? valueColumnWidth + 1 : 0;
+    const remainingAfterValue = Math.max(
+      minBarWidth,
+      resolvedWidth - reservedForValues,
+    );
+    const preferredLabelWidth = showLabels
+      ? Math.min(
+        maxLabelLength,
+        Math.max(5, Math.floor(resolvedWidth * 0.35)),
+      )
+      : 0;
+    const maxAllowedLabelWidth = showLabels
+      ? Math.max(0, remainingAfterValue - minBarWidth - 1)
+      : 0;
+    const labelColumnWidth = showLabels && maxAllowedLabelWidth > 0
+      ? Math.max(1, Math.min(preferredLabelWidth, maxAllowedLabelWidth))
+      : 0;
+    const hasLabelColumn = showLabels && labelColumnWidth > 0;
+    const barWidth = Math.max(
+      minBarWidth,
+      remainingAfterValue - (hasLabelColumn ? labelColumnWidth + 1 : 0),
+    );
 
     data.forEach((item) => {
-      const barLength = Math.round((item.value / maxValue) * width);
-      let bar = "█".repeat(barLength);
+      const ratio = maxValue === 0 ? 0 : item.value / maxValue;
+      const barLength = Math.round(ratio * barWidth);
+      const filledSegment = barLength > 0 ? "█".repeat(barLength) : "";
+      const coloredSegment = colorize && filledSegment
+        ? ColorSystem.colorize(filledSegment, color)
+        : filledSegment;
+      const bar = Formatter.pad(coloredSegment, barWidth);
+      const parts: string[] = [];
 
-      if (colorize) {
-        bar = ColorSystem.colorize(bar, color);
+      if (hasLabelColumn) {
+        const truncatedLabel = Formatter.truncate(item.label, labelColumnWidth);
+        parts.push(Formatter.pad(truncatedLabel, labelColumnWidth));
       }
 
-      let line = "";
-
-      if (showLabels) {
-        line += Formatter.pad(item.label, maxLabelLength + 1);
-      }
-
-      line += bar;
+      parts.push(bar);
 
       if (showValues) {
-        line += ` ${item.value}`;
+        const valueText = Formatter.pad(String(item.value), valueColumnWidth, "right");
+        parts.push(valueText);
       }
 
-      console.log(line);
+      console.log(parts.join(" "));
     });
   }
 
@@ -96,18 +128,21 @@ export class ChartRenderer {
       return;
     }
 
-    const max = Math.max(...data);
-    const min = Math.min(...data);
+    const requestedWidth = typeof width === "number" && width > 0 ? width : data.length;
+    const resolvedWidth = this.resolveAvailableWidth(requestedWidth, 2);
+    const widthToUse = Math.max(1, Math.min(resolvedWidth, requestedWidth, data.length));
+    const series = data.length === widthToUse ? data : this.downsampleSeries(data, widthToUse);
+
+    const max = Math.max(...series);
+    const min = Math.min(...series);
     const range = max - min;
 
     // Create grid
     const grid: string[][] = Array(height).fill(null)
-      .map(() => Array(width).fill(" "));
+      .map(() => Array(widthToUse).fill(" "));
 
     // Plot points
-    data.forEach((value, x) => {
-      if (x >= width) return;
-
+    series.forEach((value, x) => {
       const normalizedValue = range === 0 ? 0.5 : (value - min) / range;
       const y = Math.round((1 - normalizedValue) * (height - 1));
 
@@ -115,7 +150,7 @@ export class ChartRenderer {
 
       // Connect with lines
       if (x > 0) {
-        const prevValue = data[x - 1];
+        const prevValue = series[x - 1];
         const prevNormalized = range === 0 ? 0.5 : (prevValue - min) / range;
         const prevY = Math.round((1 - prevNormalized) * (height - 1));
 
@@ -141,7 +176,8 @@ export class ChartRenderer {
     });
 
     // Draw axis
-    console.log("└" + "─".repeat(width) + "┘");
+    const axis = "└" + "─".repeat(widthToUse) + "┘";
+    console.log(axis);
   }
 
   /**
@@ -158,8 +194,46 @@ export class ChartRenderer {
       const slice = slices[sliceIndex];
 
       console.log(
-        `${slice} ${Formatter.pad(item.label, 20)} ${percentage.toFixed(1)}% (${item.value})`,
+        `${slice} ${Formatter.pad(Formatter.truncate(item.label, 20), 20)} ${percentage.toFixed(1)}% (${item.value})`,
       );
+    });
+  }
+
+  private static resolveAvailableWidth(width?: number, padding = 0): number {
+    const consoleWidth = Math.max(10, this.getConsoleWidth() - padding);
+    if (typeof width === "number" && width > 0) {
+      return Math.max(1, Math.min(width, consoleWidth));
+    }
+    return consoleWidth;
+  }
+
+  private static getConsoleWidth(): number {
+    try {
+      if (
+        typeof Deno !== "undefined" &&
+        typeof Deno.consoleSize === "function"
+      ) {
+        const { columns } = Deno.consoleSize();
+        if (columns > 0) {
+          return Math.max(40, Math.min(columns - 2, 240));
+        }
+      }
+    } catch {
+      // Ignore console size errors and fall back to default width
+    }
+
+    return 100;
+  }
+
+  private static downsampleSeries(data: number[], targetLength: number): number[] {
+    if (targetLength >= data.length) {
+      return [...data];
+    }
+
+    const step = data.length / targetLength;
+    return Array.from({ length: targetLength }, (_, i) => {
+      const index = Math.min(data.length - 1, Math.floor(i * step));
+      return data[index];
     });
   }
 }
