@@ -38,6 +38,34 @@ const CORRIDOR_405 = {
   landmarks: ["Will Rogers Airport", "Meridian Ave", "Lake Hefner", "NW Expressway"],
 };
 
+const NEOVIM_KEY_TRANSLATIONS = [
+  {
+    key: "Esc",
+    corridorAction: "Stabilize telemetry & exit manual overrides",
+    plainCue: "Hands off, breathe, say \"Safe Mode ON\"",
+  },
+  {
+    key: "i",
+    corridorAction: "Inject live corridor notes",
+    plainCue: "Lean in and say \"Typing mode\"",
+  },
+  {
+    key: ":w",
+    corridorAction: "Write corridor log for archive",
+    plainCue: "Seal the data, confirm \"Logged\"",
+  },
+  {
+    key: "u",
+    corridorAction: "Undo a wrong turn in narrative",
+    plainCue: "Roll back calmly, narrate the fix",
+  },
+  {
+    key: "/405",
+    corridorAction: "Search the corridor feed for incidents",
+    plainCue: "Ask it to highlight the next hotspot",
+  },
+];
+
 console.clear();
 console.log("\n");
 
@@ -107,7 +135,54 @@ corridorLogger.debug("Landmark tracking enabled", {
 console.log("\n");
 
 // =============================================================================
-// 3. HIGHWAY TRAFFIC FLOW ANIMATION
+// 3. NEOVIM CONTROL OVERLAY
+// =============================================================================
+
+console.log(brightWhite("◈ NEOVIM CONTROL OVERLAY"));
+console.log(dimText("  Translating corridor rituals into Neovim muscle memory...\n"));
+
+TableRenderer.render(NEOVIM_KEY_TRANSLATIONS, [
+  { key: "key", label: "Key", width: 10 },
+  { key: "corridorAction", label: "Corridor Control", width: 34 },
+  { key: "plainCue", label: "Plain Language Cue", width: 34 },
+]);
+
+const neovimDrill = new ProgressBar({
+  total: NEOVIM_KEY_TRANSLATIONS.length,
+  width: 46,
+  label: "Neovim Control Loop",
+  showPercentage: true,
+  colorize: true,
+});
+
+for (let i = 0; i < NEOVIM_KEY_TRANSLATIONS.length; i++) {
+  await sleep(320);
+  neovimDrill.update(i + 1, { suffix: ` ${NEOVIM_KEY_TRANSLATIONS[i].key} → ${NEOVIM_KEY_TRANSLATIONS[i].plainCue}` });
+}
+neovimDrill.complete();
+
+BoxRenderer.render(
+  [
+    ColorSystem.colorize("Coach Ritual", ColorSystem.codes.brightMagenta),
+    "",
+    ...Formatter.wrap(
+      "Esc → i → :w → u becomes the safety mantra for the 405 lab. Narrate each key, match it with the traffic action, and log the breath you take between steps.",
+      78,
+    ).map((line) => ColorSystem.colorize(line, ColorSystem.codes.brightWhite)),
+  ],
+  {
+    style: "rounded",
+    color: ColorSystem.codes.brightMagenta,
+    padding: 1,
+    margin: 1,
+  },
+);
+
+corridorLogger.info("Neovim control keys drilled", { keys: NEOVIM_KEY_TRANSLATIONS.length });
+console.log("\n");
+
+// =============================================================================
+// 4. HIGHWAY TRAFFIC FLOW ANIMATION
 // =============================================================================
 
 console.log(brightWhite("◈ TRAFFIC FLOW VISUALIZATION"));
@@ -129,7 +204,7 @@ trafficSpinner.succeed("All traffic systems operational • 24 sensors active");
 console.log("\n");
 
 // =============================================================================
-// 4. ANIMATED HIGHWAY VISUALIZATION
+// 5. ANIMATED HIGHWAY VISUALIZATION
 // =============================================================================
 
 console.log(brightWhite("◈ LIVE HIGHWAY ANIMATION"));
@@ -192,7 +267,7 @@ Deno.stdout.writeSync(encoder.encode("\x1B[?25h")); // Show cursor
 console.log(brightGreen("\n  ✓ Traffic flowing smoothly • Average speed: 62 mph\n"));
 
 // =============================================================================
-// 5. DISTRICT DEVELOPMENT PROGRESS
+// 6. DISTRICT DEVELOPMENT PROGRESS
 // =============================================================================
 
 console.log(brightWhite("◈ CORRIDOR DISTRICTS DEVELOPMENT"));
@@ -265,7 +340,7 @@ for (const district of districts) {
 console.log("\n");
 
 // =============================================================================
-// 6. CULTURAL PULSE VISUALIZATION
+// 7. CULTURAL PULSE VISUALIZATION
 // =============================================================================
 
 console.log(brightWhite("◈ CULTURAL LANDMARK PULSE"));
@@ -293,7 +368,7 @@ landmarkSpinner.succeed("Cultural vitality strong • 12 major events this week"
 console.log("\n");
 
 // =============================================================================
-// 7. ECONOMIC VITALITY WAVEFORM
+// 8. ECONOMIC VITALITY WAVEFORM
 // =============================================================================
 
 console.log(brightWhite("◈ ECONOMIC VITALITY WAVEFORM"));
@@ -332,7 +407,7 @@ Deno.stdout.writeSync(encoder.encode("\r" + " ".repeat(50) + "\r"));
 console.log(brightGreen("  ✓ Economic vitality: 89.4% of maximum capacity\n"));
 
 // =============================================================================
-// 8. CORRIDOR METRICS TABLE
+// 9. CORRIDOR METRICS TABLE
 // =============================================================================
 
 console.log(brightWhite("◈ 405 CORRIDOR VITAL STATISTICS"));
@@ -388,7 +463,7 @@ TableRenderer.render(
 console.log("");
 
 // =============================================================================
-// 9. FUTURE PROJECTION SPINNER
+// 10. FUTURE PROJECTION SPINNER
 // =============================================================================
 
 console.log(brightWhite("◈ CORRIDOR FUTURE PROJECTION"));
@@ -406,7 +481,7 @@ projectionSpinner.succeed("Projections complete • Strong growth expected throu
 console.log("");
 
 // =============================================================================
-// 10. CLOSING DECLARATION
+// 11. CLOSING DECLARATION
 // =============================================================================
 
 const closingSpinner = new Spinner({

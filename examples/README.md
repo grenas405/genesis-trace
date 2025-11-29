@@ -112,6 +112,20 @@ Comprehensive cancer treatment center animation lab featuring:
 
 **Run:** `deno run --allow-env --allow-read --allow-write civic/stephenson-cancer-center-okc.ts`
 
+### ⚡ [oklahoma-gas-electric.ts](./civic/oklahoma-gas-electric.ts) ⭐ NEW
+
+**Grid operations & storm response lab - Oklahoma Gas & Electric (OG&E)**
+
+- SCADA-inspired grid snapshot with regional load tables, line charts, and reserve progress meters
+- Generation fleet analytics featuring facility tables, fleet KPIs, and a live fuel mix pie chart
+- Outage & storm command dashboard with restoration progress bars and cause breakdown charts
+- Field crew deployment tracking with resource tables and workforce utilization visuals
+- Customer experience + reliability KPIs with contact center stats and digital engagement metrics
+- SPP market telemetry tables, price line charts, and renewable output sparklines
+- Interactive outage intake workflow using prompts, spinners, and logger narration
+
+**Run:** `deno run --allow-env --allow-read --allow-write civic/oklahoma-gas-electric.ts`
+
 ### 🔧 [tire-shop-management.ts](./commerce/tire-shop-management.ts) ⭐ NEW
 
 **Professional tire shop operations & management system**
