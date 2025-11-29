@@ -4,72 +4,165 @@
  * and ANSI escape sequences to eliminate glitching
  */
 
+export interface TerminalRendererOptions {
+  useAlternateScreen?: boolean;
+  hideCursor?: boolean;
+  clearOnSetup?: boolean;
+  suppressBrokenPipeErrors?: boolean;
+}
+
+export abstract class TerminalRendererBase {
+  protected readonly encoder: TextEncoder = new TextEncoder();
+  protected isSetup = false;
+  protected readonly options: Required<TerminalRendererOptions>;
+
+  protected constructor(options: TerminalRendererOptions = {}) {
+    this.options = {
+      useAlternateScreen: options.useAlternateScreen ?? true,
+      hideCursor: options.hideCursor ?? true,
+      clearOnSetup: options.clearOnSetup ?? true,
+      suppressBrokenPipeErrors: options.suppressBrokenPipeErrors ?? true,
+    };
+  }
+
+  protected ensureSetup(): void {
+    if (this.isSetup) return;
+
+    const sequences: string[] = [];
+    if (this.options.hideCursor) sequences.push("\x1b[?25l");
+    if (this.options.useAlternateScreen) sequences.push("\x1b[?1049h");
+    if (this.options.clearOnSetup) sequences.push("\x1b[2J");
+    sequences.push("\x1b[H");
+    this.writeRaw(sequences.join(""));
+    this.isSetup = true;
+  }
+
+  protected teardown(): void {
+    if (!this.isSetup) return;
+
+    const sequences: string[] = [];
+    if (this.options.useAlternateScreen) sequences.push("\x1b[?1049l");
+    if (this.options.hideCursor) sequences.push("\x1b[?25h");
+    this.writeRaw(sequences.join(""));
+    this.isSetup = false;
+  }
+
+  protected writeRaw(content: string): void {
+    if (!content) return;
+    try {
+      Deno.stdout.writeSync(this.encoder.encode(content));
+    } catch (error) {
+      if (
+        this.options.suppressBrokenPipeErrors &&
+        error instanceof Deno.errors.BrokenPipe
+      ) {
+        this.isSetup = false;
+        return;
+      }
+      throw error;
+    }
+  }
+}
+
+export interface BufferedRendererOptions extends TerminalRendererOptions {
+  backgroundChar?: string;
+}
+
+export interface RenderStats {
+  frame: number;
+  cellsChanged: number;
+  forced: boolean;
+}
+
 /**
  * Double-buffered renderer using ANSI escape sequences
  * Only renders changed cells (differential rendering) to minimize writes
  */
-export class BufferedRenderer {
+export class BufferedRenderer extends TerminalRendererBase {
   private width: number;
   private height: number;
   private buffer: string[][] = [];
   private previousBuffer: string[][] = [];
-  private encoder = new TextEncoder();
-  private isSetup = false;
+  private framesRendered = 0;
+  private needsFullRender = true;
+  private backgroundChar: string;
 
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, options: BufferedRendererOptions = {}) {
+    super(options);
     this.width = width;
     this.height = height;
+    this.backgroundChar = options.backgroundChar ?? " ";
     this.initBuffer();
   }
 
-  private initBuffer(): void {
-    this.buffer = Array(this.height)
-      .fill(null)
-      .map(() => Array(this.width).fill(" "));
-    this.previousBuffer = Array(this.height)
-      .fill(null)
-      .map(() => Array(this.width).fill(" "));
+  private initBuffer(fillChar = this.backgroundChar): void {
+    this.buffer = Array.from({ length: this.height }, () =>
+      Array(this.width).fill(fillChar)
+    );
+    this.previousBuffer = Array.from({ length: this.height }, () =>
+      Array(this.width).fill(fillChar)
+    );
+    this.needsFullRender = true;
   }
 
   /**
    * Setup alternate screen buffer and hide cursor
    */
   setup(): void {
-    if (this.isSetup) return;
-
-    this.isSetup = true;
-    Deno.stdout.writeSync(
-      this.encoder.encode(
-        "\x1b[?25l" + // Hide cursor
-          "\x1b[?1049h" + // Enable alternate screen buffer
-          "\x1b[2J" + // Clear screen
-          "\x1b[H", // Move to home position
-      ),
-    );
+    this.ensureSetup();
   }
 
   /**
    * Only render changed cells (differential rendering)
    * This dramatically reduces terminal writes and eliminates glitching
    */
-  render(): void {
-    if (!this.isSetup) this.setup();
+  render(force = false): RenderStats {
+    this.ensureSetup();
+
+    const requireFullRender = force || this.needsFullRender;
+    if (requireFullRender) {
+      for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
+          this.previousBuffer[y][x] = "";
+        }
+      }
+      this.needsFullRender = false;
+    }
 
     let output = "";
+    let cellsChanged = 0;
 
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
         if (this.buffer[y][x] !== this.previousBuffer[y][x]) {
-          // Move cursor to position and write char
           output += `\x1b[${y + 1};${x + 1}H${this.buffer[y][x]}`;
           this.previousBuffer[y][x] = this.buffer[y][x];
+          cellsChanged++;
         }
       }
     }
 
     if (output) {
-      Deno.stdout.writeSync(this.encoder.encode(output));
+      this.writeRaw(output);
     }
+
+    this.framesRendered++;
+    return {
+      frame: this.framesRendered,
+      cellsChanged,
+      forced: requireFullRender,
+    };
+  }
+
+  /**
+   * Run a full frame (mutation + render) atomically.
+   */
+  async withFrame(
+    draw: (renderer: this) => void | Promise<void>,
+    options: { force?: boolean } = {},
+  ): Promise<RenderStats> {
+    await draw(this);
+    return this.render(options.force ?? false);
   }
 
   /**
@@ -77,10 +170,10 @@ export class BufferedRenderer {
    */
   write(x: number, y: number, text: string, color?: string): void {
     const chars = Array.from(text);
-    for (let i = 0; i < chars.length && x + i < this.width; i++) {
-      if (y >= 0 && y < this.height) {
-        this.buffer[y][x + i] = color ? `${color}${chars[i]}\x1b[0m` : chars[i];
-      }
+    for (let i = 0; i < chars.length; i++) {
+      const px = x + i;
+      if (y < 0 || y >= this.height || px < 0 || px >= this.width) continue;
+      this.buffer[y][px] = color ? `${color}${chars[i]}\x1b[0m` : chars[i];
     }
   }
 
@@ -116,18 +209,48 @@ export class BufferedRenderer {
   }
 
   /**
+   * Resize buffer while optionally preserving content
+   */
+  resize(width: number, height: number, preserve = true): void {
+    if (width === this.width && height === this.height) return;
+
+    const newBuffer = Array.from({ length: height }, () =>
+      Array(width).fill(this.backgroundChar)
+    );
+    const newPrevious = Array.from({ length: height }, () =>
+      Array(width).fill(this.backgroundChar)
+    );
+
+    if (preserve) {
+      const copyHeight = Math.min(height, this.height);
+      const copyWidth = Math.min(width, this.width);
+      for (let y = 0; y < copyHeight; y++) {
+        for (let x = 0; x < copyWidth; x++) {
+          newBuffer[y][x] = this.buffer[y][x];
+          newPrevious[y][x] = this.previousBuffer[y][x];
+        }
+      }
+    }
+
+    this.width = width;
+    this.height = height;
+    this.buffer = newBuffer;
+    this.previousBuffer = newPrevious;
+    this.needsFullRender = true;
+  }
+
+  /**
+   * Force renderer to redraw entire buffer on next render call
+   */
+  forceFullRender(): void {
+    this.needsFullRender = true;
+  }
+
+  /**
    * Restore terminal state
    */
   cleanup(): void {
-    if (!this.isSetup) return;
-
-    Deno.stdout.writeSync(
-      this.encoder.encode(
-        "\x1b[?1049l" + // Disable alternate screen
-          "\x1b[?25h", // Show cursor
-      ),
-    );
-    this.isSetup = false;
+    this.teardown();
   }
 
   /**
@@ -136,56 +259,69 @@ export class BufferedRenderer {
   getDimensions(): { width: number; height: number } {
     return { width: this.width, height: this.height };
   }
+
+  /**
+   * Get current frame counter
+   */
+  getFrameCount(): number {
+    return this.framesRendered;
+  }
 }
 
 /**
  * Single-pass renderer for simple use cases
  * Builds entire frame as a single string, then writes once
  */
-export class SinglePassRenderer {
+export class SinglePassRenderer extends TerminalRendererBase {
   private width: number;
   private height: number;
-  private encoder = new TextEncoder();
-  private isSetup = false;
 
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, options: TerminalRendererOptions = {}) {
+    super({
+      useAlternateScreen: options.useAlternateScreen ?? false,
+      hideCursor: options.hideCursor ?? true,
+      clearOnSetup: options.clearOnSetup ?? true,
+      suppressBrokenPipeErrors: options.suppressBrokenPipeErrors ?? true,
+    });
     this.width = width;
     this.height = height;
   }
 
   setup(): void {
-    if (this.isSetup) return;
-
-    this.isSetup = true;
-    Deno.stdout.writeSync(
-      this.encoder.encode(
-        "\x1b[?25l" + // Hide cursor
-          "\x1b[2J" + // Clear screen
-          "\x1b[H", // Move to home
-      ),
-    );
+    this.ensureSetup();
   }
 
   render(content: string[][]): void {
-    if (!this.isSetup) this.setup();
+    this.ensureSetup();
 
-    // Build entire frame as single string
-    let frame = "\x1b[H"; // Move cursor to home
+    let frame = "\x1b[H";
+    const height = Math.min(content.length, this.height);
 
-    for (let y = 0; y < Math.min(content.length, this.height); y++) {
+    for (let y = 0; y < height; y++) {
       const line = content[y].slice(0, this.width).join("");
-      frame += line + (y < this.height - 1 ? "\n" : "");
+      frame += line;
+      if (y < height - 1) frame += "\n";
     }
 
-    // Single write operation
-    Deno.stdout.writeSync(this.encoder.encode(frame));
+    this.writeRaw(frame);
+  }
+
+  renderLines(lines: string[]): void {
+    const matrix = lines.map((line) => [line]);
+    this.render(matrix);
+  }
+
+  setViewport(width: number, height: number): void {
+    this.width = width;
+    this.height = height;
+  }
+
+  getViewport(): { width: number; height: number } {
+    return { width: this.width, height: this.height };
   }
 
   cleanup(): void {
-    if (!this.isSetup) return;
-
-    Deno.stdout.writeSync(this.encoder.encode("\x1b[?25h"));
-    this.isSetup = false;
+    this.teardown();
   }
 }
 
@@ -193,23 +329,22 @@ export class SinglePassRenderer {
  * Line-based renderer for status displays
  * Updates only specific lines instead of the whole screen
  */
-export class LineRenderer {
+export class LineRenderer extends TerminalRendererBase {
   private lines: Map<number, string> = new Map();
-  private encoder = new TextEncoder();
-  private isSetup = false;
+
+  constructor(options: TerminalRendererOptions = {}) {
+    super({
+      useAlternateScreen: options.useAlternateScreen ?? false,
+      hideCursor: options.hideCursor ?? true,
+      clearOnSetup: options.clearOnSetup ?? false,
+      suppressBrokenPipeErrors: options.suppressBrokenPipeErrors ?? true,
+    });
+  }
 
   setup(): void {
     if (this.isSetup) return;
-
-    this.isSetup = true;
-    // Clear once, hide cursor
-    Deno.stdout.writeSync(
-      this.encoder.encode(
-        "\x1b[2J" + // Clear screen
-          "\x1b[H" + // Move to home
-          "\x1b[?25l", // Hide cursor
-      ),
-    );
+    this.ensureSetup();
+    this.writeRaw("\x1b[2J\x1b[H");
   }
 
   /**
@@ -217,28 +352,27 @@ export class LineRenderer {
    */
   updateLine(lineNum: number, content: string): void {
     if (!this.isSetup) this.setup();
-
-    // Move to line, clear it, write content
-    const output = `\x1b[${lineNum};1H\x1b[K${content}`;
-    Deno.stdout.writeSync(this.encoder.encode(output));
-
-    this.lines.set(lineNum, content);
+    const sanitizedLine = Math.max(1, lineNum);
+    const output = `\x1b[${sanitizedLine};1H\x1b[K${content}`;
+    this.writeRaw(output);
+    this.lines.set(sanitizedLine, content);
   }
 
   /**
    * Update multiple lines at once (batched)
    */
-  updateLines(updates: Map<number, string>): void {
+  updateLines(updates: Map<number, string> | Iterable<[number, string]>): void {
     if (!this.isSetup) this.setup();
 
     let output = "";
-    for (const [lineNum, content] of updates.entries()) {
-      output += `\x1b[${lineNum};1H\x1b[K${content}`;
-      this.lines.set(lineNum, content);
+    for (const [lineNum, content] of updates) {
+      const sanitizedLine = Math.max(1, lineNum);
+      output += `\x1b[${sanitizedLine};1H\x1b[K${content}`;
+      this.lines.set(sanitizedLine, content);
     }
 
     if (output) {
-      Deno.stdout.writeSync(this.encoder.encode(output));
+      this.writeRaw(output);
     }
   }
 
@@ -246,7 +380,9 @@ export class LineRenderer {
    * Clear a specific line
    */
   clearLine(lineNum: number): void {
-    this.updateLine(lineNum, "");
+    const sanitizedLine = Math.max(1, lineNum);
+    this.updateLine(sanitizedLine, "");
+    this.lines.delete(sanitizedLine);
   }
 
   /**
@@ -254,16 +390,12 @@ export class LineRenderer {
    */
   clear(): void {
     if (!this.isSetup) this.setup();
-
-    Deno.stdout.writeSync(this.encoder.encode("\x1b[2J\x1b[H"));
+    this.writeRaw("\x1b[2J\x1b[H");
     this.lines.clear();
   }
 
   cleanup(): void {
-    if (!this.isSetup) return;
-
-    Deno.stdout.writeSync(this.encoder.encode("\x1b[?25h"));
-    this.isSetup = false;
+    this.teardown();
   }
 
   /**
@@ -278,42 +410,43 @@ export class LineRenderer {
  * Fixed update loop renderer with vsync-like timing
  * Prevents frame tearing and ensures consistent frame rate
  */
-export class FixedUpdateRenderer {
+export class FixedUpdateRenderer extends TerminalRendererBase {
   private running = false;
   private targetFPS: number;
   private frameInterval: number;
   private lastFrameTime = 0;
-  private renderCallback?: () => string;
-  private encoder = new TextEncoder();
-  private isSetup = false;
+  private renderCallback?: () => string | string[];
   private timeoutId?: number;
+  private framesRendered = 0;
 
-  constructor(fps: number = 30) {
+  constructor(fps: number = 30, options: TerminalRendererOptions = {}) {
+    super({
+      useAlternateScreen: options.useAlternateScreen ?? false,
+      hideCursor: options.hideCursor ?? true,
+      clearOnSetup: options.clearOnSetup ?? true,
+      suppressBrokenPipeErrors: options.suppressBrokenPipeErrors ?? true,
+    });
     this.targetFPS = fps;
     this.frameInterval = 1000 / fps;
   }
 
   setup(): void {
-    if (this.isSetup) return;
-
-    this.isSetup = true;
-    Deno.stdout.writeSync(
-      this.encoder.encode(
-        "\x1b[?25l" + // Hide cursor
-          "\x1b[2J", // Clear screen
-      ),
-    );
+    this.ensureSetup();
   }
 
-  setRenderCallback(callback: () => string): void {
+  setRenderCallback(callback: () => string | string[]): void {
     this.renderCallback = callback;
+  }
+
+  setFPS(fps: number): void {
+    this.targetFPS = fps;
+    this.frameInterval = 1000 / fps;
   }
 
   start(): void {
     if (this.running) return;
 
-    if (!this.isSetup) this.setup();
-
+    this.ensureSetup();
     this.running = true;
     this.lastFrameTime = performance.now();
     this.loop();
@@ -330,11 +463,12 @@ export class FixedUpdateRenderer {
 
       if (this.renderCallback) {
         const content = this.renderCallback();
-        Deno.stdout.writeSync(this.encoder.encode(`\x1b[H${content}`));
+        const normalized = Array.isArray(content) ? content.join("\n") : content;
+        this.writeRaw(`\x1b[H${normalized}`);
+        this.framesRendered++;
       }
     }
 
-    // Use setTimeout instead of busy waiting
     const nextDelay = Math.max(0, this.frameInterval - (performance.now() - now));
     this.timeoutId = setTimeout(() => this.loop(), nextDelay) as unknown as number;
   }
@@ -343,18 +477,20 @@ export class FixedUpdateRenderer {
     this.running = false;
     if (this.timeoutId !== undefined) {
       clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
     }
   }
 
   cleanup(): void {
     this.stop();
-    if (!this.isSetup) return;
-
-    Deno.stdout.writeSync(this.encoder.encode("\x1b[?25h"));
-    this.isSetup = false;
+    this.teardown();
   }
 
   isRunning(): boolean {
     return this.running;
+  }
+
+  getFrameCount(): number {
+    return this.framesRendered;
   }
 }
