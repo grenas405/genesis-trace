@@ -32,6 +32,20 @@ import {
   TableRenderer,
 } from "../../mod.ts";
 
+// ============================================================================
+// Catholic liturgical color palette
+// ============================================================================
+const liturgicalColors = {
+  violet: "#6A0DAD", // Advent/Lent, penance, preparation, mystery
+  rose: "#C71585", // Gaudete/Laetare Sundays (joy in penance)
+  green: "#228B22", // Ordinary Time, growth, hope
+  red: "#8B0000", // Passion, Holy Spirit, martyrs, sacrifice
+  martyrRed: "#B22222", // Blood of the martyrs
+  gold: "#FFD700", // Solemnities, Easter, Christmas, glory
+  marianBlue: "#0038A8", // Traditional Marian blue (not official, but common)
+  white: "#F5F5F5", // Purity, joy, light
+};
+
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const encoder = new TextEncoder();
 
@@ -40,6 +54,7 @@ console.log("\n");
 
 // =============================================================================
 // 1. GENESIS BANNER - "IN THE BEGINNING"
+//   → Violet: mystery, preparation, "primordial darkness"
 // =============================================================================
 
 BannerRenderer.render({
@@ -49,12 +64,13 @@ BannerRenderer.render({
   version: "liber-primus",
   author: "GenesisTrace Sacred Scripture Studio",
   width: 98,
-  color: ColorSystem.hexToRgb("#4B0082"), // Deep indigo - primordial mystery
+  color: ColorSystem.hexToRgb(liturgicalColors.violet),
 });
 console.log("\n");
 
 // =============================================================================
 // 2. INTRODUCTION TO GENESIS
+//   → Gold: solemnity, glory of God's Word
 // =============================================================================
 
 ConsoleStyler.logSection("The Book of Origins", "brightCyan", "double");
@@ -75,7 +91,7 @@ BoxRenderer.render(
     style: "double",
     title: "Liber Genesis",
     padding: 1,
-    color: ColorSystem.hexToRgb("#6A5ACD"), // Slate blue
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -83,6 +99,7 @@ console.log("\n");
 
 // =============================================================================
 // 3. THE SEVEN DAYS OF CREATION (Genesis 1:1-2:3)
+//   → Marian blue: heavens, waters, traditional Marian color
 // =============================================================================
 
 ConsoleStyler.logSection("The Seven Days of Creation", "brightYellow");
@@ -106,7 +123,7 @@ BoxRenderer.render(
     style: "double",
     title: "Bereshit - In the Beginning",
     padding: 1,
-    color: ColorSystem.hexToRgb("#000080"), // Navy - primordial darkness
+    color: ColorSystem.hexToRgb(liturgicalColors.marianBlue),
     maxWidth: 94,
   },
 );
@@ -212,13 +229,14 @@ console.log("\n");
 
 // =============================================================================
 // 4. THE CREATION OF HUMANITY (Genesis 1:26-27, 2:7)
+//   → Gold: human dignity, Imago Dei
 // =============================================================================
 
 ConsoleStyler.logSection("Imago Dei - The Image of God", "brightMagenta");
 
 BoxRenderer.render(
   [
-    '"Then God said, \'Let us make man in our image, after our likeness.\'',
+    "\"Then God said, 'Let us make man in our image, after our likeness.'",
     "So God created man in his own image,",
     "in the image of God he created him;",
     'male and female he created them." - Genesis 1:26-27',
@@ -231,7 +249,7 @@ BoxRenderer.render(
     style: "double",
     title: "The Crown of Creation",
     padding: 1,
-    color: ColorSystem.hexToRgb("#FF1493"), // Deep pink - divine breath
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -239,6 +257,7 @@ console.log("\n");
 
 // =============================================================================
 // 5. THE FALL (Genesis 3)
+//   → Red: sin, Passion, need for redemption
 // =============================================================================
 
 ConsoleStyler.logSection("The Fall of Humanity", "brightRed");
@@ -268,7 +287,7 @@ BoxRenderer.render(
     style: "double",
     title: "Original Sin - The Protoevangelium",
     padding: 1,
-    color: ColorSystem.hexToRgb("#8B0000"), // Dark red - sin and judgment
+    color: ColorSystem.hexToRgb(liturgicalColors.red),
     maxWidth: 94,
   },
 );
@@ -293,6 +312,7 @@ console.log("\n");
 
 // =============================================================================
 // 6. CAIN AND ABEL (Genesis 4:1-16)
+//   → Martyr red: blood of Abel as a type of martyrdom
 // =============================================================================
 
 ConsoleStyler.logSection("Cain and Abel", "brightYellow");
@@ -305,7 +325,7 @@ BoxRenderer.render(
     "The LORD had regard for Abel and his offering,",
     "but for Cain and his offering he had no regard.",
     "",
-    'Cain, consumed with anger, killed his brother.',
+    "Cain, consumed with anger, killed his brother.",
     'God asked, "Where is Abel your brother?"',
     'Cain replied, "Am I my brother\'s keeper?"',
     "",
@@ -315,7 +335,7 @@ BoxRenderer.render(
     style: "double",
     title: "The First Murder",
     padding: 1,
-    color: ColorSystem.hexToRgb("#DC143C"), // Crimson - blood of Abel
+    color: ColorSystem.hexToRgb(liturgicalColors.martyrRed),
     maxWidth: 94,
   },
 );
@@ -323,6 +343,7 @@ console.log("\n");
 
 // =============================================================================
 // 7. NOAH AND THE FLOOD (Genesis 6-9)
+//   → Green: new creation, hope after judgment
 // =============================================================================
 
 ConsoleStyler.logSection("Noah and the Great Flood", "brightBlue");
@@ -351,7 +372,7 @@ BoxRenderer.render(
     style: "double",
     title: "The Righteous Man",
     padding: 1,
-    color: ColorSystem.hexToRgb("#1E90FF"), // Dodger blue - waters of judgment
+    color: ColorSystem.hexToRgb(liturgicalColors.green),
     maxWidth: 94,
   },
 );
@@ -412,7 +433,7 @@ BoxRenderer.render(
     style: "double",
     title: "The Noahic Covenant",
     padding: 1,
-    color: ColorSystem.hexToRgb("#00CED1"), // Dark turquoise - rainbow
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -420,6 +441,7 @@ console.log("\n");
 
 // =============================================================================
 // 8. THE TOWER OF BABEL (Genesis 11:1-9)
+//   → Violet: human pride calling for repentance
 // =============================================================================
 
 ConsoleStyler.logSection("The Tower of Babel", "brightWhite");
@@ -442,7 +464,7 @@ BoxRenderer.render(
     style: "double",
     title: "Human Pride and Divine Judgment",
     padding: 1,
-    color: ColorSystem.hexToRgb("#A9A9A9"), // Dark gray - confusion
+    color: ColorSystem.hexToRgb(liturgicalColors.violet),
     maxWidth: 94,
   },
 );
@@ -503,17 +525,18 @@ console.log("\n");
 
 // =============================================================================
 // 10. ABRAHAM - THE CALL AND THE COVENANT (Genesis 12, 15, 17)
+//   → Gold: covenant promise, blessing
 // =============================================================================
 
 ConsoleStyler.logSection("Abraham - Father of Faith", "brightCyan");
 
 BoxRenderer.render(
   [
-    '"Now the LORD said to Abram, \'Go from your country',
+    "\"Now the LORD said to Abram, 'Go from your country",
     "and your kindred and your father's house to the land",
     "that I will show you. And I will make of you a great nation,",
     "and I will bless you and make your name great,",
-    'so that you will be a blessing.\'" - Genesis 12:1-2',
+    "so that you will be a blessing.'\" - Genesis 12:1-2",
     "",
     '"Look toward heaven, and number the stars, if you are able',
     'to number them... So shall your offspring be." - Genesis 15:5',
@@ -524,7 +547,7 @@ BoxRenderer.render(
     style: "double",
     title: "The Abrahamic Covenant",
     padding: 1,
-    color: ColorSystem.hexToRgb("#DAA520"), // Goldenrod - promise
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -549,6 +572,7 @@ console.log("\n");
 
 // =============================================================================
 // 11. THE BINDING OF ISAAC (Genesis 22) - THE AKEDAH
+//   → Red: sacrifice, foreshadowing the Passion
 // =============================================================================
 
 ConsoleStyler.logSection("The Akedah - Binding of Isaac", "brightRed");
@@ -569,7 +593,7 @@ BoxRenderer.render(
     style: "double",
     title: "The Supreme Test of Faith",
     padding: 1,
-    color: ColorSystem.hexToRgb("#8B0000"), // Dark red - sacrifice
+    color: ColorSystem.hexToRgb(liturgicalColors.red),
     maxWidth: 94,
   },
 );
@@ -596,7 +620,7 @@ BoxRenderer.render(
   [
     '"Abraham lifted up his eyes and looked, and behold,',
     "behind him was a ram, caught in a thicket by his horns.",
-    'And Abraham went and took the ram and offered it up as',
+    "And Abraham went and took the ram and offered it up as",
     'a burnt offering instead of his son." - Genesis 22:13',
     "",
     '"By myself I have sworn, declares the LORD, because you have done this',
@@ -607,7 +631,7 @@ BoxRenderer.render(
     style: "double",
     title: "God Provides - Yahweh Yireh",
     padding: 1,
-    color: ColorSystem.hexToRgb("#FFD700"), // Gold - divine provision
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -615,6 +639,7 @@ console.log("\n");
 
 // =============================================================================
 // 12. JACOB'S LADDER (Genesis 28:10-22)
+//   → Marian blue: heaven, angels, "Gate of Heaven"
 // =============================================================================
 
 ConsoleStyler.logSection("Jacob's Ladder", "brightMagenta");
@@ -634,7 +659,7 @@ BoxRenderer.render(
     style: "double",
     title: "The Gate of Heaven",
     padding: 1,
-    color: ColorSystem.hexToRgb("#BA55D3"), // Medium orchid - heavenly vision
+    color: ColorSystem.hexToRgb(liturgicalColors.marianBlue),
     maxWidth: 94,
   },
 );
@@ -671,6 +696,7 @@ console.log("\n");
 
 // =============================================================================
 // 13. JACOB WRESTLES WITH GOD (Genesis 32:22-32)
+//   → Violet: struggle with God, purification
 // =============================================================================
 
 ConsoleStyler.logSection("Jacob Wrestles with the Angel", "brightYellow");
@@ -679,7 +705,7 @@ BoxRenderer.render(
   [
     "Jacob was left alone. And a man wrestled with him until the breaking of the day.",
     "",
-    'When the man saw that he did not prevail against Jacob, he said,',
+    "When the man saw that he did not prevail against Jacob, he said,",
     '"Let me go, for the day has broken."',
     "",
     'But Jacob said, "I will not let you go unless you bless me."',
@@ -693,7 +719,7 @@ BoxRenderer.render(
     style: "double",
     title: "Israel - He Who Strives with God",
     padding: 1,
-    color: ColorSystem.hexToRgb("#FF8C00"), // Dark orange - struggle
+    color: ColorSystem.hexToRgb(liturgicalColors.violet),
     maxWidth: 94,
   },
 );
@@ -701,6 +727,7 @@ console.log("\n");
 
 // =============================================================================
 // 14. JOSEPH - FROM SLAVERY TO SECOND IN EGYPT (Genesis 37-50)
+//   → Green: providence in "ordinary time" of life, growth through trials
 // =============================================================================
 
 ConsoleStyler.logSection("Joseph - Savior of Israel", "brightBlue");
@@ -729,7 +756,7 @@ BoxRenderer.render(
     style: "double",
     title: "From the Pit to the Palace",
     padding: 1,
-    color: ColorSystem.hexToRgb("#4169E1"), // Royal blue - Pharaoh's court
+    color: ColorSystem.hexToRgb(liturgicalColors.green),
     maxWidth: 94,
   },
 );
@@ -789,7 +816,7 @@ BoxRenderer.render(
     style: "double",
     title: "Divine Providence",
     padding: 1,
-    color: ColorSystem.hexToRgb("#20B2AA"), // Light sea green - reconciliation
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -846,7 +873,8 @@ TableRenderer.render(
 console.log("\n");
 
 // =============================================================================
-// 16. KEY THEMES OF GENESIS
+//– 16. KEY THEMES OF GENESIS
+//   → Green: ongoing growth and unfolding of salvation history
 // =============================================================================
 
 ConsoleStyler.logSection("Key Themes of Genesis", "brightGreen");
@@ -867,7 +895,7 @@ ChartRenderer.barChart(
   {
     showValues: true,
     width: 45,
-    color: ColorSystem.hexToRgb("#228B22"),
+    color: ColorSystem.hexToRgb(liturgicalColors.green),
   },
 );
 console.log("\n");
@@ -884,7 +912,12 @@ const genealogy = [
   { generation: "10", name: "Noah", meaning: "Rest", lifespan: "950 years" },
   { generation: "20", name: "Abraham", meaning: "Father of many", lifespan: "175 years" },
   { generation: "21", name: "Isaac", meaning: "Laughter", lifespan: "180 years" },
-  { generation: "22", name: "Jacob/Israel", meaning: "Supplanter/Strives with God", lifespan: "147 years" },
+  {
+    generation: "22",
+    name: "Jacob/Israel",
+    meaning: "Supplanter/Strives with God",
+    lifespan: "147 years",
+  },
   { generation: "23", name: "Joseph", meaning: "He will add", lifespan: "110 years" },
 ];
 
@@ -902,6 +935,7 @@ console.log("\n");
 
 // =============================================================================
 // 18. THE CONCLUSION OF GENESIS
+//   → Violet: waiting, transition, longing for Exodus & Promised Land
 // =============================================================================
 
 ConsoleStyler.logSection("The End of Genesis", "brightMagenta");
@@ -924,7 +958,7 @@ BoxRenderer.render(
     style: "double",
     title: "Joseph's Death and Promise",
     padding: 1,
-    color: ColorSystem.hexToRgb("#9370DB"), // Medium purple - transition
+    color: ColorSystem.hexToRgb(liturgicalColors.violet),
     maxWidth: 94,
   },
 );
@@ -932,6 +966,7 @@ console.log("\n");
 
 // =============================================================================
 // 19. THEOLOGICAL REFLECTION
+//   → Gold: synthesized, proclaimed truth
 // =============================================================================
 
 ConsoleStyler.logSection("Theological Reflection", "brightYellow");
@@ -953,7 +988,7 @@ BoxRenderer.render(
     style: "double",
     title: "From Genesis to Revelation",
     padding: 1,
-    color: ColorSystem.hexToRgb("#FFD700"), // Gold - sacred truth
+    color: ColorSystem.hexToRgb(liturgicalColors.gold),
     maxWidth: 94,
   },
 );
@@ -961,11 +996,12 @@ console.log("\n");
 
 // =============================================================================
 // 20. CLOSING BENEDICTION
+//   → Gradient: Violet → Gold (from preparation to glory)
 // =============================================================================
 
 ConsoleStyler.logGradient(
   "Bereshit - In the Beginning",
-  [75, 0, 130], // Indigo
+  [106, 13, 173], // Violet
   [255, 215, 0], // Gold
   50,
 );
@@ -992,7 +1028,7 @@ BoxRenderer.render(
     style: "double",
     title: "Gloria Patri",
     padding: 1,
-    color: ColorSystem.hexToRgb("#4B0082"),
+    color: ColorSystem.hexToRgb(liturgicalColors.violet),
     maxWidth: 94,
   },
 );

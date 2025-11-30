@@ -6,14 +6,8 @@
  * This interactive guide demonstrates the structure and flow of the Catholic Mass,
  * with detailed explanations of each part and their spiritual significance.
  */
-import {
-  BannerRenderer,
-  BoxRenderer,
-  ColorSystem,
-  ConsoleStyler,
-  Formatter,
-  TableRenderer,
-} from "../../mod.ts";
+
+import { GenesisTrace } from "../../mod.ts";
 
 const trace = new GenesisTrace("Parts of Catholic Mass - Visual Guide");
 
