@@ -25,5 +25,8 @@
     "semiColons": true,
     "proseWrap": "preserve",
     "singleQuote": false
+  },
+  "imports": {
+    "@pedromdominguez/genesis-trace": "jsr:@pedromdominguez/genesis-trace@^1.0.5"
   }
 }

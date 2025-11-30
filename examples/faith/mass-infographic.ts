@@ -46,7 +46,7 @@ const massParts: MassPart[] = [
     icon: "🕯️",
     focus: "We gather, invoke the Trinity, and ask for mercy.",
     theme: "Gather & Prepare",
-    scripture: "Psalm 122:1 • \"Let us go to the house of the Lord.\"",
+    scripture: 'Psalm 122:1 • "Let us go to the house of the Lord."',
     posture: "Standing",
     sacredSign: "Sign of the Cross & veneration of the altar",
     grace: "Unity of the assembly and contrite hearts",
@@ -66,7 +66,7 @@ const massParts: MassPart[] = [
     icon: "📖",
     focus: "God speaks through Scripture; the faithful respond in faith.",
     theme: "Listen & Respond",
-    scripture: "Nehemiah 8:8 • \"They read from the book of the law of God.\"",
+    scripture: 'Nehemiah 8:8 • "They read from the book of the law of God."',
     posture: "Sitting (readings) • Standing (Gospel & Creed)",
     sacredSign: "Book of the Gospels raised in procession",
     grace: "Faith comes from hearing the Word proclaimed",
@@ -108,7 +108,7 @@ const massParts: MassPart[] = [
     icon: "🌍",
     focus: "The community is blessed and sent to evangelize.",
     theme: "Commission & Witness",
-    scripture: "Matthew 28:19-20 • \"Go and make disciples.\"",
+    scripture: 'Matthew 28:19-20 • "Go and make disciples."',
     posture: "Standing and processing out",
     sacredSign: "Blessing, final Sign of the Cross, recessional",
     grace: "Missionary zeal fueled by the Eucharist",
@@ -164,15 +164,17 @@ renderParticipationTable(massParts);
 BoxRenderer.render(
   [
     ColorSystem.colorize("Preparation:", CatholicColors.purple) +
-      " Arrive early, recollect, offer intentions.",
+    " Arrive early, recollect, offer intentions.",
     ColorSystem.colorize("Listening:", CatholicColors.green) +
-      " Let the Word cut into daily life; respond from the heart.",
+    " Let the Word cut into daily life; respond from the heart.",
     ColorSystem.colorize("Eucharistic amazement:", CatholicColors.gold) +
-      " Gaze upon the altar with reverence, kneel in adoration.",
+    " Gaze upon the altar with reverence, kneel in adoration.",
     ColorSystem.colorize("Mission:", CatholicColors.red) +
-      " Carry Christ into workplaces, families, and neighborhoods.",
+    " Carry Christ into workplaces, families, and neighborhoods.",
     "",
-    `${ColorSystem.colorize("Tip:", CatholicColors.blue)} Bring a missal or follow parish worship aids.`,
+    `${
+      ColorSystem.colorize("Tip:", CatholicColors.blue)
+    } Bring a missal or follow parish worship aids.`,
   ],
   {
     title: "Living the Mass Beyond the Walls",
@@ -183,7 +185,10 @@ BoxRenderer.render(
   },
 );
 
-console.log("\n" + ColorSystem.colorize(`Total estimated duration: ${totalMinutes} minutes`, CatholicColors.white));
+console.log(
+  "\n" +
+    ColorSystem.colorize(`Total estimated duration: ${totalMinutes} minutes`, CatholicColors.white),
+);
 console.log(
   ColorSystem.colorize("Ad Majorem Dei Gloriam • Go forth in peace!", CatholicColors.gold),
 );
@@ -193,7 +198,9 @@ function renderColorPalette() {
     [
       `${ColorSystem.colorize("Purple", CatholicColors.purple)} — Advent, Lent, repentance`,
       `${ColorSystem.colorize("Green", CatholicColors.green)} — Ordinary Time, growth, hope`,
-      `${ColorSystem.colorize("White / Gold", CatholicColors.white)} — Easter, Christmas, solemnities`,
+      `${
+        ColorSystem.colorize("White / Gold", CatholicColors.white)
+      } — Easter, Christmas, solemnities`,
       `${ColorSystem.colorize("Red", CatholicColors.red)} — Spirit, martyrs, sending forth`,
       `${ColorSystem.colorize("Blue", CatholicColors.blue)} — Marian devotion and heavenly trust`,
     ],

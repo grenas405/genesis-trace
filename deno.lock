@@ -16,6 +16,7 @@
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@1": "1.1.2",
     "npm:@types/node@*": "24.2.0",
+    "npm:cd@~0.3.3": "0.3.3",
     "npm:express@4.19.2": "4.19.2",
     "npm:path-to-regexp@^6.3.0": "6.3.0"
   },
@@ -130,6 +131,9 @@
         "call-bind-apply-helpers",
         "get-intrinsic"
       ]
+    },
+    "cd@0.3.3": {
+      "integrity": "sha512-X2y0Ssu48ucdkrNgCdg6k3EZWjWVy/dsEywUUTeZEIW31f3bQfq65Svm+TzU1Hz+qqhdmyCdjGhUvRsSKHl/mw=="
     },
     "content-disposition@0.5.4": {
       "integrity": "sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==",
@@ -697,6 +701,9 @@
     "https://deno.land/x/path_to_regexp@v6.2.1/index.ts": "894060567837bae8fc9c5cbd4d0a05e9024672083d5883b525c031eea940e556"
   },
   "workspace": {
+    "dependencies": [
+      "jsr:@pedromdominguez/genesis-trace@^1.0.5"
+    ],
     "packageJson": {
       "dependencies": [
         "npm:cd@~0.3.3"

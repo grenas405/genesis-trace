@@ -6,8 +6,14 @@
  * This interactive guide demonstrates the structure and flow of the Catholic Mass,
  * with detailed explanations of each part and their spiritual significance.
  */
-
-import { GenesisTrace } from "../../mod.ts";
+import {
+  BannerRenderer,
+  BoxRenderer,
+  ColorSystem,
+  ConsoleStyler,
+  Formatter,
+  TableRenderer,
+} from "../../mod.ts";
 
 const trace = new GenesisTrace("Parts of Catholic Mass - Visual Guide");
 
@@ -30,8 +36,8 @@ Four Main Parts:
   2. Liturgy of the Word
   3. Liturgy of the Eucharist
   4. Concluding Rites
-    `
-  }
+    `,
+  },
 });
 
 // PART 1: INTRODUCTORY RITES
@@ -47,8 +53,8 @@ trace.step("Part 1: Introductory Rites", {
 
 Purpose: To help the faithful come together as one and prepare
          to hear God's Word and celebrate the Eucharist
-    `
-  }
+    `,
+  },
 });
 
 trace.step("1a. Entrance Procession & Song", {
@@ -65,13 +71,13 @@ trace.step("1a. Entrance Procession & Song", {
 
     As the priest reaches the altar, he venerates it
     with a kiss, honoring it as the center of worship.
-    `
+    `,
   },
   metadata: {
     duration: "2-3 minutes",
     posture: "Standing",
-    participation: "Singing"
-  }
+    participation: "Singing",
+  },
 });
 
 trace.step("1b. Sign of the Cross & Greeting", {
@@ -90,12 +96,12 @@ trace.step("1b. Sign of the Cross & Greeting", {
 
     Meaning: We acknowledge God's presence and invoke
              the Holy Trinity to begin this sacred action.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    response: "Required"
-  }
+    response: "Required",
+  },
 });
 
 trace.step("1c. Penitential Act", {
@@ -121,12 +127,12 @@ trace.step("1c. Penitential Act", {
     "Lord, have mercy."  / "Kyrie, eleison."
     "Christ, have mercy." / "Christe, eleison."
     "Lord, have mercy."  / "Kyrie, eleison."
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    purpose: "Purification of heart"
-  }
+    purpose: "Purification of heart",
+  },
 });
 
 trace.step("1d. Gloria", {
@@ -146,12 +152,12 @@ trace.step("1d. Gloria", {
 
     This ancient hymn dates back to the 2nd century
     and expresses the Church's praise and thanksgiving.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    omitted: "Advent, Lent"
-  }
+    omitted: "Advent, Lent",
+  },
 });
 
 trace.step("1e. Collect (Opening Prayer)", {
@@ -171,12 +177,12 @@ trace.step("1e. Collect (Opening Prayer)", {
 
     This prayer "collects" the intentions of all present
     and concludes the Introductory Rites.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    silence: "Brief pause for prayer"
-  }
+    silence: "Brief pause for prayer",
+  },
 });
 
 // PART 2: LITURGY OF THE WORD
@@ -193,8 +199,8 @@ trace.step("Part 2: Liturgy of the Word", {
 Purpose: To nourish us with God's Word from Sacred Scripture
          "Man shall not live by bread alone, but by every word
          that comes from the mouth of God" (Matthew 4:4)
-    `
-  }
+    `,
+  },
 });
 
 trace.step("2a. First Reading", {
@@ -214,12 +220,12 @@ trace.step("2a. First Reading", {
     • Usually from Old Testament prophets or history
     • During Easter season: from Acts of the Apostles
     • Chosen to complement the Gospel reading
-    `
+    `,
   },
   metadata: {
     posture: "Seated",
-    attention: "Active listening"
-  }
+    attention: "Active listening",
+  },
 });
 
 trace.step("2b. Responsorial Psalm", {
@@ -238,12 +244,12 @@ trace.step("2b. Responsorial Psalm", {
 
     The psalm is our prayerful response to God's Word,
     using the same prayers Jesus himself prayed.
-    `
+    `,
   },
   metadata: {
     posture: "Seated",
-    participation: "Singing/responding"
-  }
+    participation: "Singing/responding",
+  },
 });
 
 trace.step("2c. Second Reading", {
@@ -264,12 +270,12 @@ trace.step("2c. Second Reading", {
     • From the Epistles or Book of Revelation
     • Contains apostolic teaching and wisdom
     • Omitted on weekdays (only Sundays & Solemnities)
-    `
+    `,
   },
   metadata: {
     posture: "Seated",
-    frequency: "Sundays and Solemnities only"
-  }
+    frequency: "Sundays and Solemnities only",
+  },
 });
 
 trace.step("2d. Gospel Acclamation", {
@@ -290,12 +296,12 @@ trace.step("2d. Gospel Acclamation", {
     We stand out of respect, as Christ himself
     is about to speak to us through the Gospel.
     The priest/deacon may incense the Gospel Book.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    significance: "Christ is present in the Gospel"
-  }
+    significance: "Christ is present in the Gospel",
+  },
 });
 
 trace.step("2e. Gospel Reading", {
@@ -318,12 +324,12 @@ trace.step("2e. Gospel Reading", {
     People: "Praise to you, Lord Jesus Christ."
 
     The Gospel is the high point of the Liturgy of the Word.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    gesture: "Sign of cross on forehead, lips, heart"
-  }
+    gesture: "Sign of cross on forehead, lips, heart",
+  },
 });
 
 trace.step("2f. Homily", {
@@ -342,12 +348,12 @@ trace.step("2f. Homily", {
     Duration: Typically 8-15 minutes
 
     Followed by a brief period of silence for reflection.
-    `
+    `,
   },
   metadata: {
     posture: "Seated",
-    required: "Sundays and Holy Days"
-  }
+    required: "Sundays and Holy Days",
+  },
 });
 
 trace.step("2g. Profession of Faith (Creed)", {
@@ -372,12 +378,12 @@ trace.step("2g. Profession of Faith (Creed)", {
     of the Virgin Mary, and became man" — we bow.
 
     Alternative: Apostles' Creed (especially with children)
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    gesture: "Bow at the Incarnation"
-  }
+    gesture: "Bow at the Incarnation",
+  },
 });
 
 trace.step("2h. Universal Prayer (Prayer of the Faithful)", {
@@ -403,12 +409,12 @@ trace.step("2h. Universal Prayer (Prayer of the Faithful)", {
 
     We exercise our baptismal priesthood by interceding
     for the whole world.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    participation: "Response to each petition"
-  }
+    participation: "Response to each petition",
+  },
 });
 
 // PART 3: LITURGY OF THE EUCHARIST
@@ -426,8 +432,8 @@ Purpose: To make present Christ's sacrifice on Calvary and
          to receive Him in Holy Communion
 
 "Do this in memory of me." — Jesus at the Last Supper
-    `
-  }
+    `,
+  },
 });
 
 trace.step("3a. Preparation of the Gifts", {
@@ -452,12 +458,12 @@ trace.step("3a. Preparation of the Gifts", {
     [Similar prayer over the wine]
 
     The priest may incense the gifts and the altar.
-    `
+    `,
   },
   metadata: {
     posture: "Seated, then standing",
-    symbolism: "Offering our lives to God"
-  }
+    symbolism: "Offering our lives to God",
+  },
 });
 
 trace.step("3b. Invitation to Prayer", {
@@ -479,12 +485,12 @@ trace.step("3b. Invitation to Prayer", {
              for our good and the good of all his holy Church."
 
     This expresses our participation in the priest's sacrifice.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    unity: "We offer sacrifice together"
-  }
+    unity: "We offer sacrifice together",
+  },
 });
 
 trace.step("3c. Prayer over the Offerings", {
@@ -501,11 +507,11 @@ trace.step("3c. Prayer over the Offerings", {
 
     This concludes the Preparation of the Gifts and
     leads us into the Eucharistic Prayer.
-    `
+    `,
   },
   metadata: {
-    posture: "Standing"
-  }
+    posture: "Standing",
+  },
 });
 
 trace.step("3d. Eucharistic Prayer - Preface Dialogue", {
@@ -526,12 +532,12 @@ trace.step("3d. Eucharistic Prayer - Preface Dialogue", {
 
     This ancient dialogue (dating to the 3rd century)
     prepares us for the most sacred part of the Mass.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    importance: "Beginning of the Eucharistic Prayer"
-  }
+    importance: "Beginning of the Eucharistic Prayer",
+  },
 });
 
 trace.step("3e. Holy, Holy, Holy (Sanctus)", {
@@ -551,12 +557,12 @@ trace.step("3e. Holy, Holy, Holy (Sanctus)", {
     We join the angels and saints in praising God.
 
     [Some people kneel after the Sanctus]
-    `
+    `,
   },
   metadata: {
     posture: "Standing, then kneeling",
-    biblical: "Isaiah 6:3, Matthew 21:9"
-  }
+    biblical: "Isaiah 6:3, Matthew 21:9",
+  },
 });
 
 trace.step("3f. Consecration", {
@@ -587,13 +593,13 @@ trace.step("3f. Consecration", {
 
     By the power of the Holy Spirit, the bread and wine
     become the Body and Blood of Christ.
-    `
+    `,
   },
   metadata: {
     posture: "Kneeling",
     significance: "Transubstantiation occurs",
-    gesture: "Look upon the Host and Chalice"
-  }
+    gesture: "Look upon the Host and Chalice",
+  },
 });
 
 trace.step("3g. Mystery of Faith", {
@@ -620,12 +626,12 @@ trace.step("3g. Mystery of Faith", {
     This acclamation expresses our faith in Christ's
     Paschal Mystery: His Death, Resurrection, and
     promised return in glory.
-    `
+    `,
   },
   metadata: {
     posture: "Kneeling",
-    proclamation: "Our faith response"
-  }
+    proclamation: "Our faith response",
+  },
 });
 
 trace.step("3h. Remainder of Eucharistic Prayer", {
@@ -652,12 +658,12 @@ trace.step("3h. Remainder of Eucharistic Prayer", {
              for ever and ever."
 
     People: "Amen!" (The Great Amen)
-    `
+    `,
   },
   metadata: {
     posture: "Kneeling, standing for Great Amen",
-    climax: "The Great Amen"
-  }
+    climax: "The Great Amen",
+  },
 });
 
 trace.step("3i. The Lord's Prayer", {
@@ -686,12 +692,12 @@ trace.step("3i. The Lord's Prayer", {
     Priest: "Deliver us, Lord, we pray, from every evil..."
     People: "For the kingdom, the power and the glory are yours
              now and for ever."
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    taught: "By Jesus himself (Matthew 6:9-13)"
-  }
+    taught: "By Jesus himself (Matthew 6:9-13)",
+  },
 });
 
 trace.step("3j. Sign of Peace", {
@@ -714,12 +720,12 @@ trace.step("3j. Sign of Peace", {
 
     This expresses our communion with one another
     before receiving the Eucharist.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    gesture: "Handshake, embrace, or bow"
-  }
+    gesture: "Handshake, embrace, or bow",
+  },
 });
 
 trace.step("3k. Lamb of God (Agnus Dei)", {
@@ -743,13 +749,13 @@ trace.step("3k. Lamb of God (Agnus Dei)", {
     away the sin of the world!"
 
     [People kneel if not already kneeling]
-    `
+    `,
   },
   metadata: {
     posture: "Kneeling",
     biblical: "John 1:29",
-    action: "Breaking of the Host"
-  }
+    action: "Breaking of the Host",
+  },
 });
 
 trace.step("3l. Communion Rite - Invitation", {
@@ -774,13 +780,13 @@ trace.step("3l. Communion Rite - Invitation", {
 
     We express our unworthiness and faith in Christ's
     healing power.
-    `
+    `,
   },
   metadata: {
     posture: "Kneeling",
     biblical: "Matthew 8:8",
-    preparation: "Act of humility"
-  }
+    preparation: "Act of humility",
+  },
 });
 
 trace.step("3m. Holy Communion", {
@@ -808,13 +814,13 @@ trace.step("3m. Holy Communion", {
     in thanksgiving for this supreme gift.
 
     Communion Song is sung during distribution.
-    `
+    `,
   },
   metadata: {
     posture: "Standing in procession, kneeling/seated after",
     disposition: "State of grace required",
-    reverence: "Highest reverence"
-  }
+    reverence: "Highest reverence",
+  },
 });
 
 trace.step("3n. Prayer After Communion", {
@@ -835,12 +841,12 @@ trace.step("3n. Prayer After Communion", {
 
     We give thanks for the gift of Christ we have received
     and ask for the grace to live out this communion.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    silence: "Time for thanksgiving"
-  }
+    silence: "Time for thanksgiving",
+  },
 });
 
 // PART 4: CONCLUDING RITES
@@ -858,8 +864,8 @@ Purpose: To send us forth to bring Christ to the world
 
 "Mass" comes from "Missa" - the Latin dismissal,
 meaning "sent forth"
-    `
-  }
+    `,
+  },
 });
 
 trace.step("4a. Announcements", {
@@ -876,12 +882,12 @@ trace.step("4a. Announcements", {
 
     These are kept brief and directly related to
     the parish community.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    optional: "As needed"
-  }
+    optional: "As needed",
+  },
 });
 
 trace.step("4b. Greeting and Blessing", {
@@ -902,12 +908,12 @@ trace.step("4b. Greeting and Blessing", {
 
     On special occasions, a solemn blessing with three
     invocations may be used, each with "Amen" response.
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
-    gesture: "Sign of the cross"
-  }
+    gesture: "Sign of the cross",
+  },
 });
 
 trace.step("4c. Dismissal", {
@@ -933,13 +939,13 @@ trace.step("4c. Dismissal", {
     serve others, and to proclaim the Gospel by our lives.
 
     The Mass is ended, but our mission begins!
-    `
+    `,
   },
   metadata: {
     posture: "Standing",
     participation: "Singing closing hymn",
-    mission: "Living the Mass in daily life"
-  }
+    mission: "Living the Mass in daily life",
+  },
 });
 
 // Summary and Conclusion
@@ -977,8 +983,8 @@ This pattern echoes:
 ║  "The Eucharist is the source and summit of the             ║
 ║   Christian life." - Vatican II, Lumen Gentium 11           ║
 ╚══════════════════════════════════════════════════════════════╝
-    `
-  }
+    `,
+  },
 });
 
 trace.step("Deeper Understanding", {
@@ -1017,8 +1023,8 @@ trace.step("Deeper Understanding", {
 🚶 MISSION
    The Mass sends us forth - we are to bring Christ's love
    to the world in our daily lives.
-    `
-  }
+    `,
+  },
 });
 
 trace.step("Tips for Fruitful Participation", {
@@ -1055,8 +1061,8 @@ ONGOING:
   ✓ Read the lives of saints who loved the Eucharist
   ✓ Make a Holy Hour before the Blessed Sacrament
   ✓ Attend daily Mass when possible
-    `
-  }
+    `,
+  },
 });
 
 // Final blessing
@@ -1085,10 +1091,12 @@ trace.step("Conclusion", {
     • "General Instruction of the Roman Missal" (GIRM)
 
     May the Lord bless you and keep you. ✝️
-    `
-  }
+    `,
+  },
 });
 
 // Export the trace
 trace.export("parts-of-mass-guide-output.json");
-console.log("\n✅ Mass guide complete! Check parts-of-mass-guide-output.json for the structured output.");
+console.log(
+  "\n✅ Mass guide complete! Check parts-of-mass-guide-output.json for the structured output.",
+);
